@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marketing Intelligence - Data Pipelines</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Salesforce Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            font-size: 13px;
+            color: #181818;
+            background-color: #f3f3f3;
+            line-height: 1.5;
+        }
+
+        /* Top Header Bar */
+        .top-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #ffffff;
+            height: 48px;
+            padding: 0 16px;
+            border-bottom: 1px solid #e5e5e5;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .cloud-logo {
+            width: 32px;
+            height: 22px;
+        }
+
+        .cloud-logo svg {
+            fill: #00a1e0;
+        }
+
+        .app-launcher {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 8px;
+            cursor: pointer;
+        }
+
+        .app-launcher-icon {
+            display: grid;
+            grid-template-columns: repeat(3, 4px);
+            gap: 2px;
+        }
+
+        .app-launcher-icon span {
+            width: 4px;
+            height: 4px;
+            background-color: #706e6b;
+            border-radius: 1px;
+        }
+
+        .app-name {
+            font-size: 14px;
+            font-weight: 700;
+            color: #181818;
+            margin-left: 4px;
+        }
+
+        .header-nav {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            margin-left: 24px;
+        }
+
+        .nav-item {
+            padding: 14px 16px;
+            font-size: 13px;
+            color: #181818;
+            text-decoration: none;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .nav-item:hover {
+            background-color: #f3f3f3;
+        }
+
+        .nav-item.active {
+            color: #0176d3;
+        }
+
+        .nav-item.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background-color: #0176d3;
+        }
+
+        .header-center {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .global-search {
+            display: flex;
+            align-items: center;
+            background-color: #ffffff;
+            border: 1px solid #c9c9c9;
+            border-radius: 4px;
+            padding: 0 12px;
+            width: 100%;
+            max-width: 350px;
+            height: 32px;
+        }
+
+        .global-search svg {
+            width: 16px;
+            height: 16px;
+            fill: #706e6b;
+            margin-right: 8px;
+        }
+
+        .global-search input {
+            border: none;
+            outline: none;
+            font-size: 13px;
+            width: 100%;
+            color: #706e6b;
+        }
+
+        .global-search input::placeholder {
+            color: #706e6b;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .header-icon {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .header-icon:hover {
+            background-color: #f3f3f3;
+        }
+
+        .header-icon svg {
+            width: 20px;
+            height: 20px;
+            fill: #706e6b;
+        }
+
+        .user-avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background-color: #0176d3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 4px;
+        }
+
+        .user-avatar svg {
+            width: 16px;
+            height: 16px;
+            fill: #ffffff;
+        }
+
+        .setup-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1b96ff 0%, #0176d3 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .setup-icon svg {
+            width: 16px;
+            height: 16px;
+            fill: #ffffff;
+        }
+
+        /* Main Layout */
+        .main-container {
+            display: flex;
+            margin-top: 48px;
+            min-height: calc(100vh - 48px);
+        }
+
+        /* Left Sidebar */
+        .sidebar {
+            width: 192px;
+            background-color: #ffffff;
+            border-right: 1px solid #e5e5e5;
+            padding-top: 16px;
+            position: fixed;
+            top: 48px;
+            left: 0;
+            bottom: 0;
+            overflow-y: auto;
+        }
+
+        .sidebar-section {
+            margin-bottom: 24px;
+        }
+
+        .sidebar-header {
+            font-size: 12px;
+            font-weight: 700;
+            color: #181818;
+            padding: 8px 16px;
+            text-transform: none;
+        }
+
+        .sidebar-nav {
+            list-style: none;
+        }
+
+        .sidebar-nav-item {
+            display: block;
+            padding: 8px 16px;
+            font-size: 13px;
+            color: #181818;
+            text-decoration: none;
+            cursor: pointer;
+            border-left: 3px solid transparent;
+        }
+
+        .sidebar-nav-item:hover {
+            background-color: #f3f3f3;
+        }
+
+        .sidebar-nav-item.active {
+            border-left-color: #0176d3;
+            background-color: #f3f3f3;
+            color: #0176d3;
+        }
+
+        .sidebar-nav-item-external {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .sidebar-nav-item-external svg {
+            width: 14px;
+            height: 14px;
+            fill: #706e6b;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 192px;
+            padding: 24px;
+            background-color: #f3f3f3;
+        }
+
+        .content-wrapper {
+            background-color: #ffffff;
+            border-radius: 4px;
+            box-shadow: 0 2px 2px rgba(0, 0, 0, 0.05);
+            min-height: calc(100vh - 96px);
+        }
+
+        /* Page Header */
+        .page-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 24px;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .page-title-section {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .page-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .page-title-icon {
+            width: 28px;
+            height: 28px;
+            background-color: #0d9dda;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .page-title-icon svg {
+            width: 18px;
+            height: 18px;
+            fill: #ffffff;
+        }
+
+        .page-title h1 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #181818;
+        }
+
+        .item-count {
+            font-size: 12px;
+            color: #706e6b;
+            margin-left: 38px;
+        }
+
+        .page-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn-new {
+            padding: 8px 16px;
+            font-size: 13px;
+            font-weight: 400;
+            color: #0176d3;
+            background-color: #ffffff;
+            border: 1px solid #0176d3;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .btn-new:hover {
+            background-color: #f3f3f3;
+        }
+
+        .table-search {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .table-search-input {
+            display: flex;
+            align-items: center;
+            background-color: #ffffff;
+            border: 1px solid #c9c9c9;
+            border-radius: 4px;
+            padding: 0 10px;
+            height: 32px;
+            width: 180px;
+        }
+
+        .table-search-input svg {
+            width: 14px;
+            height: 14px;
+            fill: #706e6b;
+            margin-right: 8px;
+        }
+
+        .table-search-input input {
+            border: none;
+            outline: none;
+            font-size: 13px;
+            width: 100%;
+            color: #706e6b;
+        }
+
+        .table-search-input input::placeholder {
+            color: #706e6b;
+        }
+
+        .refresh-btn {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #ffffff;
+            border: 1px solid #c9c9c9;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .refresh-btn:hover {
+            background-color: #f3f3f3;
+        }
+
+        .refresh-btn svg {
+            width: 16px;
+            height: 16px;
+            fill: #706e6b;
+        }
+
+        /* Data Table */
+        .data-table-container {
+            overflow-x: auto;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        .data-table thead {
+            background-color: #fafaf9;
+        }
+
+        .data-table th {
+            padding: 10px 12px;
+            text-align: left;
+            font-weight: 400;
+            color: #706e6b;
+            border-bottom: 1px solid #e5e5e5;
+            white-space: nowrap;
+            position: relative;
+        }
+
+        .data-table th:first-child {
+            width: 40px;
+            text-align: center;
+        }
+
+        .th-content {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .th-content svg {
+            width: 12px;
+            height: 12px;
+            fill: #706e6b;
+        }
+
+        .sort-icon {
+            display: flex;
+            flex-direction: column;
+            gap: 1px;
+        }
+
+        .sort-icon svg {
+            width: 10px;
+            height: 10px;
+        }
+
+        .data-table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #e5e5e5;
+            color: #181818;
+            vertical-align: middle;
+        }
+
+        .data-table td:first-child {
+            text-align: center;
+            color: #706e6b;
+        }
+
+        .data-table tbody tr:hover {
+            background-color: #f3f3f3;
+        }
+
+        .link-cell {
+            color: #0176d3;
+            text-decoration: none;
+        }
+
+        .link-cell:hover {
+            text-decoration: underline;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .status-badge svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        .status-active svg {
+            fill: #2e844a;
+        }
+
+        .status-success svg {
+            fill: #2e844a;
+        }
+
+        .action-cell {
+            text-align: center;
+        }
+
+        .action-btn {
+            width: 28px;
+            height: 28px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: none;
+            border: 1px solid #c9c9c9;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .action-btn:hover {
+            background-color: #f3f3f3;
+        }
+
+        .action-btn svg {
+            width: 14px;
+            height: 14px;
+            fill: #706e6b;
+        }
+
+        /* Edit icon in top right */
+        .edit-icon-corner {
+            position: fixed;
+            top: 56px;
+            right: 16px;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .edit-icon-corner svg {
+            width: 16px;
+            height: 16px;
+            fill: #0176d3;
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Header -->
+    <header class="top-header">
+        <div class="header-left">
+            <!-- Cloud Logo -->
+            <div class="cloud-logo">
+                <svg viewBox="0 0 32 22" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M26.2 8.8c-.2-4.1-3.5-7.3-7.6-7.3-2.4 0-4.6 1.1-6 2.9-1-.6-2.2-1-3.4-1C5.4 3.4 2.2 6.6 2 10.4c-1.2 1-2 2.5-2 4.2 0 3 2.4 5.4 5.4 5.4h19.2c3 0 5.4-2.4 5.4-5.4 0-2.6-1.8-4.8-4.2-5.4-.1-.2-.3-.3-.4-.4z"/>
+                </svg>
+            </div>
+            
+            <!-- App Launcher -->
+            <div class="app-launcher">
+                <div class="app-launcher-icon">
+                    <span></span><span></span><span></span>
+                    <span></span><span></span><span></span>
+                    <span></span><span></span><span></span>
+                </div>
+                <span class="app-name">Marketing Intelligence</span>
+            </div>
+
+            <!-- Navigation -->
+            <nav class="header-nav">
+                <a href="#" class="nav-item">Home</a>
+                <a href="#" class="nav-item">Goals</a>
+                <a href="#" class="nav-item active">Data Management</a>
+                <a href="#" class="nav-item">Marketing Analytics</a>
+                <a href="#" class="nav-item">Segment Intelligence</a>
+            </nav>
+        </div>
+
+        <!-- Center Search -->
+        <div class="header-center">
+            <div class="global-search">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                </svg>
+                <input type="text" placeholder="Search...">
+            </div>
+        </div>
+
+        <!-- Right Icons -->
+        <div class="header-right">
+            <div class="header-icon">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="12" r="10" fill="none" stroke="#706e6b" stroke-width="2"/>
+                    <circle cx="9" cy="10" r="1.5" fill="#706e6b"/>
+                    <circle cx="15" cy="10" r="1.5" fill="#706e6b"/>
+                    <path d="M8 14s1.5 2 4 2 4-2 4-2" fill="none" stroke="#706e6b" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+            </div>
+            <div class="header-icon">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4-6.2-4.5-6.2 4.5 2.4-7.4L2 9.4h7.6z"/>
+                    <path d="M17 8l4 4m0-4l-4 4" stroke="#706e6b" stroke-width="2" fill="none"/>
+                </svg>
+            </div>
+            <div class="header-icon">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="12" r="9" fill="none" stroke="#706e6b" stroke-width="2"/>
+                    <line x1="12" y1="8" x2="12" y2="12" stroke="#706e6b" stroke-width="2"/>
+                    <line x1="12" y1="12" x2="12" y2="16" stroke="#706e6b" stroke-width="2"/>
+                    <line x1="8" y1="12" x2="16" y2="12" stroke="#706e6b" stroke-width="2"/>
+                </svg>
+            </div>
+            <div class="header-icon">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M19.35 10.04A7.49 7.49 0 0012 4C9.11 4 6.6 5.64 5.35 8.04A5.994 5.994 0 000 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"/>
+                </svg>
+            </div>
+            <div class="header-icon">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="12" r="10" fill="none" stroke="#706e6b" stroke-width="2"/>
+                    <text x="12" y="16" text-anchor="middle" font-size="12" fill="#706e6b">?</text>
+                </svg>
+            </div>
+            <div class="header-icon">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M19.14 12.94c.04-.31.06-.63.06-.94 0-.31-.02-.63-.06-.94l2.03-1.58a.49.49 0 00.12-.61l-1.92-3.32a.488.488 0 00-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 00-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.04.31-.06.63-.06.94s.02.63.06.94l-2.03 1.58a.49.49 0 00-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
+                </svg>
+            </div>
+            <div class="user-avatar">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                </svg>
+            </div>
+            <div class="setup-icon">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M19.14 12.94c.04-.31.06-.63.06-.94 0-.31-.02-.63-.06-.94l2.03-1.58a.49.49 0 00.12-.61l-1.92-3.32a.488.488 0 00-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 00-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.04.31-.06.63-.06.94s.02.63.06.94l-2.03 1.58a.49.49 0 00-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
+                </svg>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Left Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-header">Data Management</div>
+                <ul class="sidebar-nav">
+                    <li><a href="#" class="sidebar-nav-item active">Data Pipelines</a></li>
+                    <li><a href="#" class="sidebar-nav-item">Data Enrichment</a></li>
+                    <li><a href="#" class="sidebar-nav-item">Patterns</a></li>
+                    <li><a href="#" class="sidebar-nav-item">Attribution</a></li>
+                </ul>
+            </div>
+            <div class="sidebar-section">
+                <ul class="sidebar-nav">
+                    <li>
+                        <a href="#" class="sidebar-nav-item sidebar-nav-item-external">
+                            Semantic Data Model
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/>
+                            </svg>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="content-wrapper">
+                <!-- Page Header -->
+                <div class="page-header">
+                    <div class="page-title-section">
+                        <div class="page-title">
+                            <div class="page-title-icon">
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="3" y="3" width="7" height="7" rx="1"/>
+                                    <rect x="14" y="3" width="7" height="7" rx="1"/>
+                                    <rect x="3" y="14" width="7" height="7" rx="1"/>
+                                    <rect x="14" y="14" width="7" height="7" rx="1"/>
+                                </svg>
+                            </div>
+                            <h1>Data Pipelines</h1>
+                        </div>
+                        <div class="item-count">9 items</div>
+                    </div>
+                    <div class="page-actions">
+                        <button class="btn-new">New Pipeline</button>
+                        <div class="table-search">
+                            <div class="table-search-input">
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                                </svg>
+                                <input type="text" placeholder="Search...">
+                            </div>
+                            <button class="refresh-btn">
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M17.65 6.35A7.958 7.958 0 0012 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0112 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Data Table -->
+                <div class="data-table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>
+                                    <div class="th-content">
+                                        Name
+                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M7 14l5-5 5 5H7z"/>
+                                        </svg>
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="th-content">
+                                        Data Space
+                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M7 10l5 5 5-5H7z"/>
+                                        </svg>
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="th-content">
+                                        Source
+                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M7 10l5 5 5-5H7z"/>
+                                        </svg>
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="th-content">
+                                        Status
+                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M7 10l5 5 5-5H7z"/>
+                                        </svg>
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="th-content">
+                                        Last Run Status
+                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M7 10l5 5 5-5H7z"/>
+                                        </svg>
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="th-content">
+                                        Last Run
+                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M7 10l5 5 5-5H7z"/>
+                                        </svg>
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="th-content">
+                                        Next Run
+                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M7 10l5 5 5-5H7z"/>
+                                        </svg>
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="th-content">
+                                        Last Data Date
+                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M7 10l5 5 5-5H7z"/>
+                                        </svg>
+                                    </div>
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td><a href="#" class="link-cell">Meta_Ads_Connection 53...</a></td>
+                                <td>default</td>
+                                <td>EMI Mock</td>
+                                <td>
+                                    <span class="status-badge status-active">
+                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                        </svg>
+                                        Active
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="status-badge status-success">
+                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                        </svg>
+                                        Success
+                                    </span>
+                                </td>
+                                <td>11/30/2025, 12:00 AM</td>
+                                <td>12/1/2025, 12:00 AM</td>
+                                <td>11/30/2025</td>
+                                <td class="action-cell">
+                                    <button class="action-btn">
+                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M7 10l5 5 5-5H7z"/>
+                                        </svg>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td><a href="#" class="link-cell">Google_Ads_Connection 5...</a></td>
+                                <td>default</td>
+                                <td>EMI Mock</td>
+                                <td>
+                                    <span class="status-badge status-active">
+                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                        </svg>
+                                        Active
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="status-badge status-success">
+                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                        </svg>
+                                        Success
+                                    </span>
+                                </td>
+                                <td>11/30/2025, 12:00 AM</td>
+                                <td>12/1/2025, 12:00 AM</td>
+                                <td>11/30/2025</td>
+                                <td class="action-cell">
+                                    <button class="action-btn">
+                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M7 10l5 5 5-5H7z"/>
+                                        </svg>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td><a href="#" class="link-cell">SEG_INT_DELMLT_csv 131...</a></td>
+                                <td>default</td>
+                                <td>Total Connect</td>
+                                <td>
+                                    <span class="status-badge status-active">
+                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                        </svg>
+                                        Active
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="status-badge status-success">
+                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                        </svg>
+                                        Success
+                                    </span>
+                                </td>
+                                <td>11/23/2025, 08:33 AM</td>
+                                <td></td>
+                                <td>11/16/2025</td>
+                                <td class="action-cell">
+                                    <button class="action-btn">
+                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M7 10l5 5 5-5H7z"/>
+                                        </svg>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td><a href="#" class="link-cell">SEG_INT_CONVMLT_csv 1...</a></td>
+                                <td>default</td>
+                                <td>Total Connect</td>
+                                <td>
+                                    <span class="status-badge status-active">
+                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                        </svg>
+                                        Active
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="status-badge status-success">
+                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                        </svg>
+                                        Success
+                                    </span>
+                                </td>
+                                <td>11/23/2025, 08:52 AM</td>
+                                <td></td>
+                                <td>11/16/2025</td>
+                                <td class="action-cell">
+                                    <button class="action-btn">
+                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M7 10l5 5 5-5H7z"/>
+                                        </svg>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td><a href="#" class="link-cell">GA_pages_csv 1147717417</a></td>
+                                <td>default</td>
+                                <td>Total Connect</td>
+                                <td>
+                                    <span class="status-badge status-active">
+                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                        </svg>
+                                        Active
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="status-badge status-success">
+                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                        </svg>
+                                        Success
+                                    </span>
+                                </td>
+                                <td>11/25/2025, 07:19 AM</td>
+                                <td></td>
+                                <td>4/5/2025</td>
+                                <td class="action-cell">
+                                    <button class="action-btn">
+                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M7 10l5 5 5-5H7z"/>
+                                        </svg>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>6</td>
+                                <td><a href="#" class="link-cell">GA_events3_csv 11423138...</a></td>
+                                <td>default</td>
+                                <td>Total Connect</td>
+                                <td>
+                                    <span class="status-badge status-active">
+                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                        </svg>
+                                        Active
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="status-badge status-success">
+                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                        </svg>
+                                        Success
+                                    </span>
+                                </td>
+                                <td>11/25/2025, 08:50 AM</td>
+                                <td></td>
+                                <td>4/5/2025</td>
+                                <td class="action-cell">
+                                    <button class="action-btn">
+                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M7 10l5 5 5-5H7z"/>
+                                        </svg>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>7</td>
+                                <td><a href="#" class="link-cell">GA_analytics_3_csv 11362...</a></td>
+                                <td>default</td>
+                                <td>Total Connect</td>
+                                <td>
+                                    <span class="status-badge status-active">
+                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                        </svg>
+                                        Active
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="status-badge status-success">
+                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                        </svg>
+                                        Success
+                                    </span>
+                                </td>
+                                <td>11/25/2025, 10:30 AM</td>
+                                <td></td>
+                                <td>11/26/2025</td>
+                                <td class="action-cell">
+                                    <button class="action-btn">
+                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M7 10l5 5 5-5H7z"/>
+                                        </svg>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>8</td>
+                                <td><a href="#" class="link-cell">GA_Pages_4_csv 1136050...</a></td>
+                                <td>default</td>
+                                <td>Total Connect</td>
+                                <td>
+                                    <span class="status-badge status-active">
+                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                        </svg>
+                                        Active
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="status-badge status-success">
+                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                        </svg>
+                                        Success
+                                    </span>
+                                </td>
+                                <td>11/25/2025, 10:34 AM</td>
+                                <td></td>
+                                <td>11/26/2025</td>
+                                <td class="action-cell">
+                                    <button class="action-btn">
+                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M7 10l5 5 5-5H7z"/>
+                                        </svg>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>9</td>
+                                <td><a href="#" class="link-cell">GA_events_3_csv 113556...</a></td>
+                                <td>default</td>
+                                <td>Total Connect</td>
+                                <td>
+                                    <span class="status-badge status-active">
+                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                        </svg>
+                                        Active
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="status-badge status-success">
+                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                        </svg>
+                                        Success
+                                    </span>
+                                </td>
+                                <td>11/25/2025, 10:42 AM</td>
+                                <td></td>
+                                <td>11/26/2025</td>
+                                <td class="action-cell">
+                                    <button class="action-btn">
+                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M7 10l5 5 5-5H7z"/>
+                                        </svg>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Edit Icon in Corner -->
+    <div class="edit-icon-corner">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a.996.996 0 000-1.41l-2.34-2.34a.996.996 0 00-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+        </svg>
+    </div>
+</body>
+</html>
