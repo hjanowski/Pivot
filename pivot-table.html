@@ -975,6 +975,229 @@
         .column-input-wrapper {
             position: relative;
         }
+
+        /* Modal Overlay */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        /* Modal Container */
+        .modal-container {
+            background-color: #ffffff;
+            border-radius: 8px;
+            width: 700px;
+            max-width: 90vw;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        /* Modal Close Button */
+        .modal-close-btn {
+            position: absolute;
+            top: -12px;
+            right: -12px;
+            width: 32px;
+            height: 32px;
+            background-color: #0176d3;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1001;
+        }
+
+        .modal-close-btn:hover {
+            background-color: #014486;
+        }
+
+        .modal-close-btn svg {
+            width: 18px;
+            height: 18px;
+            fill: #ffffff;
+        }
+
+        /* Modal Header */
+        .modal-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .modal-header h2 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #181818;
+            text-align: center;
+            margin: 0;
+        }
+
+        /* Modal Body */
+        .modal-body {
+            padding: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 13px;
+            font-weight: 400;
+            color: #181818;
+            margin-bottom: 6px;
+        }
+
+        .form-label.required::before {
+            content: '* ';
+            color: #c23934;
+        }
+
+        .form-label .info-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 16px;
+            height: 16px;
+            background-color: #0176d3;
+            border-radius: 50%;
+            margin-left: 4px;
+            cursor: help;
+            vertical-align: middle;
+        }
+
+        .form-label .info-icon svg {
+            width: 10px;
+            height: 10px;
+            fill: #ffffff;
+        }
+
+        .form-input {
+            width: 100%;
+            height: 40px;
+            padding: 0 12px;
+            font-size: 13px;
+            color: #181818;
+            background-color: #ffffff;
+            border: 1px solid #c9c9c9;
+            border-radius: 4px;
+            outline: none;
+        }
+
+        .form-input:focus {
+            border-color: #0176d3;
+            box-shadow: 0 0 0 1px #0176d3;
+        }
+
+        .form-input.readonly {
+            background-color: #f3f3f3;
+            color: #181818;
+        }
+
+        .form-textarea {
+            width: 100%;
+            min-height: 80px;
+            padding: 10px 12px;
+            font-size: 13px;
+            color: #181818;
+            background-color: #ffffff;
+            border: 1px solid #c9c9c9;
+            border-radius: 4px;
+            outline: none;
+            resize: vertical;
+            font-family: inherit;
+        }
+
+        .form-textarea:focus {
+            border-color: #0176d3;
+            box-shadow: 0 0 0 1px #0176d3;
+        }
+
+        .form-row-with-button {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+
+        .form-row-with-button .form-input {
+            flex: 1;
+        }
+
+        .btn-select-folder {
+            height: 40px;
+            padding: 0 16px;
+            font-size: 13px;
+            font-weight: 400;
+            color: #0176d3;
+            background-color: #ffffff;
+            border: 1px solid #c9c9c9;
+            border-radius: 20px;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .btn-select-folder:hover {
+            background-color: #f3f3f3;
+        }
+
+        /* Modal Footer */
+        .modal-footer {
+            padding: 16px 24px;
+            border-top: 1px solid #e5e5e5;
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+
+        .btn-modal-cancel {
+            height: 36px;
+            padding: 0 20px;
+            font-size: 13px;
+            font-weight: 400;
+            color: #181818;
+            background-color: #ffffff;
+            border: 1px solid #c9c9c9;
+            border-radius: 18px;
+            cursor: pointer;
+        }
+
+        .btn-modal-cancel:hover {
+            background-color: #f3f3f3;
+        }
+
+        .btn-modal-save {
+            height: 36px;
+            padding: 0 24px;
+            font-size: 13px;
+            font-weight: 400;
+            color: #ffffff;
+            background-color: #0176d3;
+            border: 1px solid #0176d3;
+            border-radius: 18px;
+            cursor: pointer;
+        }
+
+        .btn-modal-save:hover {
+            background-color: #014486;
+        }
     </style>
 </head>
 <body>
@@ -1113,8 +1336,8 @@
                     Add Chart
                 </button>
                 <button class="btn-outline">Save &amp; Run</button>
-                <button class="btn-save">Save</button>
-                <button class="btn-save-dropdown">
+                <button class="btn-save" onclick="openModal()">Save</button>
+                <button class="btn-save-dropdown" onclick="openModal()">
                     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path d="M7 10l5 5 5-5H7z"/>
                     </svg>
@@ -1255,6 +1478,58 @@
         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a.996.996 0 000-1.41l-2.34-2.34a.996.996 0 00-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
         </svg>
+    </div>
+
+    <!-- Save Report As Modal -->
+    <div class="modal-overlay" id="save-modal">
+        <div class="modal-container">
+            <button class="modal-close-btn" onclick="closeModal()">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                </svg>
+            </button>
+            
+            <div class="modal-header">
+                <h2>Save Report As</h2>
+            </div>
+            
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label required">Report Name</label>
+                    <input type="text" class="form-input" id="report-name" value="Meta_Ads_Connection 536537030">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">
+                        Report Unique Name
+                        <span class="info-icon">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+                            </svg>
+                        </span>
+                    </label>
+                    <input type="text" class="form-input readonly" id="report-unique-name" value="Meta_Ads_Connection_536537030_2eg" readonly>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Report Description</label>
+                    <textarea class="form-textarea" id="report-description" placeholder=""></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Folder</label>
+                    <div class="form-row-with-button">
+                        <input type="text" class="form-input" id="report-folder" value="JAPAC">
+                        <button class="btn-select-folder" onclick="selectFolder()">Select Folder</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="modal-footer">
+                <button class="btn-modal-cancel" onclick="closeModal()">Cancel</button>
+                <button class="btn-modal-save" onclick="saveReport()">Save</button>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -1735,6 +2010,61 @@
                 });
             });
         }
+
+        // =====================================================
+        // MODAL FUNCTIONS
+        // =====================================================
+
+        function openModal() {
+            document.getElementById('save-modal').classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('save-modal').classList.remove('show');
+            document.body.style.overflow = '';
+        }
+
+        function saveReport() {
+            const reportName = document.getElementById('report-name').value;
+            const reportUniqueName = document.getElementById('report-unique-name').value;
+            const reportDescription = document.getElementById('report-description').value;
+            const reportFolder = document.getElementById('report-folder').value;
+
+            // Here you would typically send this data to a server
+            console.log('Saving report:', {
+                name: reportName,
+                uniqueName: reportUniqueName,
+                description: reportDescription,
+                folder: reportFolder
+            });
+
+            // Close the modal after saving
+            closeModal();
+
+            // Show a success indication (optional)
+            alert('Report saved successfully!');
+        }
+
+        function selectFolder() {
+            // This would typically open a folder picker modal
+            // For now, we'll just show an alert
+            alert('Folder picker would open here');
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('save-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
 
         // =====================================================
         // INITIALIZATION
