@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Marketing Intelligence - Pivot Table Report</title>
+    <title>Marketing Intelligence - Data Pipelines</title>
     <style>
         * {
             margin: 0;
@@ -207,300 +207,240 @@
             background-color: #2466de;
         }
 
-        .nav-item-tab {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            padding: 10px 12px;
-            font-size: 13px;
-            color: #2466de;
-            font-weight: 700;
-            text-decoration: none;
-            position: relative;
-            cursor: pointer;
-            background-color: #ffffff;
-            border-bottom: 3px solid #2466de;
-        }
-
-        .nav-item-tab svg {
-            width: 12px;
-            height: 12px;
-            fill: #706e6b;
-        }
-
-        /* Main Layout */
-        .main-container {
-            display: flex;
-            flex-direction: column;
-            margin-top: 80px;
-            min-height: calc(100vh - 80px);
-        }
-
-        /* Report Header */
-        .report-header {
-            background-color: #ffffff;
-            padding: 12px 16px;
-            border-bottom: 1px solid #e5e5e5;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .report-title-section {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-
-        .report-label {
-            font-size: 11px;
-            color: #706e6b;
-            text-transform: uppercase;
-            font-weight: 400;
-        }
-
-        .report-title {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .report-title h1 {
-            font-size: 16px;
-            font-weight: 700;
-            color: #181818;
-        }
-
-        .report-title .edit-icon {
-            width: 16px;
-            height: 16px;
-            fill: #706e6b;
-            cursor: pointer;
-        }
-
-        .semantic-model-badge {
-            display: inline-flex;
-            align-items: center;
-            padding: 4px 12px;
-            background-color: #f3f3f3;
-            border-radius: 4px;
-            font-size: 12px;
-            color: #181818;
-            margin-left: 16px;
-        }
-
-        .report-actions {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .action-icon-btn {
+        .header-icon {
             width: 32px;
             height: 32px;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: #ffffff;
-            border: 1px solid #c9c9c9;
-            border-radius: 4px;
             cursor: pointer;
+            border-radius: 4px;
         }
 
-        .action-icon-btn:hover {
+        .header-icon:hover {
             background-color: #f3f3f3;
         }
 
-        .action-icon-btn svg {
-            width: 16px;
-            height: 16px;
+        .header-icon svg {
+            width: 20px;
+            height: 20px;
             fill: #706e6b;
         }
 
-        .btn-outline {
+        .user-avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background-color: #0176d3;
             display: flex;
             align-items: center;
-            gap: 6px;
-            padding: 8px 16px;
-            font-size: 13px;
-            font-weight: 400;
-            color: #2466de;
-            background-color: #ffffff;
-            border: 1px solid #c9c9c9;
-            border-radius: 4px;
-            cursor: pointer;
+            justify-content: center;
+            margin-left: 4px;
         }
 
-        .btn-outline:hover {
-            background-color: #f3f3f3;
+        .user-avatar svg {
+            width: 16px;
+            height: 16px;
+            fill: #ffffff;
         }
 
-        .btn-outline svg {
-            width: 14px;
-            height: 14px;
-            fill: #2466de;
-        }
-
-        .btn-save {
+        .setup-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1b96ff 0%, #0176d3 100%);
             display: flex;
             align-items: center;
-            gap: 4px;
-            padding: 8px 12px;
-            font-size: 13px;
-            font-weight: 400;
-            color: #2466de;
-            background-color: #ffffff;
-            border: 1px solid #c9c9c9;
-            border-radius: 4px 0 0 4px;
-            cursor: pointer;
+            justify-content: center;
         }
 
-        .btn-save-dropdown {
-            padding: 8px 8px;
-            font-size: 13px;
-            background-color: #ffffff;
-            border: 1px solid #c9c9c9;
-            border-left: none;
-            border-radius: 0 4px 4px 0;
-            cursor: pointer;
+        .setup-icon svg {
+            width: 16px;
+            height: 16px;
+            fill: #ffffff;
         }
 
-        .btn-save-dropdown svg {
-            width: 12px;
-            height: 12px;
-            fill: #2466de;
-        }
-
-        .btn-primary {
-            padding: 8px 20px;
-            font-size: 13px;
-            font-weight: 400;
-            color: #ffffff;
-            background-color: #2466de;
-            border: 1px solid #2466de;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        .btn-primary:hover {
-            background-color: #1a4fb0;
-        }
-
-        /* Content Area */
-        .content-area {
+        /* Main Layout */
+        .main-container {
             display: flex;
-            flex: 1;
+            margin-top: 80px;
+            min-height: calc(100vh - 80px);
         }
 
-        /* Left Sidebar - Fields Panel */
-        .fields-panel {
-            width: 220px;
+        /* Left Sidebar */
+        .sidebar {
+            width: 192px;
             background-color: #ffffff;
             border-right: 1px solid #e5e5e5;
-            display: flex;
-            flex-direction: column;
+            padding-top: 16px;
+            position: fixed;
+            top: 80px;
+            left: 0;
+            bottom: 0;
+            overflow-y: auto;
         }
 
-        .panel-tabs {
-            display: flex;
-            border-bottom: 1px solid #e5e5e5;
+        .sidebar-section {
+            margin-bottom: 24px;
         }
 
-        .panel-tab {
-            flex: 1;
-            padding: 10px 12px;
-            font-size: 13px;
-            color: #706e6b;
-            text-align: center;
-            cursor: pointer;
-            border-bottom: 2px solid transparent;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-        }
-
-        .panel-tab:hover {
-            background-color: #f3f3f3;
-        }
-
-        .panel-tab.active {
-            color: #181818;
-            border-bottom-color: #2466de;
-        }
-
-        .panel-tab svg {
-            width: 14px;
-            height: 14px;
-            fill: currentColor;
-        }
-
-        .filter-badge {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 18px;
-            height: 18px;
-            background-color: #2466de;
-            color: #ffffff;
-            font-size: 11px;
-            font-weight: 700;
-            border-radius: 50%;
-        }
-
-        .panel-section {
-            padding: 12px;
-            border-bottom: 1px solid #e5e5e5;
-        }
-
-        .panel-section-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 8px;
-        }
-
-        .panel-section-title {
+        .sidebar-header {
             font-size: 12px;
             font-weight: 700;
             color: #181818;
+            padding: 8px 16px;
+            text-transform: none;
         }
 
-        .panel-section-icon {
-            width: 16px;
-            height: 16px;
-            fill: #706e6b;
+        .sidebar-nav {
+            list-style: none;
+        }
+
+        .sidebar-nav-item {
+            display: block;
+            padding: 8px 16px;
+            font-size: 13px;
+            color: #181818;
+            text-decoration: none;
             cursor: pointer;
+            border-left: 3px solid transparent;
         }
 
-        .group-rows-label {
+        .sidebar-nav-item:hover {
+            background-color: #f3f3f3;
+        }
+
+        .sidebar-nav-item.active {
+            border-left-color: #2466de;
+            background-color: #f3f3f3;
+            color: #2466de;
+            font-weight: 700;
+        }
+
+        .sidebar-nav-item.sidebar-nav-item-external {
             display: flex;
             align-items: center;
             gap: 6px;
-            font-size: 11px;
+            color: #2466de;
+            font-weight: 700;
+        }
+
+        .sidebar-nav-item-external svg {
+            width: 14px;
+            height: 14px;
+            fill: #2466de;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 192px;
+            padding: 24px;
+            background-color: #f3f3f3;
+        }
+
+        .content-wrapper {
+            background-color: #f3f3f3;
+            border-radius: 4px;
+            min-height: calc(100vh - 96px);
+        }
+
+        /* Page Header */
+        .page-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 24px;
+            background-color: #f3f3f3;
+        }
+
+        .page-title-section {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .page-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .page-title-icon {
+            width: 28px;
+            height: 28px;
+            background-color: #0d9dda;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .page-title-icon svg {
+            width: 18px;
+            height: 18px;
+            fill: #ffffff;
+        }
+
+        .page-title h1 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #181818;
+        }
+
+        .item-count {
+            font-size: 12px;
             color: #706e6b;
-            margin-bottom: 8px;
+            margin-left: 38px;
         }
 
-        .group-rows-label svg {
-            width: 12px;
-            height: 12px;
-            fill: #706e6b;
+        .page-actions {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 12px;
         }
 
-        .add-field-input {
+        .btn-new {
+            padding: 8px 20px;
+            font-size: 13px;
+            font-weight: 700;
+            color: #2466de;
+            background-color: #ffffff;
+            border: 1px solid #c9c9c9;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        .btn-new:hover {
+            background-color: #f3f3f3;
+        }
+
+        .table-search {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .table-search-input {
             display: flex;
             align-items: center;
             background-color: #ffffff;
             border: 1px solid #c9c9c9;
-            border-radius: 4px;
-            padding: 0 10px;
+            border-radius: 20px;
+            padding: 0 14px;
             height: 32px;
-            margin-bottom: 8px;
-            position: relative;
+            width: 180px;
         }
 
-        .add-field-input input {
+        .table-search-input svg {
+            width: 14px;
+            height: 14px;
+            fill: #706e6b;
+            margin-right: 8px;
+        }
+
+        .table-search-input input {
             border: none;
             outline: none;
             font-size: 13px;
@@ -508,407 +448,217 @@
             color: #181818;
         }
 
-        .add-field-input input::placeholder {
+        .table-search-input input::placeholder {
             color: #706e6b;
         }
 
-        .add-field-input svg {
-            width: 14px;
-            height: 14px;
-            fill: #706e6b;
-            margin-left: 8px;
-        }
-
-        .field-tag {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 6px 10px;
-            background-color: #f3f3f3;
-            border-radius: 4px;
-            margin-bottom: 6px;
-            font-size: 12px;
-            color: #181818;
-            cursor: grab;
-            user-select: none;
-            transition: background-color 0.15s, transform 0.15s, box-shadow 0.15s;
-        }
-
-        .field-tag:hover {
-            background-color: #e5e5e5;
-        }
-
-        .field-tag.dragging {
-            opacity: 0.5;
-            background-color: #d6e6ff;
-        }
-
-        .field-tag.drag-over {
-            border: 2px dashed #2466de;
-            background-color: #eef4ff;
-        }
-
-        .field-tag-content {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            flex: 1;
-            min-width: 0;
-        }
-
-        .field-tag-content span {
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        .drag-handle {
-            width: 12px;
-            height: 12px;
-            fill: #706e6b;
-            cursor: grab;
-            flex-shrink: 0;
-        }
-
-        .field-tag-close {
-            width: 14px;
-            height: 14px;
-            fill: #706e6b;
-            cursor: pointer;
-            flex-shrink: 0;
-        }
-
-        .field-tag-close:hover {
-            fill: #181818;
-        }
-
-        .columns-section {
-            padding: 12px;
-        }
-
-        .columns-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 8px;
-        }
-
-        .columns-title {
-            font-size: 12px;
-            font-weight: 700;
-            color: #181818;
-        }
-
-        .columns-icon {
-            width: 20px;
-            height: 20px;
+        .refresh-btn {
+            width: 32px;
+            height: 32px;
             display: flex;
             align-items: center;
             justify-content: center;
-            background-color: #2466de;
+            background-color: #ffffff;
+            border: 1px solid #c9c9c9;
             border-radius: 50%;
             cursor: pointer;
         }
 
-        .columns-icon svg {
-            width: 12px;
-            height: 12px;
-            fill: #ffffff;
-        }
-
-        .field-tag-blue {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 6px 10px;
-            background-color: #f3f3f3;
-            border-radius: 4px;
-            margin-bottom: 6px;
-            font-size: 12px;
-            color: #181818;
-        }
-
-        .field-tag-blue .field-prefix {
-            color: #2466de;
-            font-weight: 700;
-            margin-right: 4px;
-        }
-
-        /* Autocomplete dropdown */
-        .autocomplete-dropdown {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            background-color: #ffffff;
-            border: 1px solid #c9c9c9;
-            border-top: none;
-            border-radius: 0 0 4px 4px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            max-height: 200px;
-            overflow-y: auto;
-            z-index: 1000;
-            display: none;
-        }
-
-        .autocomplete-dropdown.show {
-            display: block;
-        }
-
-        .autocomplete-item {
-            padding: 8px 12px;
-            font-size: 12px;
-            color: #181818;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .autocomplete-item:hover {
+        .refresh-btn:hover {
             background-color: #f3f3f3;
         }
 
-        .autocomplete-item.selected {
-            background-color: #d6e6ff;
-        }
-
-        .autocomplete-item .field-type {
-            font-size: 10px;
-            color: #706e6b;
-            background-color: #f3f3f3;
-            padding: 2px 6px;
-            border-radius: 3px;
-        }
-
-        .autocomplete-item .field-type.calculated {
-            background-color: #e8f4e8;
-            color: #036764;
-        }
-
-        /* Main Report Area */
-        .report-content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            background-color: #ffffff;
-        }
-
-        .preview-banner {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 16px;
-            background-color: #f3f3f3;
-            border-bottom: 1px solid #e5e5e5;
-        }
-
-        .preview-icon {
+        .refresh-btn svg {
             width: 16px;
             height: 16px;
             fill: #2466de;
         }
 
-        .preview-text {
-            font-size: 13px;
-            color: #181818;
-        }
-
-        .preview-toggle {
-            margin-left: auto;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 12px;
-            color: #706e6b;
-        }
-
-        .toggle-switch {
-            position: relative;
-            width: 36px;
-            height: 20px;
-            background-color: #c9c9c9;
-            border-radius: 10px;
-            cursor: pointer;
-        }
-
-        .toggle-switch.active {
-            background-color: #2466de;
-        }
-
-        .toggle-switch::after {
-            content: '';
-            position: absolute;
-            top: 2px;
-            left: 2px;
-            width: 16px;
-            height: 16px;
+        /* Data Table */
+        .data-table-container {
+            overflow-x: auto;
             background-color: #ffffff;
-            border-radius: 50%;
-            transition: transform 0.2s;
+            border: 1px solid #e5e5e5;
         }
 
-        .toggle-switch.active::after {
-            transform: translateX(16px);
-        }
-
-        /* Pivot Table */
-        .pivot-table-container {
-            flex: 1;
-            overflow: auto;
-            padding: 0;
-        }
-
-        .pivot-table {
+        .data-table {
             width: 100%;
             border-collapse: collapse;
             font-size: 13px;
         }
 
-        .pivot-table thead {
-            position: sticky;
-            top: 0;
-            z-index: 10;
+        .data-table thead {
+            background-color: #fafaf9;
         }
 
-        .pivot-table th {
+        .data-table th {
             padding: 10px 12px;
             text-align: left;
             font-weight: 400;
-            color: #181818;
-            background-color: #fafaf9;
+            color: #706e6b;
             border-bottom: 1px solid #e5e5e5;
-            border-right: 1px solid #e5e5e5;
             white-space: nowrap;
+            position: relative;
         }
 
-        .pivot-table th:last-child {
-            border-right: none;
+        .data-table th:first-child {
+            width: 40px;
+            text-align: center;
         }
 
-        .th-sortable {
+        .th-content {
             display: flex;
             align-items: center;
             gap: 4px;
-            cursor: pointer;
         }
 
-        .th-sortable svg {
-            width: 10px;
-            height: 10px;
+        .th-content svg {
+            width: 12px;
+            height: 12px;
             fill: #706e6b;
         }
 
-        .pivot-table td {
-            padding: 8px 12px;
+        .sort-icon {
+            display: flex;
+            flex-direction: column;
+            gap: 1px;
+        }
+
+        .sort-icon svg {
+            width: 10px;
+            height: 10px;
+        }
+
+        .data-table td {
+            padding: 10px 12px;
             border-bottom: 1px solid #e5e5e5;
-            border-right: 1px solid #e5e5e5;
             color: #181818;
             vertical-align: middle;
         }
 
-        .pivot-table td:last-child {
-            border-right: none;
+        .data-table td:first-child {
+            text-align: center;
+            color: #706e6b;
         }
 
-        .pivot-table tbody tr:hover {
-            background-color: #f9f9f9;
-        }
-
-        .cell-number {
-            text-align: right;
-        }
-
-        .row-subtotal {
-            background-color: #fafaf9;
-        }
-
-        .row-subtotal td {
-            font-weight: 600;
-        }
-
-        .row-total {
+        .data-table tbody tr:hover {
             background-color: #f3f3f3;
         }
 
-        .row-total td {
-            font-weight: 700;
+        .link-cell {
             color: #2466de;
+            text-decoration: none;
+            font-weight: 700;
         }
 
-        .cell-group {
-            font-weight: 500;
+        .link-cell:hover {
+            text-decoration: underline;
         }
 
-        /* Bottom Controls */
-        .bottom-controls {
-            display: flex;
+        .status-badge {
+            display: inline-flex;
             align-items: center;
-            justify-content: space-between;
-            padding: 10px 16px;
+            gap: 4px;
+        }
+
+        .status-badge svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        .status-active svg {
+            fill: #036764;
+        }
+
+        .status-active {
+            color: #036764;
+        }
+
+        .status-success svg {
+            fill: #036764;
+        }
+
+        .status-success {
+            color: #036764;
+        }
+
+        .action-cell {
+            text-align: center;
+        }
+
+        .action-btn {
+            width: 32px;
+            height: 32px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: #ffffff;
+            border: 1px solid #c9c9c9;
+            border-radius: 50%;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .action-btn:hover {
+            background-color: #f3f3f3;
+        }
+
+        .action-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: #2466de;
+        }
+
+        .dropdown-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 100%;
+            margin-top: 4px;
             background-color: #ffffff;
-            border-top: 1px solid #e5e5e5;
+            border: 1px solid #e5e5e5;
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            min-width: 150px;
+            z-index: 1000;
         }
 
-        .toggle-controls {
-            display: flex;
-            align-items: center;
-            gap: 20px;
+        .dropdown-menu.show {
+            display: block;
         }
 
-        .toggle-control {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 12px;
+        .dropdown-item {
+            display: block;
+            padding: 10px 16px;
+            font-size: 13px;
+            color: #181818;
+            text-decoration: none;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .dropdown-item:first-child {
+            border-radius: 4px 4px 0 0;
+        }
+
+        .dropdown-item:last-child {
+            border-radius: 0 0 4px 4px;
+        }
+
+        .dropdown-item:hover {
+            background-color: #d6e6ff;
+        }
+
+        .dropdown-item-header {
             color: #181818;
         }
 
-        .toggle-small {
-            position: relative;
-            width: 32px;
-            height: 16px;
-            background-color: #c9c9c9;
-            border-radius: 8px;
-            cursor: pointer;
-        }
-
-        .toggle-small.active {
-            background-color: #2466de;
-        }
-
-        .toggle-small::after {
-            content: '';
-            position: absolute;
-            top: 2px;
-            left: 2px;
-            width: 12px;
-            height: 12px;
-            background-color: #ffffff;
-            border-radius: 50%;
-            transition: transform 0.2s;
-        }
-
-        .toggle-small.active::after {
-            transform: translateX(16px);
-        }
-
-        .conditional-formatting {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 12px;
-            color: #706e6b;
-            cursor: pointer;
-        }
-
-        .conditional-formatting svg {
-            width: 14px;
-            height: 14px;
-            fill: #706e6b;
-        }
-
-        /* Edit icon corner */
+        /* Edit icon in top right */
         .edit-icon-corner {
             position: fixed;
             top: 88px;
@@ -924,56 +674,7 @@
         .edit-icon-corner svg {
             width: 16px;
             height: 16px;
-            fill: #2466de;
-        }
-
-        /* Fields toggle button */
-        .fields-toggle {
-            position: absolute;
-            left: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 16px;
-            height: 48px;
-            background-color: #e5e5e5;
-            border-radius: 0 4px 4px 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            z-index: 10;
-        }
-
-        .fields-toggle svg {
-            width: 10px;
-            height: 10px;
-            fill: #706e6b;
-        }
-
-        .fields-label {
-            position: absolute;
-            left: 0;
-            top: calc(50% + 40px);
-            writing-mode: vertical-rl;
-            text-orientation: mixed;
-            transform: rotate(180deg);
-            font-size: 11px;
-            color: #706e6b;
-            padding: 8px 4px;
-        }
-
-        /* Drag placeholder */
-        .drag-placeholder {
-            height: 32px;
-            border: 2px dashed #2466de;
-            border-radius: 4px;
-            background-color: #eef4ff;
-            margin-bottom: 6px;
-        }
-
-        /* Column input wrapper */
-        .column-input-wrapper {
-            position: relative;
+            fill: #0176d3;
         }
     </style>
 </head>
@@ -1063,191 +764,545 @@
             </div>
 
             <nav class="header-nav">
-                <a href="index.html" class="nav-item">Home</a>
+                <a href="#" class="nav-item">Home</a>
                 <a href="#" class="nav-item">Goals</a>
-                <a href="index.html" class="nav-item">Data Management</a>
+                <a href="#" class="nav-item active">Data Management</a>
                 <a href="#" class="nav-item">Marketing Analytics</a>
                 <a href="#" class="nav-item">Segment Intelligence</a>
-                <a href="#" class="nav-item-tab">
-                    * Reports
-                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M7 10l5 5 5-5H7z"/>
-                    </svg>
-                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
-                    </svg>
-                </a>
             </nav>
         </div>
     </header>
 
     <!-- Main Container -->
     <div class="main-container">
-        <!-- Report Header -->
-        <div class="report-header">
-            <div class="report-title-section">
-                <span class="report-label">REPORT</span>
-                <div class="report-title">
-                    <h1>Meta_Ads_Connection 536537030</h1>
-                    <svg class="edit-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a.996.996 0 000-1.41l-2.34-2.34a.996.996 0 00-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
-                    </svg>
-                    <span class="semantic-model-badge">MarketingIntelligenceCustomSemanticModel</span>
-                </div>
+        <!-- Left Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-header">Data Management</div>
+                <ul class="sidebar-nav">
+                    <li><a href="#" class="sidebar-nav-item active">Data Pipelines</a></li>
+                    <li><a href="#" class="sidebar-nav-item">Data Enrichment</a></li>
+                    <li><a href="#" class="sidebar-nav-item">Patterns</a></li>
+                    <li><a href="#" class="sidebar-nav-item">Attribution</a></li>
+                </ul>
             </div>
-            <div class="report-actions">
-                <button class="action-icon-btn">
-                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12.5 8c-2.65 0-5.05.99-6.9 2.6L2 7v9h9l-3.62-3.62c1.39-1.16 3.16-1.88 5.12-1.88 3.54 0 6.55 2.31 7.6 5.5l2.37-.78C21.08 11.03 17.15 8 12.5 8z"/>
-                    </svg>
-                </button>
-                <button class="action-icon-btn">
-                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M11.5 8c2.65 0 5.05.99 6.9 2.6L22 7v9h-9l3.62-3.62c-1.39-1.16-3.16-1.88-5.12-1.88-3.54 0-6.55 2.31-7.6 5.5l-2.37-.78C2.92 11.03 6.85 8 11.5 8z"/>
-                    </svg>
-                </button>
-                <button class="btn-outline">
-                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
-                    </svg>
-                    Add Chart
-                </button>
-                <button class="btn-outline">Save &amp; Run</button>
-                <button class="btn-save">Save</button>
-                <button class="btn-save-dropdown">
-                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M7 10l5 5 5-5H7z"/>
-                    </svg>
-                </button>
-                <button class="btn-outline">Close</button>
-                <button class="btn-primary">Run</button>
-            </div>
-        </div>
-
-        <!-- Content Area -->
-        <div class="content-area">
-            <!-- Fields Panel (Left Sidebar) -->
-            <div class="fields-panel">
-                <div class="fields-toggle">
-                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
-                    </svg>
-                </div>
-                <span class="fields-label">Fields</span>
-                
-                <div class="panel-tabs">
-                    <div class="panel-tab active">
-                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"/>
-                        </svg>
-                        Outline
-                    </div>
-                    <div class="panel-tab">
-                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z"/>
-                        </svg>
-                        Filters
-                        <span class="filter-badge">1</span>
-                    </div>
-                </div>
-
-                <div class="panel-section">
-                    <div class="panel-section-header">
-                        <span class="panel-section-title">Groups</span>
-                        <svg class="panel-section-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M3 17v2h6v-2H3zM3 5v2h10V5H3zm10 16v-2h8v-2h-8v-2h-2v6h2zM7 9v2H3v2h4v2h2V9H7zm14 4v-2H11v2h10zm-6-4h2V7h4V5h-4V3h-2v6z"/>
-                        </svg>
-                    </div>
-                    <div class="group-rows-label">
-                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M3 15h18v-2H3v2zm0 4h18v-2H3v2zm0-8h18V9H3v2zm0-6v2h18V5H3z"/>
-                        </svg>
-                        GROUP ROWS
-                    </div>
-                    <div class="add-field-input">
-                        <input type="text" placeholder="Add group...">
-                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
-                        </svg>
-                    </div>
-                    <div id="group-fields-container">
-                        <!-- Group fields will be rendered here -->
-                    </div>
-                </div>
-
-                <div class="columns-section">
-                    <div class="columns-header">
-                        <span class="columns-title">Columns</span>
-                        <div class="columns-icon">
+            <div class="sidebar-section">
+                <ul class="sidebar-nav">
+                    <li>
+                        <a href="#" class="sidebar-nav-item sidebar-nav-item-external">
+                            Semantic Data Model
                             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                <path d="M19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/>
                             </svg>
-                        </div>
-                    </div>
-                    <div class="column-input-wrapper">
-                        <div class="add-field-input">
-                            <input type="text" id="column-search-input" placeholder="Add column..." autocomplete="off">
-                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
-                            </svg>
-                        </div>
-                        <div class="autocomplete-dropdown" id="column-autocomplete">
-                            <!-- Autocomplete items will be rendered here -->
-                        </div>
-                    </div>
-                    <div id="column-fields-container">
-                        <!-- Column fields will be rendered here -->
-                    </div>
-                </div>
+                        </a>
+                    </li>
+                </ul>
             </div>
+        </aside>
 
-            <!-- Main Report Content -->
-            <div class="report-content">
-                <div class="preview-banner">
-                    <svg class="preview-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                    </svg>
-                    <span class="preview-text">Previewing a limited number of records. Run the report to see everything.</span>
-                    <div class="preview-toggle">
-                        <span>Update Preview Automatically</span>
-                        <div class="toggle-switch"></div>
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="content-wrapper">
+                <!-- Page Header -->
+                <div class="page-header">
+                    <div class="page-title-section">
+                        <div class="page-title">
+                            <div class="page-title-icon">
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="3" y="3" width="7" height="7" rx="1"/>
+                                    <rect x="14" y="3" width="7" height="7" rx="1"/>
+                                    <rect x="3" y="14" width="7" height="7" rx="1"/>
+                                    <rect x="14" y="14" width="7" height="7" rx="1"/>
+                                </svg>
+                            </div>
+                            <h1>Data Pipelines</h1>
+                        </div>
+                        <div class="item-count">9 items</div>
+                    </div>
+                    <div class="page-actions">
+                        <button class="btn-new">New Pipeline</button>
+                        <div class="table-search">
+                            <div class="table-search-input">
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                                </svg>
+                                <input type="text" placeholder="Search...">
+                            </div>
+                            <button class="refresh-btn">
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M17.65 6.35A7.958 7.958 0 0012 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0112 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/>
+                                </svg>
+                            </button>
+                        </div>
                     </div>
                 </div>
 
-                <div class="pivot-table-container">
-                    <table class="pivot-table" id="pivot-table">
-                        <!-- Table will be rendered by JavaScript -->
+                <!-- Data Table -->
+                <div class="data-table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>
+                                    <div class="th-content">
+                                        Name
+                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M7 14l5-5 5 5H7z"/>
+                                        </svg>
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="th-content">
+                                        Data Space
+                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M7 10l5 5 5-5H7z"/>
+                                        </svg>
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="th-content">
+                                        Source
+                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M7 10l5 5 5-5H7z"/>
+                                        </svg>
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="th-content">
+                                        Status
+                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M7 10l5 5 5-5H7z"/>
+                                        </svg>
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="th-content">
+                                        Last Run Status
+                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M7 10l5 5 5-5H7z"/>
+                                        </svg>
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="th-content">
+                                        Last Run
+                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M7 10l5 5 5-5H7z"/>
+                                        </svg>
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="th-content">
+                                        Next Run
+                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M7 10l5 5 5-5H7z"/>
+                                        </svg>
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="th-content">
+                                        Last Data Date
+                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M7 10l5 5 5-5H7z"/>
+                                        </svg>
+                                    </div>
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td><a href="#" class="link-cell">Meta_Ads_Connection 53...</a></td>
+                                <td>default</td>
+                                <td>EMI Mock</td>
+                                <td>
+                                    <span class="status-badge status-active">
+                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                        </svg>
+                                        Active
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="status-badge status-success">
+                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                        </svg>
+                                        Success
+                                    </span>
+                                </td>
+                                <td>11/30/2025, 12:00 AM</td>
+                                <td>12/1/2025, 12:00 AM</td>
+                                <td>11/30/2025</td>
+                                <td class="action-cell">
+                                    <div class="dropdown-container">
+                                        <button class="action-btn" onclick="toggleDropdown(this)">
+                                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M7 10l5 5 5-5H7z"/>
+                                            </svg>
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <a href="#" class="dropdown-item dropdown-item-header">Pipeline Details</a>
+                                            <a href="#" class="dropdown-item">Process Log</a>
+                                            <a href="#" class="dropdown-item">Delete</a>
+                                            <a href="#" class="dropdown-item">Reprocess</a>
+                                            <a href="#" class="dropdown-item">Run Schedule</a>
+                                            <a href="#" class="dropdown-item">Deactivate</a>
+                                            <a href="pivot-table.html" class="dropdown-item">Pivot Table</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td><a href="#" class="link-cell">Google_Ads_Connection 5...</a></td>
+                                <td>default</td>
+                                <td>EMI Mock</td>
+                                <td>
+                                    <span class="status-badge status-active">
+                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                        </svg>
+                                        Active
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="status-badge status-success">
+                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                        </svg>
+                                        Success
+                                    </span>
+                                </td>
+                                <td>11/30/2025, 12:00 AM</td>
+                                <td>12/1/2025, 12:00 AM</td>
+                                <td>11/30/2025</td>
+                                <td class="action-cell">
+                                    <div class="dropdown-container">
+                                        <button class="action-btn" onclick="toggleDropdown(this)">
+                                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M7 10l5 5 5-5H7z"/>
+                                            </svg>
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <a href="#" class="dropdown-item dropdown-item-header">Pipeline Details</a>
+                                            <a href="#" class="dropdown-item">Process Log</a>
+                                            <a href="#" class="dropdown-item">Delete</a>
+                                            <a href="#" class="dropdown-item">Reprocess</a>
+                                            <a href="#" class="dropdown-item">Run Schedule</a>
+                                            <a href="#" class="dropdown-item">Deactivate</a>
+                                            <a href="pivot-table.html" class="dropdown-item">Pivot Table</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td><a href="#" class="link-cell">SEG_INT_DELMLT_csv 131...</a></td>
+                                <td>default</td>
+                                <td>Total Connect</td>
+                                <td>
+                                    <span class="status-badge status-active">
+                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                        </svg>
+                                        Active
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="status-badge status-success">
+                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                        </svg>
+                                        Success
+                                    </span>
+                                </td>
+                                <td>11/23/2025, 08:33 AM</td>
+                                <td></td>
+                                <td>11/16/2025</td>
+                                <td class="action-cell">
+                                    <div class="dropdown-container">
+                                        <button class="action-btn" onclick="toggleDropdown(this)">
+                                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M7 10l5 5 5-5H7z"/>
+                                            </svg>
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <a href="#" class="dropdown-item dropdown-item-header">Pipeline Details</a>
+                                            <a href="#" class="dropdown-item">Process Log</a>
+                                            <a href="#" class="dropdown-item">Delete</a>
+                                            <a href="#" class="dropdown-item">Reprocess</a>
+                                            <a href="#" class="dropdown-item">Run Schedule</a>
+                                            <a href="#" class="dropdown-item">Deactivate</a>
+                                            <a href="pivot-table.html" class="dropdown-item">Pivot Table</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td><a href="#" class="link-cell">SEG_INT_CONVMLT_csv 1...</a></td>
+                                <td>default</td>
+                                <td>Total Connect</td>
+                                <td>
+                                    <span class="status-badge status-active">
+                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                        </svg>
+                                        Active
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="status-badge status-success">
+                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                        </svg>
+                                        Success
+                                    </span>
+                                </td>
+                                <td>11/23/2025, 08:52 AM</td>
+                                <td></td>
+                                <td>11/16/2025</td>
+                                <td class="action-cell">
+                                    <div class="dropdown-container">
+                                        <button class="action-btn" onclick="toggleDropdown(this)">
+                                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M7 10l5 5 5-5H7z"/>
+                                            </svg>
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <a href="#" class="dropdown-item dropdown-item-header">Pipeline Details</a>
+                                            <a href="#" class="dropdown-item">Process Log</a>
+                                            <a href="#" class="dropdown-item">Delete</a>
+                                            <a href="#" class="dropdown-item">Reprocess</a>
+                                            <a href="#" class="dropdown-item">Run Schedule</a>
+                                            <a href="#" class="dropdown-item">Deactivate</a>
+                                            <a href="pivot-table.html" class="dropdown-item">Pivot Table</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td><a href="#" class="link-cell">GA_pages_csv 1147717417</a></td>
+                                <td>default</td>
+                                <td>Total Connect</td>
+                                <td>
+                                    <span class="status-badge status-active">
+                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                        </svg>
+                                        Active
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="status-badge status-success">
+                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                        </svg>
+                                        Success
+                                    </span>
+                                </td>
+                                <td>11/25/2025, 07:19 AM</td>
+                                <td></td>
+                                <td>4/5/2025</td>
+                                <td class="action-cell">
+                                    <div class="dropdown-container">
+                                        <button class="action-btn" onclick="toggleDropdown(this)">
+                                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M7 10l5 5 5-5H7z"/>
+                                            </svg>
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <a href="#" class="dropdown-item dropdown-item-header">Pipeline Details</a>
+                                            <a href="#" class="dropdown-item">Process Log</a>
+                                            <a href="#" class="dropdown-item">Delete</a>
+                                            <a href="#" class="dropdown-item">Reprocess</a>
+                                            <a href="#" class="dropdown-item">Run Schedule</a>
+                                            <a href="#" class="dropdown-item">Deactivate</a>
+                                            <a href="pivot-table.html" class="dropdown-item">Pivot Table</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>6</td>
+                                <td><a href="#" class="link-cell">GA_events3_csv 11423138...</a></td>
+                                <td>default</td>
+                                <td>Total Connect</td>
+                                <td>
+                                    <span class="status-badge status-active">
+                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                        </svg>
+                                        Active
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="status-badge status-success">
+                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                        </svg>
+                                        Success
+                                    </span>
+                                </td>
+                                <td>11/25/2025, 08:50 AM</td>
+                                <td></td>
+                                <td>4/5/2025</td>
+                                <td class="action-cell">
+                                    <div class="dropdown-container">
+                                        <button class="action-btn" onclick="toggleDropdown(this)">
+                                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M7 10l5 5 5-5H7z"/>
+                                            </svg>
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <a href="#" class="dropdown-item dropdown-item-header">Pipeline Details</a>
+                                            <a href="#" class="dropdown-item">Process Log</a>
+                                            <a href="#" class="dropdown-item">Delete</a>
+                                            <a href="#" class="dropdown-item">Reprocess</a>
+                                            <a href="#" class="dropdown-item">Run Schedule</a>
+                                            <a href="#" class="dropdown-item">Deactivate</a>
+                                            <a href="pivot-table.html" class="dropdown-item">Pivot Table</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>7</td>
+                                <td><a href="#" class="link-cell">GA_analytics_3_csv 11362...</a></td>
+                                <td>default</td>
+                                <td>Total Connect</td>
+                                <td>
+                                    <span class="status-badge status-active">
+                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                        </svg>
+                                        Active
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="status-badge status-success">
+                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                        </svg>
+                                        Success
+                                    </span>
+                                </td>
+                                <td>11/25/2025, 10:30 AM</td>
+                                <td></td>
+                                <td>11/26/2025</td>
+                                <td class="action-cell">
+                                    <div class="dropdown-container">
+                                        <button class="action-btn" onclick="toggleDropdown(this)">
+                                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M7 10l5 5 5-5H7z"/>
+                                            </svg>
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <a href="#" class="dropdown-item dropdown-item-header">Pipeline Details</a>
+                                            <a href="#" class="dropdown-item">Process Log</a>
+                                            <a href="#" class="dropdown-item">Delete</a>
+                                            <a href="#" class="dropdown-item">Reprocess</a>
+                                            <a href="#" class="dropdown-item">Run Schedule</a>
+                                            <a href="#" class="dropdown-item">Deactivate</a>
+                                            <a href="pivot-table.html" class="dropdown-item">Pivot Table</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>8</td>
+                                <td><a href="#" class="link-cell">GA_Pages_4_csv 1136050...</a></td>
+                                <td>default</td>
+                                <td>Total Connect</td>
+                                <td>
+                                    <span class="status-badge status-active">
+                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                        </svg>
+                                        Active
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="status-badge status-success">
+                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                        </svg>
+                                        Success
+                                    </span>
+                                </td>
+                                <td>11/25/2025, 10:34 AM</td>
+                                <td></td>
+                                <td>11/26/2025</td>
+                                <td class="action-cell">
+                                    <div class="dropdown-container">
+                                        <button class="action-btn" onclick="toggleDropdown(this)">
+                                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M7 10l5 5 5-5H7z"/>
+                                            </svg>
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <a href="#" class="dropdown-item dropdown-item-header">Pipeline Details</a>
+                                            <a href="#" class="dropdown-item">Process Log</a>
+                                            <a href="#" class="dropdown-item">Delete</a>
+                                            <a href="#" class="dropdown-item">Reprocess</a>
+                                            <a href="#" class="dropdown-item">Run Schedule</a>
+                                            <a href="#" class="dropdown-item">Deactivate</a>
+                                            <a href="pivot-table.html" class="dropdown-item">Pivot Table</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>9</td>
+                                <td><a href="#" class="link-cell">GA_events_3_csv 113556...</a></td>
+                                <td>default</td>
+                                <td>Total Connect</td>
+                                <td>
+                                    <span class="status-badge status-active">
+                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                        </svg>
+                                        Active
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="status-badge status-success">
+                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                        </svg>
+                                        Success
+                                    </span>
+                                </td>
+                                <td>11/25/2025, 10:42 AM</td>
+                                <td></td>
+                                <td>11/26/2025</td>
+                                <td class="action-cell">
+                                    <div class="dropdown-container">
+                                        <button class="action-btn" onclick="toggleDropdown(this)">
+                                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M7 10l5 5 5-5H7z"/>
+                                            </svg>
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <a href="#" class="dropdown-item dropdown-item-header">Pipeline Details</a>
+                                            <a href="#" class="dropdown-item">Process Log</a>
+                                            <a href="#" class="dropdown-item">Delete</a>
+                                            <a href="#" class="dropdown-item">Reprocess</a>
+                                            <a href="#" class="dropdown-item">Run Schedule</a>
+                                            <a href="#" class="dropdown-item">Deactivate</a>
+                                            <a href="pivot-table.html" class="dropdown-item">Pivot Table</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
                     </table>
                 </div>
-
-                <div class="bottom-controls">
-                    <div class="toggle-controls">
-                        <div class="toggle-control">
-                            <span>Row Counts</span>
-                            <div class="toggle-small"></div>
-                        </div>
-                        <div class="toggle-control">
-                            <span>Detail Rows</span>
-                            <div class="toggle-small"></div>
-                        </div>
-                        <div class="toggle-control">
-                            <span>Subtotals</span>
-                            <div class="toggle-small active" id="toggle-subtotals"></div>
-                        </div>
-                        <div class="toggle-control">
-                            <span>Grand Total</span>
-                            <div class="toggle-small active" id="toggle-grandtotal"></div>
-                        </div>
-                    </div>
-                    <div class="conditional-formatting">
-                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M3 17v2h6v-2H3zM3 5v2h10V5H3zm10 16v-2h8v-2h-8v-2h-2v6h2zM7 9v2H3v2h4v2h2V9H7zm14 4v-2H11v2h10zm-6-4h2V7h4V5h-4V3h-2v6z"/>
-                        </svg>
-                        Conditional Formatting
-                    </div>
-                </div>
             </div>
-        </div>
+        </main>
     </div>
 
     <!-- Edit Icon in Corner -->
@@ -1258,494 +1313,26 @@
     </div>
 
     <script>
-        // =====================================================
-        // DATA & STATE
-        // =====================================================
-        
-        // Raw data for the pivot table
-        const rawData = [
-            { date: '11/25/2025', campaign: 'APAC_IN_INMB_MB_NTO-TrekkingPoles_ProductUpdate_Q4_LI_NA_customer...', impressions: 56151, clicks: 432 },
-            { date: '11/25/2025', campaign: 'APAC_JP_JPTK_TK_NTO-RainGear_Evergreen_Evergreen_YT_NA_brand-awar...', impressions: 2268, clicks: 18 },
-            { date: '11/25/2025', campaign: 'EMEA_DE_DEBE_BE_NTO-Gloves_Evergreen_Evergreen_FB_NA_product-con...', impressions: 9450, clicks: 72 },
-            { date: '11/26/2025', campaign: 'EMEA_UK_GBLO_LN_NTO-Jackets_Evergreen_Evergreen_LI_NA_portfolio-aw...', impressions: 4491, clicks: 19 },
-            { date: '11/27/2025', campaign: 'AMER_CA_CATO_TR_NTO-HikingBoots_Event_IntegrationSummit_GAds_NA_...', impressions: 18969, clicks: 162 },
-            { date: '11/28/2025', campaign: 'AMER_MX_MXMC_MC_NTO-Tents_Seasonal_SummerCampaign_GAds_NA_a...', impressions: 1359, clicks: 18 },
-            { date: '11/29/2025', campaign: 'EMEA_FR_FRPA_PA_NTO-SleepingBags_Event_WorldTour_LNKD_NA_event-r...', impressions: 19944, clicks: 108 },
-            { date: '11/30/2025', campaign: 'LATAM_BR_BRSP_SP_NTO-TrailShoes_ProductLaunch_Q3_FB_NA_conversio...', impressions: 8730, clicks: 45 },
-            { date: '12/01/2025', campaign: 'APAC_AU_AUSY_SY_NTO-Backpacks_Seasonal_Q2_MSFT_NA_midfunnel-nu...', impressions: 4950, clicks: 36 },
-            { date: '12/02/2025', campaign: 'AMER_US_USNY_NY_NTO-Fleece_Promo_BlackFriday_GAds_NA_promo-eng...', impressions: 67860, clicks: 315 }
-        ];
-
-        // Available columns for the autocomplete
-        const availableColumns = [
-            { id: 'impressions', name: 'Marketing Intelligence Union: Impressions', type: 'measure', prefix: 'Sum of' },
-            { id: 'clicks', name: 'Marketing Intelligence Union: Clicks', type: 'measure', prefix: 'Sum of' },
-            { id: 'ctr', name: 'CTR (Click-Through Rate)', type: 'calculated', prefix: '' },
-            { id: 'cpc', name: 'CPC (Cost Per Click)', type: 'calculated', prefix: '' },
-            { id: 'cpm', name: 'CPM (Cost Per Mille)', type: 'calculated', prefix: '' },
-            { id: 'reach', name: 'Marketing Intelligence Union: Reach', type: 'measure', prefix: 'Sum of' },
-            { id: 'frequency', name: 'Marketing Intelligence Union: Frequency', type: 'measure', prefix: 'Avg of' },
-            { id: 'spend', name: 'Marketing Intelligence Union: Spend', type: 'measure', prefix: 'Sum of' },
-            { id: 'conversions', name: 'Marketing Intelligence Union: Conversions', type: 'measure', prefix: 'Sum of' }
-        ];
-
-        // State management
-        let state = {
-            groupFields: [
-                { id: 'date', name: 'Unified Date', field: 'date' },
-                { id: 'campaign', name: 'Campaign Object: Campaign Nam...', field: 'campaign' }
-            ],
-            columnFields: [
-                { id: 'impressions', name: 'Marketing Intelligence Union: Im...', fullName: 'Marketing Intelligence Union: Impressions', prefix: 'Sum of' },
-                { id: 'clicks', name: 'Marketing Intelligence Union: Cl...', fullName: 'Marketing Intelligence Union: Clicks', prefix: 'Sum of' }
-            ],
-            showSubtotals: true,
-            showGrandTotal: true
-        };
-
-        // Drag state
-        let dragState = {
-            draggedElement: null,
-            draggedIndex: null
-        };
-
-        // =====================================================
-        // UTILITY FUNCTIONS
-        // =====================================================
-
-        function formatNumber(num) {
-            return num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-        }
-
-        function formatPercent(num) {
-            return num.toFixed(2) + '%';
-        }
-
-        function truncateText(text, maxLength = 40) {
-            if (text.length <= maxLength) return text;
-            return text.substring(0, maxLength) + '...';
-        }
-
-        // =====================================================
-        // GROUP FIELDS RENDERING & DRAG-DROP
-        // =====================================================
-
-        function renderGroupFields() {
-            const container = document.getElementById('group-fields-container');
-            container.innerHTML = '';
-
-            state.groupFields.forEach((field, index) => {
-                const tag = document.createElement('div');
-                tag.className = 'field-tag';
-                tag.draggable = true;
-                tag.dataset.index = index;
-
-                tag.innerHTML = `
-                    <div class="field-tag-content">
-                        <svg class="drag-handle" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M11 18c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2 2 .9 2 2zm-2-8c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0-6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm6 4c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
-                        </svg>
-                        <span>${field.name}</span>
-                    </div>
-                    <svg class="field-tag-close" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" onclick="removeGroupField(${index})">
-                        <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
-                    </svg>
-                `;
-
-                // Drag events
-                tag.addEventListener('dragstart', handleDragStart);
-                tag.addEventListener('dragend', handleDragEnd);
-                tag.addEventListener('dragover', handleDragOver);
-                tag.addEventListener('dragenter', handleDragEnter);
-                tag.addEventListener('dragleave', handleDragLeave);
-                tag.addEventListener('drop', handleDrop);
-
-                container.appendChild(tag);
-            });
-        }
-
-        function handleDragStart(e) {
-            dragState.draggedElement = this;
-            dragState.draggedIndex = parseInt(this.dataset.index);
-            this.classList.add('dragging');
-            e.dataTransfer.effectAllowed = 'move';
-            e.dataTransfer.setData('text/plain', this.dataset.index);
-        }
-
-        function handleDragEnd(e) {
-            this.classList.remove('dragging');
-            document.querySelectorAll('.field-tag').forEach(tag => {
-                tag.classList.remove('drag-over');
-            });
-            dragState.draggedElement = null;
-            dragState.draggedIndex = null;
-        }
-
-        function handleDragOver(e) {
-            e.preventDefault();
-            e.dataTransfer.dropEffect = 'move';
-        }
-
-        function handleDragEnter(e) {
-            e.preventDefault();
-            if (this !== dragState.draggedElement) {
-                this.classList.add('drag-over');
-            }
-        }
-
-        function handleDragLeave(e) {
-            this.classList.remove('drag-over');
-        }
-
-        function handleDrop(e) {
-            e.preventDefault();
-            this.classList.remove('drag-over');
-
-            const fromIndex = dragState.draggedIndex;
-            const toIndex = parseInt(this.dataset.index);
-
-            if (fromIndex !== toIndex) {
-                // Reorder the array
-                const [removed] = state.groupFields.splice(fromIndex, 1);
-                state.groupFields.splice(toIndex, 0, removed);
-
-                // Re-render
-                renderGroupFields();
-                renderPivotTable();
-            }
-        }
-
-        function removeGroupField(index) {
-            if (state.groupFields.length > 1) {
-                state.groupFields.splice(index, 1);
-                renderGroupFields();
-                renderPivotTable();
-            }
-        }
-
-        // =====================================================
-        // COLUMN FIELDS RENDERING & AUTOCOMPLETE
-        // =====================================================
-
-        function renderColumnFields() {
-            const container = document.getElementById('column-fields-container');
-            container.innerHTML = '';
-
-            state.columnFields.forEach((field, index) => {
-                const tag = document.createElement('div');
-                tag.className = 'field-tag-blue';
-                tag.innerHTML = `
-                    <div style="display: flex; align-items: center; flex: 1; min-width: 0;">
-                        <span class="field-prefix">#</span>
-                        <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${field.name}</span>
-                    </div>
-                    <svg class="field-tag-close" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" onclick="removeColumnField(${index})">
-                        <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
-                    </svg>
-                `;
-                container.appendChild(tag);
-            });
-        }
-
-        function removeColumnField(index) {
-            if (state.columnFields.length > 1) {
-                state.columnFields.splice(index, 1);
-                renderColumnFields();
-                renderPivotTable();
-            }
-        }
-
-        function setupColumnAutocomplete() {
-            const input = document.getElementById('column-search-input');
-            const dropdown = document.getElementById('column-autocomplete');
-
-            input.addEventListener('focus', () => {
-                showAutocomplete('');
-            });
-
-            input.addEventListener('input', (e) => {
-                showAutocomplete(e.target.value);
-            });
-
-            input.addEventListener('blur', () => {
-                // Delay to allow click on dropdown item
-                setTimeout(() => {
-                    dropdown.classList.remove('show');
-                }, 200);
-            });
-
-            input.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape') {
-                    dropdown.classList.remove('show');
-                    input.blur();
+        function toggleDropdown(button) {
+            // Close all other dropdowns first
+            document.querySelectorAll('.dropdown-menu.show').forEach(menu => {
+                if (menu !== button.nextElementSibling) {
+                    menu.classList.remove('show');
                 }
             });
-        }
-
-        function showAutocomplete(searchTerm) {
-            const dropdown = document.getElementById('column-autocomplete');
-            const searchLower = searchTerm.toLowerCase();
-
-            // Filter available columns that aren't already added
-            const addedIds = state.columnFields.map(f => f.id);
-            const filteredColumns = availableColumns.filter(col => 
-                !addedIds.includes(col.id) && 
-                (col.name.toLowerCase().includes(searchLower) || col.id.toLowerCase().includes(searchLower))
-            );
-
-            if (filteredColumns.length === 0) {
-                dropdown.classList.remove('show');
-                return;
-            }
-
-            dropdown.innerHTML = filteredColumns.map(col => `
-                <div class="autocomplete-item" onclick="addColumnField('${col.id}')">
-                    <span>${col.name}</span>
-                    <span class="field-type ${col.type === 'calculated' ? 'calculated' : ''}">${col.type === 'calculated' ? 'Calculated' : 'Measure'}</span>
-                </div>
-            `).join('');
-
-            dropdown.classList.add('show');
-        }
-
-        function addColumnField(columnId) {
-            const column = availableColumns.find(c => c.id === columnId);
-            if (column) {
-                state.columnFields.push({
-                    id: column.id,
-                    name: truncateText(column.name, 35),
-                    fullName: column.name,
-                    prefix: column.prefix
-                });
-                renderColumnFields();
-                renderPivotTable();
-            }
-
-            // Clear input and hide dropdown
-            document.getElementById('column-search-input').value = '';
-            document.getElementById('column-autocomplete').classList.remove('show');
-        }
-
-        // =====================================================
-        // PIVOT TABLE RENDERING
-        // =====================================================
-
-        function renderPivotTable() {
-            const table = document.getElementById('pivot-table');
-            const primaryGroup = state.groupFields[0];
-            const secondaryGroup = state.groupFields.length > 1 ? state.groupFields[1] : null;
-
-            // Build header
-            let headerHtml = '<thead><tr>';
             
-            // Group headers
-            state.groupFields.forEach(group => {
-                headerHtml += `
-                    <th>
-                        <div class="th-sortable">
-                            ${group.name}
-                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M7 14l5-5 5 5H7z"/>
-                            </svg>
-                        </div>
-                    </th>
-                `;
-            });
+            // Toggle the clicked dropdown
+            const dropdown = button.nextElementSibling;
+            dropdown.classList.toggle('show');
+        }
 
-            // Column headers
-            state.columnFields.forEach(col => {
-                const headerName = col.prefix ? `${col.prefix} ${col.fullName}` : col.fullName;
-                headerHtml += `<th>${headerName}</th>`;
-            });
-
-            headerHtml += '</tr></thead>';
-
-            // Group data
-            const groupedData = groupData(rawData, primaryGroup.field, secondaryGroup ? secondaryGroup.field : null);
-
-            // Build body
-            let bodyHtml = '<tbody>';
-            let grandTotals = {};
-            state.columnFields.forEach(col => {
-                grandTotals[col.id] = { impressions: 0, clicks: 0 };
-            });
-
-            groupedData.forEach((group, groupIndex) => {
-                let subtotals = {};
-                state.columnFields.forEach(col => {
-                    subtotals[col.id] = { impressions: 0, clicks: 0 };
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!event.target.closest('.dropdown-container')) {
+                document.querySelectorAll('.dropdown-menu.show').forEach(menu => {
+                    menu.classList.remove('show');
                 });
-
-                group.items.forEach((item, itemIndex) => {
-                    bodyHtml += '<tr>';
-                    
-                    // Primary group cell
-                    if (itemIndex === 0) {
-                        bodyHtml += `<td class="cell-group">${group.key}</td>`;
-                    } else {
-                        bodyHtml += '<td></td>';
-                    }
-
-                    // Secondary group cell (if exists)
-                    if (secondaryGroup) {
-                        bodyHtml += `<td>${item.secondaryKey || item[secondaryGroup.field]}</td>`;
-                    }
-
-                    // Column values
-                    state.columnFields.forEach(col => {
-                        const value = calculateColumnValue(item, col.id);
-                        bodyHtml += `<td class="cell-number">${value}</td>`;
-
-                        // Accumulate for subtotals
-                        subtotals[col.id].impressions += item.impressions;
-                        subtotals[col.id].clicks += item.clicks;
-                    });
-
-                    bodyHtml += '</tr>';
-                });
-
-                // Subtotal row
-                if (state.showSubtotals && group.items.length > 0) {
-                    bodyHtml += '<tr class="row-subtotal">';
-                    bodyHtml += '<td></td>';
-                    if (secondaryGroup) {
-                        bodyHtml += '<td>Subtotal</td>';
-                    } else {
-                        bodyHtml += '<td>Subtotal</td>';
-                    }
-
-                    state.columnFields.forEach(col => {
-                        const subtotalValue = calculateSubtotalValue(subtotals[col.id], col.id);
-                        bodyHtml += `<td class="cell-number">${subtotalValue}</td>`;
-
-                        // Accumulate for grand totals
-                        grandTotals[col.id].impressions += subtotals[col.id].impressions;
-                        grandTotals[col.id].clicks += subtotals[col.id].clicks;
-                    });
-
-                    bodyHtml += '</tr>';
-                } else {
-                    // Still accumulate for grand totals even without subtotals displayed
-                    state.columnFields.forEach(col => {
-                        grandTotals[col.id].impressions += subtotals[col.id].impressions;
-                        grandTotals[col.id].clicks += subtotals[col.id].clicks;
-                    });
-                }
-            });
-
-            // Grand total row
-            if (state.showGrandTotal) {
-                bodyHtml += '<tr class="row-total">';
-                bodyHtml += '<td>Total</td>';
-                if (secondaryGroup) {
-                    bodyHtml += '<td></td>';
-                }
-
-                state.columnFields.forEach(col => {
-                    const grandTotalValue = calculateSubtotalValue(grandTotals[col.id], col.id);
-                    bodyHtml += `<td class="cell-number">${grandTotalValue}</td>`;
-                });
-
-                bodyHtml += '</tr>';
             }
-
-            bodyHtml += '</tbody>';
-
-            table.innerHTML = headerHtml + bodyHtml;
-        }
-
-        function groupData(data, primaryField, secondaryField) {
-            const groups = new Map();
-
-            data.forEach(item => {
-                const primaryKey = item[primaryField];
-                
-                if (!groups.has(primaryKey)) {
-                    groups.set(primaryKey, {
-                        key: primaryKey,
-                        items: []
-                    });
-                }
-
-                if (secondaryField) {
-                    groups.get(primaryKey).items.push({
-                        ...item,
-                        secondaryKey: item[secondaryField]
-                    });
-                } else {
-                    groups.get(primaryKey).items.push(item);
-                }
-            });
-
-            return Array.from(groups.values());
-        }
-
-        function calculateColumnValue(item, columnId) {
-            switch (columnId) {
-                case 'impressions':
-                    return formatNumber(item.impressions);
-                case 'clicks':
-                    return formatNumber(item.clicks);
-                case 'ctr':
-                    const ctr = item.impressions > 0 ? (item.clicks / item.impressions) * 100 : 0;
-                    return formatPercent(ctr);
-                default:
-                    return '-';
-            }
-        }
-
-        function calculateSubtotalValue(totals, columnId) {
-            switch (columnId) {
-                case 'impressions':
-                    return formatNumber(totals.impressions);
-                case 'clicks':
-                    return formatNumber(totals.clicks);
-                case 'ctr':
-                    const ctr = totals.impressions > 0 ? (totals.clicks / totals.impressions) * 100 : 0;
-                    return formatPercent(ctr);
-                default:
-                    return '-';
-            }
-        }
-
-        // =====================================================
-        // TOGGLE CONTROLS
-        // =====================================================
-
-        function setupToggles() {
-            const subtotalsToggle = document.getElementById('toggle-subtotals');
-            const grandTotalToggle = document.getElementById('toggle-grandtotal');
-
-            subtotalsToggle.addEventListener('click', () => {
-                subtotalsToggle.classList.toggle('active');
-                state.showSubtotals = subtotalsToggle.classList.contains('active');
-                renderPivotTable();
-            });
-
-            grandTotalToggle.addEventListener('click', () => {
-                grandTotalToggle.classList.toggle('active');
-                state.showGrandTotal = grandTotalToggle.classList.contains('active');
-                renderPivotTable();
-            });
-
-            // Other toggles (cosmetic only)
-            document.querySelectorAll('.toggle-switch, .toggle-small:not(#toggle-subtotals):not(#toggle-grandtotal)').forEach(toggle => {
-                toggle.addEventListener('click', function() {
-                    this.classList.toggle('active');
-                });
-            });
-        }
-
-        // =====================================================
-        // INITIALIZATION
-        // =====================================================
-
-        document.addEventListener('DOMContentLoaded', () => {
-            renderGroupFields();
-            renderColumnFields();
-            renderPivotTable();
-            setupColumnAutocomplete();
-            setupToggles();
         });
     </script>
 </body>
