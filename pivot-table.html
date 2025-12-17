@@ -497,6 +497,7 @@
             padding: 0 10px;
             height: 32px;
             margin-bottom: 8px;
+            position: relative;
         }
 
         .add-field-input input {
@@ -528,6 +529,45 @@
             margin-bottom: 6px;
             font-size: 12px;
             color: #181818;
+            cursor: grab;
+            user-select: none;
+            transition: background-color 0.15s, transform 0.15s, box-shadow 0.15s;
+        }
+
+        .field-tag:hover {
+            background-color: #e5e5e5;
+        }
+
+        .field-tag.dragging {
+            opacity: 0.5;
+            background-color: #d6e6ff;
+        }
+
+        .field-tag.drag-over {
+            border: 2px dashed #2466de;
+            background-color: #eef4ff;
+        }
+
+        .field-tag-content {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .field-tag-content span {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .drag-handle {
+            width: 12px;
+            height: 12px;
+            fill: #706e6b;
+            cursor: grab;
+            flex-shrink: 0;
         }
 
         .field-tag-close {
@@ -535,6 +575,11 @@
             height: 14px;
             fill: #706e6b;
             cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .field-tag-close:hover {
+            fill: #181818;
         }
 
         .columns-section {
@@ -583,11 +628,62 @@
             color: #181818;
         }
 
-        .field-tag-blue::before {
-            content: '#';
+        .field-tag-blue .field-prefix {
             color: #2466de;
             font-weight: 700;
             margin-right: 4px;
+        }
+
+        /* Autocomplete dropdown */
+        .autocomplete-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background-color: #ffffff;
+            border: 1px solid #c9c9c9;
+            border-top: none;
+            border-radius: 0 0 4px 4px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+        }
+
+        .autocomplete-dropdown.show {
+            display: block;
+        }
+
+        .autocomplete-item {
+            padding: 8px 12px;
+            font-size: 12px;
+            color: #181818;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .autocomplete-item:hover {
+            background-color: #f3f3f3;
+        }
+
+        .autocomplete-item.selected {
+            background-color: #d6e6ff;
+        }
+
+        .autocomplete-item .field-type {
+            font-size: 10px;
+            color: #706e6b;
+            background-color: #f3f3f3;
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+
+        .autocomplete-item .field-type.calculated {
+            background-color: #e8f4e8;
+            color: #036764;
         }
 
         /* Main Report Area */
@@ -865,6 +961,20 @@
             color: #706e6b;
             padding: 8px 4px;
         }
+
+        /* Drag placeholder */
+        .drag-placeholder {
+            height: 32px;
+            border: 2px dashed #2466de;
+            border-radius: 4px;
+            background-color: #eef4ff;
+            margin-bottom: 6px;
+        }
+
+        /* Column input wrapper */
+        .column-input-wrapper {
+            position: relative;
+        }
     </style>
 </head>
 <body>
@@ -1060,17 +1170,8 @@
                             <path d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
                         </svg>
                     </div>
-                    <div class="field-tag">
-                        <span>Unified Date</span>
-                        <svg class="field-tag-close" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
-                        </svg>
-                    </div>
-                    <div class="field-tag">
-                        <span>Campaign Object: Campaign Nam...</span>
-                        <svg class="field-tag-close" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
-                        </svg>
+                    <div id="group-fields-container">
+                        <!-- Group fields will be rendered here -->
                     </div>
                 </div>
 
@@ -1083,23 +1184,19 @@
                             </svg>
                         </div>
                     </div>
-                    <div class="add-field-input">
-                        <input type="text" placeholder="Add column...">
-                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
-                        </svg>
+                    <div class="column-input-wrapper">
+                        <div class="add-field-input">
+                            <input type="text" id="column-search-input" placeholder="Add column..." autocomplete="off">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                            </svg>
+                        </div>
+                        <div class="autocomplete-dropdown" id="column-autocomplete">
+                            <!-- Autocomplete items will be rendered here -->
+                        </div>
                     </div>
-                    <div class="field-tag-blue">
-                        <span>Marketing Intelligence Union: Im...</span>
-                        <svg class="field-tag-close" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
-                        </svg>
-                    </div>
-                    <div class="field-tag-blue">
-                        <span>Marketing Intelligence Union: Cl...</span>
-                        <svg class="field-tag-close" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
-                        </svg>
+                    <div id="column-fields-container">
+                        <!-- Column fields will be rendered here -->
                     </div>
                 </div>
             </div>
@@ -1118,148 +1215,8 @@
                 </div>
 
                 <div class="pivot-table-container">
-                    <table class="pivot-table">
-                        <thead>
-                            <tr>
-                                <th>
-                                    <div class="th-sortable">
-                                        Unified Date
-                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M7 14l5-5 5 5H7z"/>
-                                        </svg>
-                                    </div>
-                                </th>
-                                <th>
-                                    <div class="th-sortable">
-                                        Campaign Object: Campaign Name
-                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M7 14l5-5 5 5H7z"/>
-                                        </svg>
-                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M7 10l5 5 5-5H7z"/>
-                                        </svg>
-                                    </div>
-                                </th>
-                                <th>Sum of Marketing Intelligence Union: Impressions</th>
-                                <th>Sum of Marketing Intelligence Union: Clicks</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td class="cell-group">11/25/2025</td>
-                                <td>APAC_IN_INMB_MB_NTO-TrekkingPoles_ProductUpdate_Q4_LI_NA_customer...</td>
-                                <td class="cell-number">56,151.00</td>
-                                <td class="cell-number">432.00</td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td>APAC_JP_JPTK_TK_NTO-RainGear_Evergreen_Evergreen_YT_NA_brand-awar...</td>
-                                <td class="cell-number">2,268.00</td>
-                                <td class="cell-number">18.00</td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td>EMEA_DE_DEBE_BE_NTO-Gloves_Evergreen_Evergreen_FB_NA_product-con...</td>
-                                <td class="cell-number">9,450.00</td>
-                                <td class="cell-number">72.00</td>
-                            </tr>
-                            <tr class="row-subtotal">
-                                <td></td>
-                                <td>Subtotal</td>
-                                <td class="cell-number">67,869.00</td>
-                                <td class="cell-number">522.00</td>
-                            </tr>
-                            <tr>
-                                <td class="cell-group">11/26/2025</td>
-                                <td>EMEA_UK_GBLO_LN_NTO-Jackets_Evergreen_Evergreen_LI_NA_portfolio-aw...</td>
-                                <td class="cell-number">4,491.00</td>
-                                <td class="cell-number">19.00</td>
-                            </tr>
-                            <tr class="row-subtotal">
-                                <td></td>
-                                <td>Subtotal</td>
-                                <td class="cell-number">4,491.00</td>
-                                <td class="cell-number">19.00</td>
-                            </tr>
-                            <tr>
-                                <td class="cell-group">11/27/2025</td>
-                                <td>AMER_CA_CATO_TR_NTO-HikingBoots_Event_IntegrationSummit_GAds_NA_...</td>
-                                <td class="cell-number">18,969.00</td>
-                                <td class="cell-number">162.00</td>
-                            </tr>
-                            <tr class="row-subtotal">
-                                <td></td>
-                                <td>Subtotal</td>
-                                <td class="cell-number">18,969.00</td>
-                                <td class="cell-number">162.00</td>
-                            </tr>
-                            <tr>
-                                <td class="cell-group">11/28/2025</td>
-                                <td>AMER_MX_MXMC_MC_NTO-Tents_Seasonal_SummerCampaign_GAds_NA_a...</td>
-                                <td class="cell-number">1,359.00</td>
-                                <td class="cell-number">18.00</td>
-                            </tr>
-                            <tr class="row-subtotal">
-                                <td></td>
-                                <td>Subtotal</td>
-                                <td class="cell-number">1,359.00</td>
-                                <td class="cell-number">18.00</td>
-                            </tr>
-                            <tr>
-                                <td class="cell-group">11/29/2025</td>
-                                <td>EMEA_FR_FRPA_PA_NTO-SleepingBags_Event_WorldTour_LNKD_NA_event-r...</td>
-                                <td class="cell-number">19,944.00</td>
-                                <td class="cell-number">108.00</td>
-                            </tr>
-                            <tr class="row-subtotal">
-                                <td></td>
-                                <td>Subtotal</td>
-                                <td class="cell-number">19,944.00</td>
-                                <td class="cell-number">108.00</td>
-                            </tr>
-                            <tr>
-                                <td class="cell-group">11/30/2025</td>
-                                <td>LATAM_BR_BRSP_SP_NTO-TrailShoes_ProductLaunch_Q3_FB_NA_conversio...</td>
-                                <td class="cell-number">8,730.00</td>
-                                <td class="cell-number">45.00</td>
-                            </tr>
-                            <tr class="row-subtotal">
-                                <td></td>
-                                <td>Subtotal</td>
-                                <td class="cell-number">8,730.00</td>
-                                <td class="cell-number">45.00</td>
-                            </tr>
-                            <tr>
-                                <td class="cell-group">12/01/2025</td>
-                                <td>APAC_AU_AUSY_SY_NTO-Backpacks_Seasonal_Q2_MSFT_NA_midfunnel-nu...</td>
-                                <td class="cell-number">4,950.00</td>
-                                <td class="cell-number">36.00</td>
-                            </tr>
-                            <tr class="row-subtotal">
-                                <td></td>
-                                <td>Subtotal</td>
-                                <td class="cell-number">4,950.00</td>
-                                <td class="cell-number">36.00</td>
-                            </tr>
-                            <tr>
-                                <td class="cell-group">12/02/2025</td>
-                                <td>AMER_US_USNY_NY_NTO-Fleece_Promo_BlackFriday_GAds_NA_promo-eng...</td>
-                                <td class="cell-number">67,860.00</td>
-                                <td class="cell-number">315.00</td>
-                            </tr>
-                            <tr class="row-subtotal">
-                                <td></td>
-                                <td>Subtotal</td>
-                                <td class="cell-number">67,860.00</td>
-                                <td class="cell-number">315.00</td>
-                            </tr>
-                            <tr class="row-total">
-                                <td>Total</td>
-                                <td></td>
-                                <td class="cell-number">194,172.00</td>
-                                <td class="cell-number">1,225.00</td>
-                            </tr>
-                        </tbody>
+                    <table class="pivot-table" id="pivot-table">
+                        <!-- Table will be rendered by JavaScript -->
                     </table>
                 </div>
 
@@ -1275,11 +1232,11 @@
                         </div>
                         <div class="toggle-control">
                             <span>Subtotals</span>
-                            <div class="toggle-small active"></div>
+                            <div class="toggle-small active" id="toggle-subtotals"></div>
                         </div>
                         <div class="toggle-control">
                             <span>Grand Total</span>
-                            <div class="toggle-small active"></div>
+                            <div class="toggle-small active" id="toggle-grandtotal"></div>
                         </div>
                     </div>
                     <div class="conditional-formatting">
@@ -1301,11 +1258,494 @@
     </div>
 
     <script>
-        // Toggle switches
-        document.querySelectorAll('.toggle-switch, .toggle-small').forEach(toggle => {
-            toggle.addEventListener('click', function() {
-                this.classList.toggle('active');
+        // =====================================================
+        // DATA & STATE
+        // =====================================================
+        
+        // Raw data for the pivot table
+        const rawData = [
+            { date: '11/25/2025', campaign: 'APAC_IN_INMB_MB_NTO-TrekkingPoles_ProductUpdate_Q4_LI_NA_customer...', impressions: 56151, clicks: 432 },
+            { date: '11/25/2025', campaign: 'APAC_JP_JPTK_TK_NTO-RainGear_Evergreen_Evergreen_YT_NA_brand-awar...', impressions: 2268, clicks: 18 },
+            { date: '11/25/2025', campaign: 'EMEA_DE_DEBE_BE_NTO-Gloves_Evergreen_Evergreen_FB_NA_product-con...', impressions: 9450, clicks: 72 },
+            { date: '11/26/2025', campaign: 'EMEA_UK_GBLO_LN_NTO-Jackets_Evergreen_Evergreen_LI_NA_portfolio-aw...', impressions: 4491, clicks: 19 },
+            { date: '11/27/2025', campaign: 'AMER_CA_CATO_TR_NTO-HikingBoots_Event_IntegrationSummit_GAds_NA_...', impressions: 18969, clicks: 162 },
+            { date: '11/28/2025', campaign: 'AMER_MX_MXMC_MC_NTO-Tents_Seasonal_SummerCampaign_GAds_NA_a...', impressions: 1359, clicks: 18 },
+            { date: '11/29/2025', campaign: 'EMEA_FR_FRPA_PA_NTO-SleepingBags_Event_WorldTour_LNKD_NA_event-r...', impressions: 19944, clicks: 108 },
+            { date: '11/30/2025', campaign: 'LATAM_BR_BRSP_SP_NTO-TrailShoes_ProductLaunch_Q3_FB_NA_conversio...', impressions: 8730, clicks: 45 },
+            { date: '12/01/2025', campaign: 'APAC_AU_AUSY_SY_NTO-Backpacks_Seasonal_Q2_MSFT_NA_midfunnel-nu...', impressions: 4950, clicks: 36 },
+            { date: '12/02/2025', campaign: 'AMER_US_USNY_NY_NTO-Fleece_Promo_BlackFriday_GAds_NA_promo-eng...', impressions: 67860, clicks: 315 }
+        ];
+
+        // Available columns for the autocomplete
+        const availableColumns = [
+            { id: 'impressions', name: 'Marketing Intelligence Union: Impressions', type: 'measure', prefix: 'Sum of' },
+            { id: 'clicks', name: 'Marketing Intelligence Union: Clicks', type: 'measure', prefix: 'Sum of' },
+            { id: 'ctr', name: 'CTR (Click-Through Rate)', type: 'calculated', prefix: '' },
+            { id: 'cpc', name: 'CPC (Cost Per Click)', type: 'calculated', prefix: '' },
+            { id: 'cpm', name: 'CPM (Cost Per Mille)', type: 'calculated', prefix: '' },
+            { id: 'reach', name: 'Marketing Intelligence Union: Reach', type: 'measure', prefix: 'Sum of' },
+            { id: 'frequency', name: 'Marketing Intelligence Union: Frequency', type: 'measure', prefix: 'Avg of' },
+            { id: 'spend', name: 'Marketing Intelligence Union: Spend', type: 'measure', prefix: 'Sum of' },
+            { id: 'conversions', name: 'Marketing Intelligence Union: Conversions', type: 'measure', prefix: 'Sum of' }
+        ];
+
+        // State management
+        let state = {
+            groupFields: [
+                { id: 'date', name: 'Unified Date', field: 'date' },
+                { id: 'campaign', name: 'Campaign Object: Campaign Nam...', field: 'campaign' }
+            ],
+            columnFields: [
+                { id: 'impressions', name: 'Marketing Intelligence Union: Im...', fullName: 'Marketing Intelligence Union: Impressions', prefix: 'Sum of' },
+                { id: 'clicks', name: 'Marketing Intelligence Union: Cl...', fullName: 'Marketing Intelligence Union: Clicks', prefix: 'Sum of' }
+            ],
+            showSubtotals: true,
+            showGrandTotal: true
+        };
+
+        // Drag state
+        let dragState = {
+            draggedElement: null,
+            draggedIndex: null
+        };
+
+        // =====================================================
+        // UTILITY FUNCTIONS
+        // =====================================================
+
+        function formatNumber(num) {
+            return num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+
+        function formatPercent(num) {
+            return num.toFixed(2) + '%';
+        }
+
+        function truncateText(text, maxLength = 40) {
+            if (text.length <= maxLength) return text;
+            return text.substring(0, maxLength) + '...';
+        }
+
+        // =====================================================
+        // GROUP FIELDS RENDERING & DRAG-DROP
+        // =====================================================
+
+        function renderGroupFields() {
+            const container = document.getElementById('group-fields-container');
+            container.innerHTML = '';
+
+            state.groupFields.forEach((field, index) => {
+                const tag = document.createElement('div');
+                tag.className = 'field-tag';
+                tag.draggable = true;
+                tag.dataset.index = index;
+
+                tag.innerHTML = `
+                    <div class="field-tag-content">
+                        <svg class="drag-handle" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M11 18c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2 2 .9 2 2zm-2-8c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0-6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm6 4c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+                        </svg>
+                        <span>${field.name}</span>
+                    </div>
+                    <svg class="field-tag-close" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" onclick="removeGroupField(${index})">
+                        <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                    </svg>
+                `;
+
+                // Drag events
+                tag.addEventListener('dragstart', handleDragStart);
+                tag.addEventListener('dragend', handleDragEnd);
+                tag.addEventListener('dragover', handleDragOver);
+                tag.addEventListener('dragenter', handleDragEnter);
+                tag.addEventListener('dragleave', handleDragLeave);
+                tag.addEventListener('drop', handleDrop);
+
+                container.appendChild(tag);
             });
+        }
+
+        function handleDragStart(e) {
+            dragState.draggedElement = this;
+            dragState.draggedIndex = parseInt(this.dataset.index);
+            this.classList.add('dragging');
+            e.dataTransfer.effectAllowed = 'move';
+            e.dataTransfer.setData('text/plain', this.dataset.index);
+        }
+
+        function handleDragEnd(e) {
+            this.classList.remove('dragging');
+            document.querySelectorAll('.field-tag').forEach(tag => {
+                tag.classList.remove('drag-over');
+            });
+            dragState.draggedElement = null;
+            dragState.draggedIndex = null;
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+        }
+
+        function handleDragEnter(e) {
+            e.preventDefault();
+            if (this !== dragState.draggedElement) {
+                this.classList.add('drag-over');
+            }
+        }
+
+        function handleDragLeave(e) {
+            this.classList.remove('drag-over');
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            this.classList.remove('drag-over');
+
+            const fromIndex = dragState.draggedIndex;
+            const toIndex = parseInt(this.dataset.index);
+
+            if (fromIndex !== toIndex) {
+                // Reorder the array
+                const [removed] = state.groupFields.splice(fromIndex, 1);
+                state.groupFields.splice(toIndex, 0, removed);
+
+                // Re-render
+                renderGroupFields();
+                renderPivotTable();
+            }
+        }
+
+        function removeGroupField(index) {
+            if (state.groupFields.length > 1) {
+                state.groupFields.splice(index, 1);
+                renderGroupFields();
+                renderPivotTable();
+            }
+        }
+
+        // =====================================================
+        // COLUMN FIELDS RENDERING & AUTOCOMPLETE
+        // =====================================================
+
+        function renderColumnFields() {
+            const container = document.getElementById('column-fields-container');
+            container.innerHTML = '';
+
+            state.columnFields.forEach((field, index) => {
+                const tag = document.createElement('div');
+                tag.className = 'field-tag-blue';
+                tag.innerHTML = `
+                    <div style="display: flex; align-items: center; flex: 1; min-width: 0;">
+                        <span class="field-prefix">#</span>
+                        <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${field.name}</span>
+                    </div>
+                    <svg class="field-tag-close" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" onclick="removeColumnField(${index})">
+                        <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                    </svg>
+                `;
+                container.appendChild(tag);
+            });
+        }
+
+        function removeColumnField(index) {
+            if (state.columnFields.length > 1) {
+                state.columnFields.splice(index, 1);
+                renderColumnFields();
+                renderPivotTable();
+            }
+        }
+
+        function setupColumnAutocomplete() {
+            const input = document.getElementById('column-search-input');
+            const dropdown = document.getElementById('column-autocomplete');
+
+            input.addEventListener('focus', () => {
+                showAutocomplete('');
+            });
+
+            input.addEventListener('input', (e) => {
+                showAutocomplete(e.target.value);
+            });
+
+            input.addEventListener('blur', () => {
+                // Delay to allow click on dropdown item
+                setTimeout(() => {
+                    dropdown.classList.remove('show');
+                }, 200);
+            });
+
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    dropdown.classList.remove('show');
+                    input.blur();
+                }
+            });
+        }
+
+        function showAutocomplete(searchTerm) {
+            const dropdown = document.getElementById('column-autocomplete');
+            const searchLower = searchTerm.toLowerCase();
+
+            // Filter available columns that aren't already added
+            const addedIds = state.columnFields.map(f => f.id);
+            const filteredColumns = availableColumns.filter(col => 
+                !addedIds.includes(col.id) && 
+                (col.name.toLowerCase().includes(searchLower) || col.id.toLowerCase().includes(searchLower))
+            );
+
+            if (filteredColumns.length === 0) {
+                dropdown.classList.remove('show');
+                return;
+            }
+
+            dropdown.innerHTML = filteredColumns.map(col => `
+                <div class="autocomplete-item" onclick="addColumnField('${col.id}')">
+                    <span>${col.name}</span>
+                    <span class="field-type ${col.type === 'calculated' ? 'calculated' : ''}">${col.type === 'calculated' ? 'Calculated' : 'Measure'}</span>
+                </div>
+            `).join('');
+
+            dropdown.classList.add('show');
+        }
+
+        function addColumnField(columnId) {
+            const column = availableColumns.find(c => c.id === columnId);
+            if (column) {
+                state.columnFields.push({
+                    id: column.id,
+                    name: truncateText(column.name, 35),
+                    fullName: column.name,
+                    prefix: column.prefix
+                });
+                renderColumnFields();
+                renderPivotTable();
+            }
+
+            // Clear input and hide dropdown
+            document.getElementById('column-search-input').value = '';
+            document.getElementById('column-autocomplete').classList.remove('show');
+        }
+
+        // =====================================================
+        // PIVOT TABLE RENDERING
+        // =====================================================
+
+        function renderPivotTable() {
+            const table = document.getElementById('pivot-table');
+            const primaryGroup = state.groupFields[0];
+            const secondaryGroup = state.groupFields.length > 1 ? state.groupFields[1] : null;
+
+            // Build header
+            let headerHtml = '<thead><tr>';
+            
+            // Group headers
+            state.groupFields.forEach(group => {
+                headerHtml += `
+                    <th>
+                        <div class="th-sortable">
+                            ${group.name}
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M7 14l5-5 5 5H7z"/>
+                            </svg>
+                        </div>
+                    </th>
+                `;
+            });
+
+            // Column headers
+            state.columnFields.forEach(col => {
+                const headerName = col.prefix ? `${col.prefix} ${col.fullName}` : col.fullName;
+                headerHtml += `<th>${headerName}</th>`;
+            });
+
+            headerHtml += '</tr></thead>';
+
+            // Group data
+            const groupedData = groupData(rawData, primaryGroup.field, secondaryGroup ? secondaryGroup.field : null);
+
+            // Build body
+            let bodyHtml = '<tbody>';
+            let grandTotals = {};
+            state.columnFields.forEach(col => {
+                grandTotals[col.id] = { impressions: 0, clicks: 0 };
+            });
+
+            groupedData.forEach((group, groupIndex) => {
+                let subtotals = {};
+                state.columnFields.forEach(col => {
+                    subtotals[col.id] = { impressions: 0, clicks: 0 };
+                });
+
+                group.items.forEach((item, itemIndex) => {
+                    bodyHtml += '<tr>';
+                    
+                    // Primary group cell
+                    if (itemIndex === 0) {
+                        bodyHtml += `<td class="cell-group">${group.key}</td>`;
+                    } else {
+                        bodyHtml += '<td></td>';
+                    }
+
+                    // Secondary group cell (if exists)
+                    if (secondaryGroup) {
+                        bodyHtml += `<td>${item.secondaryKey || item[secondaryGroup.field]}</td>`;
+                    }
+
+                    // Column values
+                    state.columnFields.forEach(col => {
+                        const value = calculateColumnValue(item, col.id);
+                        bodyHtml += `<td class="cell-number">${value}</td>`;
+
+                        // Accumulate for subtotals
+                        subtotals[col.id].impressions += item.impressions;
+                        subtotals[col.id].clicks += item.clicks;
+                    });
+
+                    bodyHtml += '</tr>';
+                });
+
+                // Subtotal row
+                if (state.showSubtotals && group.items.length > 0) {
+                    bodyHtml += '<tr class="row-subtotal">';
+                    bodyHtml += '<td></td>';
+                    if (secondaryGroup) {
+                        bodyHtml += '<td>Subtotal</td>';
+                    } else {
+                        bodyHtml += '<td>Subtotal</td>';
+                    }
+
+                    state.columnFields.forEach(col => {
+                        const subtotalValue = calculateSubtotalValue(subtotals[col.id], col.id);
+                        bodyHtml += `<td class="cell-number">${subtotalValue}</td>`;
+
+                        // Accumulate for grand totals
+                        grandTotals[col.id].impressions += subtotals[col.id].impressions;
+                        grandTotals[col.id].clicks += subtotals[col.id].clicks;
+                    });
+
+                    bodyHtml += '</tr>';
+                } else {
+                    // Still accumulate for grand totals even without subtotals displayed
+                    state.columnFields.forEach(col => {
+                        grandTotals[col.id].impressions += subtotals[col.id].impressions;
+                        grandTotals[col.id].clicks += subtotals[col.id].clicks;
+                    });
+                }
+            });
+
+            // Grand total row
+            if (state.showGrandTotal) {
+                bodyHtml += '<tr class="row-total">';
+                bodyHtml += '<td>Total</td>';
+                if (secondaryGroup) {
+                    bodyHtml += '<td></td>';
+                }
+
+                state.columnFields.forEach(col => {
+                    const grandTotalValue = calculateSubtotalValue(grandTotals[col.id], col.id);
+                    bodyHtml += `<td class="cell-number">${grandTotalValue}</td>`;
+                });
+
+                bodyHtml += '</tr>';
+            }
+
+            bodyHtml += '</tbody>';
+
+            table.innerHTML = headerHtml + bodyHtml;
+        }
+
+        function groupData(data, primaryField, secondaryField) {
+            const groups = new Map();
+
+            data.forEach(item => {
+                const primaryKey = item[primaryField];
+                
+                if (!groups.has(primaryKey)) {
+                    groups.set(primaryKey, {
+                        key: primaryKey,
+                        items: []
+                    });
+                }
+
+                if (secondaryField) {
+                    groups.get(primaryKey).items.push({
+                        ...item,
+                        secondaryKey: item[secondaryField]
+                    });
+                } else {
+                    groups.get(primaryKey).items.push(item);
+                }
+            });
+
+            return Array.from(groups.values());
+        }
+
+        function calculateColumnValue(item, columnId) {
+            switch (columnId) {
+                case 'impressions':
+                    return formatNumber(item.impressions);
+                case 'clicks':
+                    return formatNumber(item.clicks);
+                case 'ctr':
+                    const ctr = item.impressions > 0 ? (item.clicks / item.impressions) * 100 : 0;
+                    return formatPercent(ctr);
+                default:
+                    return '-';
+            }
+        }
+
+        function calculateSubtotalValue(totals, columnId) {
+            switch (columnId) {
+                case 'impressions':
+                    return formatNumber(totals.impressions);
+                case 'clicks':
+                    return formatNumber(totals.clicks);
+                case 'ctr':
+                    const ctr = totals.impressions > 0 ? (totals.clicks / totals.impressions) * 100 : 0;
+                    return formatPercent(ctr);
+                default:
+                    return '-';
+            }
+        }
+
+        // =====================================================
+        // TOGGLE CONTROLS
+        // =====================================================
+
+        function setupToggles() {
+            const subtotalsToggle = document.getElementById('toggle-subtotals');
+            const grandTotalToggle = document.getElementById('toggle-grandtotal');
+
+            subtotalsToggle.addEventListener('click', () => {
+                subtotalsToggle.classList.toggle('active');
+                state.showSubtotals = subtotalsToggle.classList.contains('active');
+                renderPivotTable();
+            });
+
+            grandTotalToggle.addEventListener('click', () => {
+                grandTotalToggle.classList.toggle('active');
+                state.showGrandTotal = grandTotalToggle.classList.contains('active');
+                renderPivotTable();
+            });
+
+            // Other toggles (cosmetic only)
+            document.querySelectorAll('.toggle-switch, .toggle-small:not(#toggle-subtotals):not(#toggle-grandtotal)').forEach(toggle => {
+                toggle.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                });
+            });
+        }
+
+        // =====================================================
+        // INITIALIZATION
+        // =====================================================
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderGroupFields();
+            renderColumnFields();
+            renderPivotTable();
+            setupColumnAutocomplete();
+            setupToggles();
         });
     </script>
 </body>
