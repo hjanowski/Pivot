@@ -676,6 +676,562 @@
             height: 16px;
             fill: #0176d3;
         }
+
+        /* Modal Styles */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.4);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal-dialog {
+            background-color: #ffffff;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 1000px;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px 24px;
+            border-bottom: 1px solid #e5e5e5;
+            position: relative;
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 400;
+            color: #03234d;
+        }
+
+        .modal-close-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: #0176d3;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            flex-shrink: 0;
+            position: absolute;
+            right: 24px;
+        }
+
+        .modal-close-btn:hover {
+            background-color: #014486;
+        }
+
+        .modal-close-btn svg {
+            width: 16px;
+            height: 16px;
+            fill: #ffffff;
+        }
+
+        .modal-body {
+            padding: 24px 24px 20px 24px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .modal-search {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #e5e5e5;
+            border-radius: 4px;
+            font-size: 13px;
+            margin-bottom: 20px;
+            outline: none;
+            color: #5c5c5c;
+        }
+
+        .modal-search::placeholder {
+            color: #5c5c5c;
+        }
+
+        .data-space-section {
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .data-space-label {
+            font-size: 13px;
+            color: #5c5c5c;
+            font-weight: 400;
+        }
+
+        .data-space-tag {
+            display: inline-block;
+            padding: 4px 12px;
+            background-color: #cfe9fe;
+            color: #0d6990;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 400;
+        }
+
+        .vendors-section {
+            margin-top: 24px;
+        }
+
+        .vendors-heading {
+            font-size: 13px;
+            font-weight: 700;
+            color: #5c5c5c;
+            margin-bottom: 16px;
+        }
+
+        .vendor-tiles {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 16px;
+        }
+
+        .vendor-tile {
+            border: 1px solid #e5e5e5;
+            border-radius: 8px;
+            padding: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+            background-color: #ffffff;
+        }
+
+        .vendor-tile:hover {
+            border-color: #0176d3;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .vendor-tile-content {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .vendor-icon {
+            width: 40px;
+            height: 40px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+        }
+
+        .vendor-icon svg {
+            width: 32px;
+            height: 32px;
+        }
+
+        .vendor-info {
+            flex: 1;
+        }
+
+        .vendor-name {
+            font-size: 14px;
+            font-weight: 700;
+            color: #5c5c5c;
+            margin-bottom: 6px;
+        }
+
+        .vendor-description {
+            font-size: 13px;
+            color: #5c5c5c;
+            line-height: 1.5;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            padding: 16px 24px;
+            border-top: 1px solid #e5e5e5;
+        }
+
+        .modal-btn {
+            padding: 8px 20px;
+            font-size: 13px;
+            font-weight: 700;
+            border-radius: 20px;
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .modal-btn-cancel {
+            background-color: #ffffff;
+            color: #5c5c5c;
+            border-color: #c9c9c9;
+        }
+
+        .modal-btn-cancel:hover {
+            background-color: #f3f3f3;
+        }
+
+        .modal-btn-next {
+            background-color: #0c6afe;
+            color: #ffffff;
+        }
+
+        .modal-btn-next:hover {
+            background-color: #0a5ae0;
+        }
+
+        /* Connection Phase Styles */
+        .modal-phase {
+            display: none;
+        }
+
+        .modal-phase.active {
+            display: block;
+        }
+
+        .connection-section {
+            margin-bottom: 24px;
+        }
+
+        .connection-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .connection-dropdown {
+            flex: 1;
+            position: relative;
+        }
+
+        .connection-select {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #e5e5e5;
+            border-radius: 4px;
+            font-size: 13px;
+            color: #5c5c5c;
+            background-color: #ffffff;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%235c5c5c' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            padding-right: 32px;
+            cursor: pointer;
+        }
+
+        .btn-new-connection {
+            padding: 8px 16px;
+            font-size: 13px;
+            font-weight: 400;
+            color: #5c5c5c;
+            background-color: #ffffff;
+            border: 1px solid #e5e5e5;
+            border-radius: 4px;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .btn-new-connection:hover {
+            background-color: #f3f3f3;
+        }
+
+        .section-divider {
+            height: 1px;
+            background-color: #e5e5e5;
+            margin: 24px 0;
+        }
+
+        .connection-details-section {
+            margin-top: 24px;
+        }
+
+        .connection-details-heading {
+            font-size: 13px;
+            font-weight: 700;
+            color: #5c5c5c;
+            margin-bottom: 8px;
+        }
+
+        .connection-details-description {
+            font-size: 13px;
+            color: #5c5c5c;
+            margin-bottom: 20px;
+        }
+
+        .form-field {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 13px;
+            color: #5c5c5c;
+            margin-bottom: 8px;
+            font-weight: 400;
+        }
+
+        .form-label .required {
+            color: #d0021b;
+            margin-left: 2px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #e5e5e5;
+            border-radius: 4px;
+            font-size: 13px;
+            color: #5c5c5c;
+            outline: none;
+            box-sizing: border-box;
+            background-color: #ffffff;
+        }
+
+        .form-input:focus {
+            border-color: #0176d3;
+        }
+
+        select.form-input {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%235c5c5c' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            padding-right: 32px;
+            cursor: pointer;
+        }
+
+        .auth-options {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .auth-option-btn {
+            padding: 8px 16px;
+            font-size: 13px;
+            font-weight: 400;
+            border-radius: 20px;
+            cursor: pointer;
+            border: 1px solid #e5e5e5;
+            transition: all 0.2s;
+        }
+
+        .auth-option-btn.selected {
+            background-color: #0c6afe;
+            color: #ffffff;
+            border-color: #0c6afe;
+        }
+
+        .auth-option-btn:not(.selected) {
+            background-color: #ffffff;
+            color: #0c6afe;
+            border-color: #e5e5e5;
+        }
+
+        .auth-option-btn:not(.selected):hover {
+            background-color: #f3f3f3;
+        }
+
+        .info-icon {
+            display: inline-flex;
+            align-items: center;
+            margin-left: 8px;
+            cursor: pointer;
+        }
+
+        .info-icon svg {
+            width: 16px;
+            height: 16px;
+            fill: #0176d3;
+        }
+
+        .modal-btn-previous {
+            background-color: #ffffff;
+            color: #0c6afe;
+            border-color: transparent;
+            padding: 8px 20px;
+            font-size: 13px;
+            font-weight: 700;
+            border-radius: 20px;
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .modal-btn-previous:hover {
+            background-color: #f3f3f3;
+        }
+
+        /* Vendor-specific form sections */
+        .vendor-form-section {
+            display: none;
+        }
+
+        .vendor-form-section.active {
+            display: block;
+        }
+
+        .credentials-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .credentials-input {
+            flex: 1;
+        }
+
+        .btn-add-new {
+            padding: 8px 16px;
+            font-size: 13px;
+            font-weight: 400;
+            color: #0c6afe;
+            background-color: #ffffff;
+            border: 1px solid #0c6afe;
+            border-radius: 4px;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .btn-add-new:hover {
+            background-color: #f3f3f3;
+        }
+
+        /* File Details Phase Styles */
+        .vendor-header-section {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .vendor-header-icon {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            flex-shrink: 0;
+        }
+
+        .vendor-header-icon svg {
+            width: 40px;
+            height: 40px;
+        }
+
+        .vendor-header-info {
+            flex: 1;
+        }
+
+        .vendor-header-name {
+            font-size: 16px;
+            font-weight: 700;
+            color: #5c5c5c;
+            margin-bottom: 4px;
+        }
+
+        .vendor-header-description {
+            font-size: 13px;
+            color: #5c5c5c;
+        }
+
+        .radio-options {
+            display: flex;
+            gap: 16px;
+            margin-top: 8px;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .radio-option input[type="radio"] {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+            accent-color: #0c6afe;
+        }
+
+        .radio-option label {
+            font-size: 13px;
+            color: #5c5c5c;
+            cursor: pointer;
+            margin: 0;
+            font-weight: 400;
+        }
+
+        .checkbox-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .checkbox-option input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+            accent-color: #0c6afe;
+        }
+
+        .checkbox-option label {
+            font-size: 13px;
+            color: #5c5c5c;
+            cursor: pointer;
+            margin: 0;
+            font-weight: 400;
+        }
+
+        /* Schedule Phase Styles */
+        .schedule-section {
+            margin-top: 24px;
+        }
+
+        .schedule-heading {
+            font-size: 13px;
+            font-weight: 700;
+            color: #5c5c5c;
+            margin-bottom: 4px;
+        }
+
+        .schedule-subtitle {
+            font-size: 13px;
+            color: #5c5c5c;
+            margin-bottom: 20px;
+        }
+
+        .modal-btn-deploy {
+            background-color: #0c6afe;
+            color: #ffffff;
+        }
+
+        .modal-btn-deploy:hover {
+            background-color: #0a5ae0;
+        }
     </style>
 </head>
 <body>
@@ -1032,6 +1588,7 @@
                                             <a href="#" class="dropdown-item dropdown-item-header">Pipeline Details</a>
                                             <a href="#" class="dropdown-item">Process Log</a>
                                             <a href="#" class="dropdown-item">Delete</a>
+                                            <a href="#" class="dropdown-item">Automate Retrieval</a>
                                             <a href="#" class="dropdown-item">Reprocess</a>
                                             <a href="#" class="dropdown-item">Run Schedule</a>
                                             <a href="#" class="dropdown-item">Deactivate</a>
@@ -1075,6 +1632,7 @@
                                             <a href="#" class="dropdown-item dropdown-item-header">Pipeline Details</a>
                                             <a href="#" class="dropdown-item">Process Log</a>
                                             <a href="#" class="dropdown-item">Delete</a>
+                                            <a href="#" class="dropdown-item">Automate Retrieval</a>
                                             <a href="#" class="dropdown-item">Reprocess</a>
                                             <a href="#" class="dropdown-item">Run Schedule</a>
                                             <a href="#" class="dropdown-item">Deactivate</a>
@@ -1118,6 +1676,7 @@
                                             <a href="#" class="dropdown-item dropdown-item-header">Pipeline Details</a>
                                             <a href="#" class="dropdown-item">Process Log</a>
                                             <a href="#" class="dropdown-item">Delete</a>
+                                            <a href="#" class="dropdown-item">Automate Retrieval</a>
                                             <a href="#" class="dropdown-item">Reprocess</a>
                                             <a href="#" class="dropdown-item">Run Schedule</a>
                                             <a href="#" class="dropdown-item">Deactivate</a>
@@ -1161,6 +1720,7 @@
                                             <a href="#" class="dropdown-item dropdown-item-header">Pipeline Details</a>
                                             <a href="#" class="dropdown-item">Process Log</a>
                                             <a href="#" class="dropdown-item">Delete</a>
+                                            <a href="#" class="dropdown-item">Automate Retrieval</a>
                                             <a href="#" class="dropdown-item">Reprocess</a>
                                             <a href="#" class="dropdown-item">Run Schedule</a>
                                             <a href="#" class="dropdown-item">Deactivate</a>
@@ -1204,6 +1764,7 @@
                                             <a href="#" class="dropdown-item dropdown-item-header">Pipeline Details</a>
                                             <a href="#" class="dropdown-item">Process Log</a>
                                             <a href="#" class="dropdown-item">Delete</a>
+                                            <a href="#" class="dropdown-item">Automate Retrieval</a>
                                             <a href="#" class="dropdown-item">Reprocess</a>
                                             <a href="#" class="dropdown-item">Run Schedule</a>
                                             <a href="#" class="dropdown-item">Deactivate</a>
@@ -1247,6 +1808,7 @@
                                             <a href="#" class="dropdown-item dropdown-item-header">Pipeline Details</a>
                                             <a href="#" class="dropdown-item">Process Log</a>
                                             <a href="#" class="dropdown-item">Delete</a>
+                                            <a href="#" class="dropdown-item">Automate Retrieval</a>
                                             <a href="#" class="dropdown-item">Reprocess</a>
                                             <a href="#" class="dropdown-item">Run Schedule</a>
                                             <a href="#" class="dropdown-item">Deactivate</a>
@@ -1290,6 +1852,7 @@
                                             <a href="#" class="dropdown-item dropdown-item-header">Pipeline Details</a>
                                             <a href="#" class="dropdown-item">Process Log</a>
                                             <a href="#" class="dropdown-item">Delete</a>
+                                            <a href="#" class="dropdown-item">Automate Retrieval</a>
                                             <a href="#" class="dropdown-item">Reprocess</a>
                                             <a href="#" class="dropdown-item">Run Schedule</a>
                                             <a href="#" class="dropdown-item">Deactivate</a>
@@ -1310,6 +1873,427 @@
         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a.996.996 0 000-1.41l-2.34-2.34a.996.996 0 00-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
         </svg>
+    </div>
+
+    <!-- Retrieval Configuration Modal -->
+    <div class="modal-overlay" id="retrievalModal">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h2 class="modal-title">New Data Retrieval</h2>
+                <button class="modal-close-btn" onclick="closeRetrievalModal()">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Phase 1: Vendor Selection -->
+                <div class="modal-phase active" id="vendorSelectionPhase">
+                    <input type="text" class="modal-search" placeholder="">
+                    
+                    <div class="data-space-section">
+                        <div class="data-space-label">Data Space</div>
+                        <span class="data-space-tag">default</span>
+                    </div>
+
+                    <div class="vendors-section">
+                        <div class="vendors-heading">Third-Party Vendors</div>
+                        <div class="vendor-tiles">
+                        <!-- Amazon S3 -->
+                        <div class="vendor-tile" onclick="selectVendor('Amazon S3', this)">
+                            <div class="vendor-tile-content">
+                                <div class="vendor-icon" style="background-color: #e8f5e9;">
+                                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M12 4L4 8v8l8 4 8-4V8l-8-4zm0 2.18l6 3v5.64l-6 3-6-3V9.18l6-3z" fill="#4caf50"/>
+                                        <path d="M12 11L6 8.5v3L12 14l6-2.5v-3L12 11z" fill="#4caf50"/>
+                                    </svg>
+                                </div>
+                                <div class="vendor-info">
+                                    <div class="vendor-name">Amazon S3</div>
+                                    <div class="vendor-description">Retrieve a file from Amazon Simple Storage Service</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Google Sheets -->
+                        <div class="vendor-tile" onclick="selectVendor('Google Sheets', this)">
+                            <div class="vendor-tile-content">
+                                <div class="vendor-icon" style="background-color: #e8f5e9;">
+                                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z" fill="#0f9d58"/>
+                                    </svg>
+                                </div>
+                                <div class="vendor-info">
+                                    <div class="vendor-name">Google Sheets</div>
+                                    <div class="vendor-description">Retrieve data from Google Sheets spreadsheets</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Google Drive -->
+                        <div class="vendor-tile" onclick="selectVendor('Google Drive', this)">
+                            <div class="vendor-tile-content">
+                                <div class="vendor-icon" style="background-color: #fce8e6;">
+                                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M7.71 2.53L2.53 7.71c-.39.39-.39 1.02 0 1.41l5.18 5.18c.39.39 1.02.39 1.41 0l5.18-5.18c.39-.39.39-1.02 0-1.41L9.12 2.53c-.39-.39-1.03-.39-1.41 0z" fill="#ea4335"/>
+                                        <path d="M12 9l-4 4h8l-4-4z" fill="#ea4335"/>
+                                        <path d="M12 15l4-4v8H8v-8l4 4z" fill="#ea4335"/>
+                                    </svg>
+                                </div>
+                                <div class="vendor-info">
+                                    <div class="vendor-name">Google Drive</div>
+                                    <div class="vendor-description">Retrieve files from Google Drive storage</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Google BigQuery -->
+                        <div class="vendor-tile" onclick="selectVendor('Google BigQuery', this)">
+                            <div class="vendor-tile-content">
+                                <div class="vendor-icon" style="background-color: #e3f2fd;">
+                                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" fill="#4285f4"/>
+                                    </svg>
+                                </div>
+                                <div class="vendor-info">
+                                    <div class="vendor-name">Google BigQuery</div>
+                                    <div class="vendor-description">Query and retrieve data from Google BigQuery</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- FTP -->
+                        <div class="vendor-tile" onclick="selectVendor('FTP', this)">
+                            <div class="vendor-tile-content">
+                                <div class="vendor-icon" style="background-color: #fff3e0;">
+                                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M9 16h6v-6h4l-7-7-7 7h4zm-4 2h14v2H5z" fill="#ff9800"/>
+                                    </svg>
+                                </div>
+                                <div class="vendor-info">
+                                    <div class="vendor-name">FTP</div>
+                                    <div class="vendor-description">Retrieve files from FTP servers</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- MS OneDrive -->
+                        <div class="vendor-tile" onclick="selectVendor('MS OneDrive', this)">
+                            <div class="vendor-tile-content">
+                                <div class="vendor-icon" style="background-color: #e3f2fd;">
+                                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" fill="#0078d4"/>
+                                        <path d="M12 6l-4 4h3v4h2v-4h3l-4-4z" fill="#0078d4"/>
+                                    </svg>
+                                </div>
+                                <div class="vendor-info">
+                                    <div class="vendor-name">MS OneDrive</div>
+                                    <div class="vendor-description">Retrieve files from Microsoft OneDrive</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+
+                <!-- Phase 2: Connection Details -->
+                <div class="modal-phase" id="connectionPhase">
+                    <div class="data-space-section">
+                        <div class="data-space-label">Data Space</div>
+                        <span class="data-space-tag">default</span>
+                    </div>
+
+                    <div class="connection-section">
+                        <div class="connection-row">
+                            <div class="connection-dropdown">
+                                <select class="connection-select">
+                                    <option>Select a connection...</option>
+                                </select>
+                            </div>
+                            <button class="btn-new-connection">+ New Connection</button>
+                        </div>
+                    </div>
+
+                    <div class="section-divider"></div>
+
+                    <div class="connection-details-section">
+                        <div class="connection-details-heading">Connection Details</div>
+                        <div class="connection-details-description">Complete these fields to set up and authenticate your connection.</div>
+
+                        <!-- Amazon S3 Form -->
+                        <div class="vendor-form-section active" id="amazonS3Form">
+                            <div class="form-field">
+                                <label class="form-label">
+                                    Connection Name
+                                    <span class="required">*</span>
+                                </label>
+                                <input type="text" class="form-input" placeholder="Name your connection...">
+                            </div>
+
+                            <div class="form-field">
+                                <label class="form-label">
+                                    Authentication Option
+                                    <span class="required">*</span>
+                                </label>
+                                <div class="auth-options">
+                                    <button class="auth-option-btn selected" onclick="selectAuthOption(this, 'access-key')">Access Key/Secret Based</button>
+                                    <button class="auth-option-btn" onclick="selectAuthOption(this, 'identity-provider')">Identity Provider Based</button>
+                                </div>
+                            </div>
+
+                            <div class="form-field">
+                                <label class="form-label">
+                                    Bucket Name
+                                    <span class="required">*</span>
+                                </label>
+                                <input type="text" class="form-input">
+                            </div>
+
+                            <div class="form-field">
+                                <label class="form-label">
+                                    Parent Directory
+                                    <span class="required">*</span>
+                                    <span class="info-icon">
+                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+                                        </svg>
+                                    </span>
+                                </label>
+                                <input type="text" class="form-input" value="/">
+                            </div>
+
+                            <div class="form-field">
+                                <label class="form-label">
+                                    AWS access key
+                                    <span class="required">*</span>
+                                </label>
+                                <input type="text" class="form-input">
+                            </div>
+
+                            <div class="form-field">
+                                <label class="form-label">
+                                    AWS secret access key
+                                    <span class="required">*</span>
+                                </label>
+                                <input type="password" class="form-input">
+                            </div>
+                        </div>
+
+                        <!-- Google Sheets Form -->
+                        <div class="vendor-form-section" id="googleSheetsForm">
+                            <div class="form-field">
+                                <label class="form-label">
+                                    Connection Name
+                                    <span class="required">*</span>
+                                </label>
+                                <input type="text" class="form-input" placeholder="Name your connection...">
+                            </div>
+
+                            <div class="form-field">
+                                <label class="form-label">
+                                    Credentials
+                                    <span class="required">*</span>
+                                </label>
+                                <div class="credentials-row">
+                                    <div class="credentials-input">
+                                        <input type="email" class="form-input" placeholder="user@example.com">
+                                    </div>
+                                    <button class="btn-add-new">Add New</button>
+                                </div>
+                            </div>
+
+                            <div class="form-field">
+                                <label class="form-label">
+                                    URL
+                                    <span class="required">*</span>
+                                </label>
+                                <input type="text" class="form-input" placeholder="https://docs.google.com/spreadsheets/...">
+                            </div>
+
+                            <div class="form-field">
+                                <label class="form-label">
+                                    Sheet Selection
+                                    <span class="required">*</span>
+                                </label>
+                                <select class="form-input">
+                                    <option>Select a sheet...</option>
+                                    <option>Sheet1</option>
+                                    <option>Sheet2</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Phase 3: File Details (for storage apps only) -->
+                <div class="modal-phase" id="fileDetailsPhase">
+                    <div class="data-space-section">
+                        <div class="data-space-label">Data Space</div>
+                        <span class="data-space-tag">default</span>
+                    </div>
+
+                    <div class="vendor-header-section" id="vendorHeader">
+                        <!-- Vendor icon and info will be populated dynamically -->
+                    </div>
+
+                    <div class="connection-details-section">
+                        <div class="form-field">
+                            <label class="form-label">
+                                File Type
+                                <span class="required">*</span>
+                            </label>
+                            <div class="radio-options">
+                                <div class="radio-option">
+                                    <input type="radio" id="fileTypeCsv" name="fileType" value="csv" checked>
+                                    <label for="fileTypeCsv">CSV</label>
+                                </div>
+                                <div class="radio-option">
+                                    <input type="radio" id="fileTypeParquet" name="fileType" value="parquet">
+                                    <label for="fileTypeParquet">Parquet</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-field">
+                            <label class="form-label">
+                                Import From Directory
+                                <span class="required">*</span>
+                                <span class="info-icon">
+                                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+                                    </svg>
+                                </span>
+                            </label>
+                            <input type="text" class="form-input">
+                        </div>
+
+                        <div class="form-field">
+                            <label class="form-label">
+                                File Name
+                                <span class="required">*</span>
+                                <span class="info-icon">
+                                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+                                    </svg>
+                                </span>
+                            </label>
+                            <input type="text" class="form-input" value="*">
+                        </div>
+
+                        <div class="form-field">
+                            <div class="checkbox-option">
+                                <input type="checkbox" id="logErrorCheckbox">
+                                <label for="logErrorCheckbox">Log an error if no file is found</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Phase 4: Schedule Data -->
+                <div class="modal-phase" id="schedulePhase">
+                    <div class="data-space-section">
+                        <div class="data-space-label">Data Space</div>
+                        <span class="data-space-tag">default</span>
+                    </div>
+
+                    <div class="schedule-section">
+                        <div class="schedule-heading">Schedule Data</div>
+                        <div class="schedule-subtitle">Set how you would like this transform to run.</div>
+
+                        <div class="form-field">
+                            <label class="form-label">
+                                Run Mode
+                                <span class="required">*</span>
+                            </label>
+                            <div class="radio-options">
+                                <div class="radio-option">
+                                    <input type="radio" id="runModeManually" name="runMode" value="manually">
+                                    <label for="runModeManually">Manually</label>
+                                </div>
+                                <div class="radio-option">
+                                    <input type="radio" id="runModeScheduled" name="runMode" value="scheduled" checked>
+                                    <label for="runModeScheduled">Scheduled</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-field">
+                            <label class="form-label">
+                                Frequency
+                                <span class="required">*</span>
+                            </label>
+                            <select class="form-input">
+                                <option>Daily</option>
+                                <option>Weekly</option>
+                                <option>Monthly</option>
+                                <option>Hourly</option>
+                            </select>
+                        </div>
+
+                        <div class="form-field">
+                            <label class="form-label">
+                                Start Time
+                                <span class="required">*</span>
+                            </label>
+                            <select class="form-input">
+                                <option>12:00 AM</option>
+                                <option>1:00 AM</option>
+                                <option>2:00 AM</option>
+                                <option>3:00 AM</option>
+                                <option>4:00 AM</option>
+                                <option>5:00 AM</option>
+                                <option>6:00 AM</option>
+                                <option>7:00 AM</option>
+                                <option>8:00 AM</option>
+                                <option>9:00 AM</option>
+                                <option>10:00 AM</option>
+                                <option>11:00 AM</option>
+                                <option>12:00 PM</option>
+                                <option>1:00 PM</option>
+                                <option>2:00 PM</option>
+                                <option>3:00 PM</option>
+                                <option>4:00 PM</option>
+                                <option>5:00 PM</option>
+                                <option>6:00 PM</option>
+                                <option>7:00 PM</option>
+                                <option>8:00 PM</option>
+                                <option>9:00 PM</option>
+                                <option>10:00 PM</option>
+                                <option>11:00 PM</option>
+                            </select>
+                        </div>
+
+                        <div class="form-field">
+                            <label class="form-label">
+                                Time Zone
+                            </label>
+                            <input type="text" class="form-input" value="America/Los_Angeles">
+                        </div>
+
+                        <div class="form-field">
+                            <label class="form-label">
+                                Refresh Type
+                                <span class="required">*</span>
+                            </label>
+                            <div class="radio-options">
+                                <div class="radio-option">
+                                    <input type="radio" id="refreshTypeFull" name="refreshType" value="full" checked>
+                                    <label for="refreshTypeFull">Full Refresh</label>
+                                </div>
+                                <div class="radio-option">
+                                    <input type="radio" id="refreshTypeIncremental" name="refreshType" value="incremental">
+                                    <label for="refreshTypeIncremental">Incremental</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" id="modalFooter">
+                <button class="modal-btn modal-btn-cancel" onclick="closeRetrievalModal()">Cancel</button>
+                <button class="modal-btn modal-btn-next" onclick="proceedToNext()">Next</button>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -1333,6 +2317,211 @@
                     menu.classList.remove('show');
                 });
             }
+        });
+
+        // Modal functions
+        function openRetrievalModal() {
+            document.getElementById('retrievalModal').classList.add('show');
+            // Close any open dropdowns
+            document.querySelectorAll('.dropdown-menu.show').forEach(menu => {
+                menu.classList.remove('show');
+            });
+        }
+
+        function selectVendor(vendorName, element) {
+            // Remove previous selection
+            document.querySelectorAll('.vendor-tile').forEach(tile => {
+                tile.style.borderColor = '#e5e5e5';
+                tile.style.backgroundColor = '#ffffff';
+            });
+            
+            // Highlight selected vendor
+            element.style.borderColor = '#0176d3';
+            element.style.backgroundColor = '#f3f3f3';
+            
+            // Store selected vendor (can be used later)
+            window.selectedVendor = vendorName;
+        }
+
+        function proceedToNext() {
+            const vendorPhase = document.getElementById('vendorSelectionPhase');
+            const connectionPhase = document.getElementById('connectionPhase');
+            const fileDetailsPhase = document.getElementById('fileDetailsPhase');
+            const footer = document.getElementById('modalFooter');
+            
+            if (vendorPhase.classList.contains('active')) {
+                // Moving from vendor selection to connection phase
+                if (window.selectedVendor) {
+                    vendorPhase.classList.remove('active');
+                    connectionPhase.classList.add('active');
+                    
+                    // Show appropriate form based on selected vendor
+                    const amazonS3Form = document.getElementById('amazonS3Form');
+                    const googleSheetsForm = document.getElementById('googleSheetsForm');
+                    
+                    // Hide all forms first
+                    amazonS3Form.classList.remove('active');
+                    googleSheetsForm.classList.remove('active');
+                    
+                    // Show the appropriate form
+                    if (window.selectedVendor === 'Google Sheets') {
+                        googleSheetsForm.classList.add('active');
+                    } else {
+                        // Default to Amazon S3 form for other vendors
+                        amazonS3Form.classList.add('active');
+                    }
+                    
+                    // Update footer buttons
+                    footer.innerHTML = '<button class="modal-btn modal-btn-previous" onclick="goToPrevious()">Previous</button><button class="modal-btn modal-btn-cancel" onclick="closeRetrievalModal()">Cancel</button><button class="modal-btn modal-btn-next" onclick="proceedToNext()">Next</button>';
+                } else {
+                    alert('Please select a data source');
+                }
+            } else if (connectionPhase.classList.contains('active')) {
+                // Moving from connection phase
+                const storageApps = ['Amazon S3', 'Google Drive', 'MS OneDrive'];
+                
+                if (storageApps.includes(window.selectedVendor)) {
+                    // For storage apps, go to file details phase
+                    connectionPhase.classList.remove('active');
+                    fileDetailsPhase.classList.add('active');
+                    populateVendorHeader(window.selectedVendor);
+                    footer.innerHTML = '<button class="modal-btn modal-btn-previous" onclick="goToPrevious()">Previous</button><button class="modal-btn modal-btn-cancel" onclick="closeRetrievalModal()">Cancel</button><button class="modal-btn modal-btn-next" onclick="proceedToNext()">Next</button>';
+                } else {
+                    // For Google Sheets, go to schedule phase
+                    connectionPhase.classList.remove('active');
+                    const schedulePhase = document.getElementById('schedulePhase');
+                    schedulePhase.classList.add('active');
+                    footer.innerHTML = '<button class="modal-btn modal-btn-previous" onclick="goToPrevious()">Previous</button><button class="modal-btn modal-btn-cancel" onclick="closeRetrievalModal()">Cancel</button><button class="modal-btn modal-btn-deploy" onclick="deployConnection()">Deploy</button>';
+                }
+            } else if (fileDetailsPhase.classList.contains('active')) {
+                // Moving from file details phase to schedule phase
+                fileDetailsPhase.classList.remove('active');
+                const schedulePhase = document.getElementById('schedulePhase');
+                schedulePhase.classList.add('active');
+                footer.innerHTML = '<button class="modal-btn modal-btn-previous" onclick="goToPrevious()">Previous</button><button class="modal-btn modal-btn-cancel" onclick="closeRetrievalModal()">Cancel</button><button class="modal-btn modal-btn-deploy" onclick="deployConnection()">Deploy</button>';
+            } else if (document.getElementById('schedulePhase').classList.contains('active')) {
+                // Already on schedule phase, deploy
+                deployConnection();
+            }
+        }
+
+        function populateVendorHeader(vendorName) {
+            const vendorHeader = document.getElementById('vendorHeader');
+            let iconHtml = '';
+            let description = 'Provide the file details for retrieval.';
+            
+            // Get vendor icon and info based on vendor name
+            if (vendorName === 'Amazon S3') {
+                iconHtml = '<div class="vendor-header-icon" style="background-color: #e8f5e9;"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 4L4 8v8l8 4 8-4V8l-8-4zm0 2.18l6 3v5.64l-6 3-6-3V9.18l6-3z" fill="#4caf50"/><path d="M12 11L6 8.5v3L12 14l6-2.5v-3L12 11z" fill="#4caf50"/></svg></div>';
+            } else if (vendorName === 'Google Drive') {
+                iconHtml = '<div class="vendor-header-icon" style="background-color: #fce8e6;"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M7.71 2.53L2.53 7.71c-.39.39-.39 1.02 0 1.41l5.18 5.18c.39.39 1.02.39 1.41 0l5.18-5.18c.39-.39.39-1.02 0-1.41L9.12 2.53c-.39-.39-1.03-.39-1.41 0z" fill="#ea4335"/><path d="M12 9l-4 4h8l-4-4z" fill="#ea4335"/><path d="M12 15l4-4v8H8v-8l4 4z" fill="#ea4335"/></svg></div>';
+            } else if (vendorName === 'MS OneDrive') {
+                iconHtml = '<div class="vendor-header-icon" style="background-color: #e3f2fd;"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" fill="#0078d4"/><path d="M12 6l-4 4h3v4h2v-4h3l-4-4z" fill="#0078d4"/></svg></div>';
+            }
+            
+            vendorHeader.innerHTML = iconHtml + '<div class="vendor-header-info"><div class="vendor-header-name">' + vendorName + '</div><div class="vendor-header-description">' + description + '</div></div>';
+        }
+
+        function goToPrevious() {
+            const vendorPhase = document.getElementById('vendorSelectionPhase');
+            const connectionPhase = document.getElementById('connectionPhase');
+            const fileDetailsPhase = document.getElementById('fileDetailsPhase');
+            const schedulePhase = document.getElementById('schedulePhase');
+            const footer = document.getElementById('modalFooter');
+            const amazonS3Form = document.getElementById('amazonS3Form');
+            const googleSheetsForm = document.getElementById('googleSheetsForm');
+            
+            if (schedulePhase.classList.contains('active')) {
+                // Going back from schedule phase
+                schedulePhase.classList.remove('active');
+                const storageApps = ['Amazon S3', 'Google Drive', 'MS OneDrive'];
+                if (storageApps.includes(window.selectedVendor)) {
+                    // For storage apps, go back to file details
+                    fileDetailsPhase.classList.add('active');
+                    footer.innerHTML = '<button class="modal-btn modal-btn-previous" onclick="goToPrevious()">Previous</button><button class="modal-btn modal-btn-cancel" onclick="closeRetrievalModal()">Cancel</button><button class="modal-btn modal-btn-next" onclick="proceedToNext()">Next</button>';
+                } else {
+                    // For Google Sheets, go back to connection phase
+                    connectionPhase.classList.add('active');
+                    googleSheetsForm.classList.add('active');
+                    amazonS3Form.classList.remove('active');
+                    footer.innerHTML = '<button class="modal-btn modal-btn-previous" onclick="goToPrevious()">Previous</button><button class="modal-btn modal-btn-cancel" onclick="closeRetrievalModal()">Cancel</button><button class="modal-btn modal-btn-next" onclick="proceedToNext()">Next</button>';
+                }
+            } else if (fileDetailsPhase.classList.contains('active')) {
+                // Going back from file details to connection phase
+                fileDetailsPhase.classList.remove('active');
+                connectionPhase.classList.add('active');
+                // Show the appropriate form based on vendor
+                if (window.selectedVendor === 'Google Sheets') {
+                    googleSheetsForm.classList.add('active');
+                    amazonS3Form.classList.remove('active');
+                } else {
+                    amazonS3Form.classList.add('active');
+                    googleSheetsForm.classList.remove('active');
+                }
+                footer.innerHTML = '<button class="modal-btn modal-btn-previous" onclick="goToPrevious()">Previous</button><button class="modal-btn modal-btn-cancel" onclick="closeRetrievalModal()">Cancel</button><button class="modal-btn modal-btn-next" onclick="proceedToNext()">Next</button>';
+            } else if (connectionPhase.classList.contains('active')) {
+                connectionPhase.classList.remove('active');
+                vendorPhase.classList.add('active');
+                // Hide all forms
+                amazonS3Form.classList.remove('active');
+                googleSheetsForm.classList.remove('active');
+                // Update footer buttons
+                footer.innerHTML = '<button class="modal-btn modal-btn-cancel" onclick="closeRetrievalModal()">Cancel</button><button class="modal-btn modal-btn-next" onclick="proceedToNext()">Next</button>';
+            }
+        }
+
+        function deployConnection() {
+            alert('Connection deployed successfully!');
+            closeRetrievalModal();
+        }
+
+        function selectAuthOption(element, option) {
+            // Remove selected class from all auth options
+            document.querySelectorAll('.auth-option-btn').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            // Add selected class to clicked option
+            element.classList.add('selected');
+        }
+
+        function closeRetrievalModal() {
+            document.getElementById('retrievalModal').classList.remove('show');
+            // Reset to first phase
+            const vendorPhase = document.getElementById('vendorSelectionPhase');
+            const connectionPhase = document.getElementById('connectionPhase');
+            const fileDetailsPhase = document.getElementById('fileDetailsPhase');
+            const schedulePhase = document.getElementById('schedulePhase');
+            const footer = document.getElementById('modalFooter');
+            const amazonS3Form = document.getElementById('amazonS3Form');
+            const googleSheetsForm = document.getElementById('googleSheetsForm');
+            
+            vendorPhase.classList.add('active');
+            connectionPhase.classList.remove('active');
+            fileDetailsPhase.classList.remove('active');
+            schedulePhase.classList.remove('active');
+            amazonS3Form.classList.remove('active');
+            googleSheetsForm.classList.remove('active');
+            footer.innerHTML = '<button class="modal-btn modal-btn-cancel" onclick="closeRetrievalModal()">Cancel</button><button class="modal-btn modal-btn-next" onclick="proceedToNext()">Next</button>';
+            window.selectedVendor = null;
+        }
+
+        // Add click handlers to all "Automate Retrieval" links
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.dropdown-item').forEach(item => {
+                if (item.textContent.trim() === 'Automate Retrieval') {
+                    item.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        openRetrievalModal();
+                    });
+                }
+            });
+
+            // Close modal when clicking on overlay
+            document.getElementById('retrievalModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeRetrievalModal();
+                }
+            });
         });
     </script>
 </body>
