@@ -331,6 +331,50 @@
             fill: #2466de;
         }
 
+        .sidebar-nav-item-expandable {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .sidebar-nav-item-expandable .expand-icon {
+            width: 16px;
+            height: 16px;
+            flex-shrink: 0;
+            transition: transform 0.2s ease;
+        }
+
+        .sidebar-nav-item-expandable.collapsed .expand-icon {
+            transform: rotate(-90deg);
+        }
+
+        .sidebar-nav-item-expandable .expand-icon circle {
+            fill: none;
+            stroke: #181818;
+            stroke-width: 1.5;
+        }
+
+        .sidebar-nav-item-expandable .expand-icon path {
+            fill: none;
+            stroke: #181818;
+            stroke-width: 1.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .sidebar-subnav {
+            list-style: none;
+            overflow: hidden;
+        }
+
+        .sidebar-subnav.collapsed {
+            display: none;
+        }
+
+        .sidebar-subnav .sidebar-nav-item {
+            padding-left: 36px;
+        }
+
         /* Main Content */
         .main-content {
             flex: 1;
@@ -1337,8 +1381,19 @@
                 <div class="sidebar-header">Data Management</div>
                 <ul class="sidebar-nav">
                     <li><a href="#" class="sidebar-nav-item active">Data Pipelines</a></li>
-                    <li><a href="#" class="sidebar-nav-item">Data Enrichment</a></li>
-                    <li><a href="#" class="sidebar-nav-item">Patterns</a></li>
+                    <li>
+                        <a href="#" class="sidebar-nav-item sidebar-nav-item-expandable" id="harmonization-toggle">
+                            <svg class="expand-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="12" cy="12" r="9"/>
+                                <path d="M8 10.5l4 4 4-4"/>
+                            </svg>
+                            <span>Harmonization</span>
+                        </a>
+                        <ul class="sidebar-subnav" id="harmonization-subnav">
+                            <li><a href="#" class="sidebar-nav-item">Data Enrichment</a></li>
+                            <li><a href="#" class="sidebar-nav-item">Patterns</a></li>
+                        </ul>
+                    </li>
                     <li><a href="#" class="sidebar-nav-item">Attribution</a></li>
                 </ul>
             </div>
@@ -2522,6 +2577,17 @@
                     closeRetrievalModal();
                 }
             });
+
+            // Harmonization expand/collapse toggle
+            var harmonizationToggle = document.getElementById('harmonization-toggle');
+            var harmonizationSubnav = document.getElementById('harmonization-subnav');
+            if (harmonizationToggle && harmonizationSubnav) {
+                harmonizationToggle.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    harmonizationToggle.classList.toggle('collapsed');
+                    harmonizationSubnav.classList.toggle('collapsed');
+                });
+            }
         });
     </script>
 </body>
