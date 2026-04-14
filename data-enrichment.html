@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Marketing Intelligence - Data Pipelines</title>
+    <title>Marketing Intelligence - Data Enrichment</title>
     <style>
         * {
             margin: 0;
@@ -706,6 +706,28 @@
             background-color: #d6e6ff;
         }
 
+        .dropdown-item-with-icon,
+        .dropdown-item-data-stream {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            min-width: 160px;
+        }
+
+        .dropdown-item-data-stream {
+            color: #0c6afe;
+            font-weight: 700;
+            border: 1px solid #0c6afe;
+            border-radius: 4px;
+            margin: 4px;
+            padding: 8px 12px;
+            background-color: #ffffff;
+        }
+
+        .dropdown-item-data-stream:hover {
+            background-color: #d6e6ff;
+        }
+
         .dropdown-item-header {
             color: #181818;
         }
@@ -1388,7 +1410,7 @@
             <div class="sidebar-section">
                 <div class="sidebar-header">Data Management</div>
                 <ul class="sidebar-nav">
-                    <li><a href="index.html" class="sidebar-nav-item active">Data Pipelines</a></li>
+                    <li><a href="index.html" class="sidebar-nav-item">Data Pipelines</a></li>
                     <li>
                         <a href="#" class="sidebar-nav-item sidebar-nav-item-expandable expanded" id="harmonization-toggle">
                             <svg class="expand-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -1397,7 +1419,7 @@
                             <span>Harmonization</span>
                         </a>
                         <ul class="sidebar-subnav" id="harmonization-subnav">
-                            <li><a href="data-enrichment.html" class="sidebar-nav-item">Data Enrichment</a></li>
+                            <li><a href="data-enrichment.html" class="sidebar-nav-item active">Data Enrichment</a></li>
                             <li><a href="#" class="sidebar-nav-item">Patterns</a></li>
                         </ul>
                     </li>
@@ -1427,26 +1449,24 @@
                 <div class="page-header">
                     <div class="page-title-section">
                         <div class="page-title">
-                            <div class="page-title-icon">
+                            <div class="page-title-icon" style="background-color: #03234d;">
                                 <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <rect x="3" y="3" width="7" height="7" rx="1"/>
-                                    <rect x="14" y="3" width="7" height="7" rx="1"/>
-                                    <rect x="3" y="14" width="7" height="7" rx="1"/>
-                                    <rect x="14" y="14" width="7" height="7" rx="1"/>
+                                    <path d="M3 17l6-6 4 4 8-8" stroke="#ffffff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M14 7h7v7" stroke="#ffffff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>
                             </div>
-                            <h1>Data Pipelines</h1>
+                            <h1>Data Enrichment</h1>
                         </div>
-                        <div class="item-count">9 items</div>
+                        <div class="item-count">7 items</div>
                     </div>
                     <div class="page-actions">
-                        <button class="btn-new">New Pipeline</button>
+                        <button class="btn-new">New Enrichment <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="width:10px;height:10px;fill:#2466de;vertical-align:middle;"><path d="M7 10l5 5 5-5H7z"/></svg></button>
                         <div class="table-search">
                             <div class="table-search-input">
                                 <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
                                 </svg>
-                                <input type="text" placeholder="Search...">
+                                <input type="text" placeholder="Search for enrichments.">
                             </div>
                             <button class="refresh-btn">
                                 <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -1463,98 +1483,30 @@
                         <thead>
                             <tr>
                                 <th></th>
-                                <th>
-                                    <div class="th-content">
-                                        Name
-                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M7 14l5-5 5 5H7z"/>
-                                        </svg>
-                                    </div>
-                                </th>
-                                <th>
-                                    <div class="th-content">
-                                        Data Space
-                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M7 10l5 5 5-5H7z"/>
-                                        </svg>
-                                    </div>
-                                </th>
-                                <th>
-                                    <div class="th-content">
-                                        Source
-                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M7 10l5 5 5-5H7z"/>
-                                        </svg>
-                                    </div>
-                                </th>
-                                <th>
-                                    <div class="th-content">
-                                        Status
-                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M7 10l5 5 5-5H7z"/>
-                                        </svg>
-                                    </div>
-                                </th>
-                                <th>
-                                    <div class="th-content">
-                                        Last Run Status
-                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M7 10l5 5 5-5H7z"/>
-                                        </svg>
-                                    </div>
-                                </th>
-                                <th>
-                                    <div class="th-content">
-                                        Last Run
-                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M7 10l5 5 5-5H7z"/>
-                                        </svg>
-                                    </div>
-                                </th>
-                                <th>
-                                    <div class="th-content">
-                                        Next Run
-                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M7 10l5 5 5-5H7z"/>
-                                        </svg>
-                                    </div>
-                                </th>
-                                <th>
-                                    <div class="th-content">
-                                        Last Data Date
-                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M7 10l5 5 5-5H7z"/>
-                                        </svg>
-                                    </div>
-                                </th>
+                                <th><div class="th-content">Title</div></th>
+                                <th><div class="th-content">Data Space</div></th>
+                                <th><div class="th-content">Description</div></th>
+                                <th><div class="th-content">Status</div></th>
+                                <th><div class="th-content">Process Status</div></th>
+                                <th><div class="th-content">Source</div></th>
+                                <th><div class="th-content">Source Dimension</div></th>
+                                <th><div class="th-content">Source Data Object</div></th>
+                                <th><div class="th-content">Created On</div></th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td>1</td>
-                                <td><a href="#" class="link-cell">Meta_Ads_Connection 53...</a></td>
+                                <td><a href="#" class="link-cell">Ad Name Extensions</a></td>
                                 <td>default</td>
-                                <td>EMI Mock</td>
-                                <td>
-                                    <span class="status-badge status-active">
-                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                                        </svg>
-                                        Active
-                                    </span>
-                                </td>
-                                <td>
-                                    <span class="status-badge status-success">
-                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                                        </svg>
-                                        Success
-                                    </span>
-                                </td>
-                                <td>11/30/2025, 12:00 AM</td>
-                                <td>12/1/2025, 12:00 AM</td>
-                                <td>11/30/2025</td>
+                                <td></td>
+                                <td>Ready</td>
+                                <td>Success</td>
+                                <td>Einstein</td>
+                                <td>Ad Name</td>
+                                <td>Ad Object</td>
+                                <td>10/26/2025, 12:58 PM</td>
                                 <td class="action-cell">
                                     <div class="dropdown-container">
                                         <button class="action-btn" onclick="toggleDropdown(this)">
@@ -1563,41 +1515,29 @@
                                             </svg>
                                         </button>
                                         <div class="dropdown-menu">
-                                            <a href="#" class="dropdown-item dropdown-item-header">Pipeline Details</a>
-                                            <a href="#" class="dropdown-item">Process Log</a>
-                                            <a href="#" class="dropdown-item">Delete</a>
-                                            <a href="#" class="dropdown-item">Reprocess</a>
-                                            <a href="#" class="dropdown-item">Run Schedule</a>
-                                            <a href="#" class="dropdown-item">Deactivate</a>
-                                            <a href="pivot-table.html" class="dropdown-item">Pivot Table</a>
+                                            <a href="#" class="dropdown-item dropdown-item-data-stream">
+                                                <span>Data Stream</span>
+                                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="width:12px;height:12px;fill:#0c6afe;margin-left:8px;"><path d="M14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7zM19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14c1.1 0 2-.9 2-2v-7h-2v7z"/></svg>
+                                            </a>
+                                            <a href="#" class="dropdown-item dropdown-item-with-icon">
+                                                <span>Delete</span>
+                                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="width:14px;height:14px;fill:#5c5c5c;margin-left:8px;"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+                                            </a>
                                         </div>
                                     </div>
                                 </td>
                             </tr>
                             <tr>
                                 <td>2</td>
-                                <td><a href="#" class="link-cell">Google_Ads_Connection 5...</a></td>
+                                <td><a href="#" class="link-cell">Test</a></td>
                                 <td>default</td>
-                                <td>EMI Mock</td>
-                                <td>
-                                    <span class="status-badge status-active">
-                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                                        </svg>
-                                        Active
-                                    </span>
-                                </td>
-                                <td>
-                                    <span class="status-badge status-success">
-                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                                        </svg>
-                                        Success
-                                    </span>
-                                </td>
-                                <td>11/30/2025, 12:00 AM</td>
-                                <td>12/1/2025, 12:00 AM</td>
-                                <td>11/30/2025</td>
+                                <td></td>
+                                <td>Ready</td>
+                                <td>Success</td>
+                                <td>Einstein</td>
+                                <td>Ad Name</td>
+                                <td>Ad Object</td>
+                                <td>01/08/2026, 04:04 PM</td>
                                 <td class="action-cell">
                                     <div class="dropdown-container">
                                         <button class="action-btn" onclick="toggleDropdown(this)">
@@ -1606,41 +1546,29 @@
                                             </svg>
                                         </button>
                                         <div class="dropdown-menu">
-                                            <a href="#" class="dropdown-item dropdown-item-header">Pipeline Details</a>
-                                            <a href="#" class="dropdown-item">Process Log</a>
-                                            <a href="#" class="dropdown-item">Delete</a>
-                                            <a href="#" class="dropdown-item">Reprocess</a>
-                                            <a href="#" class="dropdown-item">Run Schedule</a>
-                                            <a href="#" class="dropdown-item">Deactivate</a>
-                                            <a href="pivot-table.html" class="dropdown-item">Pivot Table</a>
+                                            <a href="#" class="dropdown-item dropdown-item-data-stream">
+                                                <span>Data Stream</span>
+                                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="width:12px;height:12px;fill:#0c6afe;margin-left:8px;"><path d="M14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7zM19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14c1.1 0 2-.9 2-2v-7h-2v7z"/></svg>
+                                            </a>
+                                            <a href="#" class="dropdown-item dropdown-item-with-icon">
+                                                <span>Delete</span>
+                                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="width:14px;height:14px;fill:#5c5c5c;margin-left:8px;"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+                                            </a>
                                         </div>
                                     </div>
                                 </td>
                             </tr>
                             <tr>
                                 <td>3</td>
-                                <td><a href="#" class="link-cell">SEG_INT_DELMLT_csv 131...</a></td>
+                                <td><a href="#" class="link-cell">Anchor Campaign Enric...</a></td>
                                 <td>default</td>
-                                <td>Total Connect</td>
-                                <td>
-                                    <span class="status-badge status-active">
-                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                                        </svg>
-                                        Active
-                                    </span>
-                                </td>
-                                <td>
-                                    <span class="status-badge status-success">
-                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                                        </svg>
-                                        Success
-                                    </span>
-                                </td>
-                                <td>11/23/2025, 08:33 AM</td>
                                 <td></td>
-                                <td>11/16/2025</td>
+                                <td>Ready</td>
+                                <td>Success</td>
+                                <td>File Upload</td>
+                                <td>Campaign Id</td>
+                                <td>Campaign Object</td>
+                                <td>02/16/2026, 10:20 AM</td>
                                 <td class="action-cell">
                                     <div class="dropdown-container">
                                         <button class="action-btn" onclick="toggleDropdown(this)">
@@ -1649,42 +1577,33 @@
                                             </svg>
                                         </button>
                                         <div class="dropdown-menu">
-                                            <a href="#" class="dropdown-item dropdown-item-header">Pipeline Details</a>
-                                            <a href="#" class="dropdown-item">Process Log</a>
-                                            <a href="#" class="dropdown-item">Delete</a>
-                                            <a href="#" class="dropdown-item">Automate Retrieval</a>
-                                            <a href="#" class="dropdown-item">Reprocess</a>
-                                            <a href="#" class="dropdown-item">Run Schedule</a>
-                                            <a href="#" class="dropdown-item">Deactivate</a>
-                                            <a href="pivot-table.html" class="dropdown-item">Pivot Table</a>
+                                            <a href="#" class="dropdown-item dropdown-item-data-stream">
+                                                <span>Data Stream</span>
+                                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="width:12px;height:12px;fill:#0c6afe;margin-left:8px;"><path d="M14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7zM19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14c1.1 0 2-.9 2-2v-7h-2v7z"/></svg>
+                                            </a>
+                                            <a href="#" class="dropdown-item dropdown-item-with-icon">
+                                                <span>Delete</span>
+                                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="width:14px;height:14px;fill:#5c5c5c;margin-left:8px;"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+                                            </a>
+                                            <a href="#" class="dropdown-item dropdown-item-with-icon" onclick="event.preventDefault(); openRetrievalModal();">
+                                                <span>Automate Retrieval</span>
+                                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="width:14px;height:14px;fill:#5c5c5c;margin-left:8px;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                                            </a>
                                         </div>
                                     </div>
                                 </td>
                             </tr>
                             <tr>
                                 <td>4</td>
-                                <td><a href="#" class="link-cell">SEG_INT_CONVMLT_csv 1...</a></td>
+                                <td><a href="#" class="link-cell">Ad Campaign</a></td>
                                 <td>default</td>
-                                <td>Total Connect</td>
-                                <td>
-                                    <span class="status-badge status-active">
-                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                                        </svg>
-                                        Active
-                                    </span>
-                                </td>
-                                <td>
-                                    <span class="status-badge status-success">
-                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                                        </svg>
-                                        Success
-                                    </span>
-                                </td>
-                                <td>11/23/2025, 08:52 AM</td>
                                 <td></td>
-                                <td>11/16/2025</td>
+                                <td>Ready</td>
+                                <td>Success</td>
+                                <td>Einstein</td>
+                                <td>Ad Name</td>
+                                <td>Ad Object</td>
+                                <td>02/25/2026, 11:32 PM</td>
                                 <td class="action-cell">
                                     <div class="dropdown-container">
                                         <button class="action-btn" onclick="toggleDropdown(this)">
@@ -1693,42 +1612,29 @@
                                             </svg>
                                         </button>
                                         <div class="dropdown-menu">
-                                            <a href="#" class="dropdown-item dropdown-item-header">Pipeline Details</a>
-                                            <a href="#" class="dropdown-item">Process Log</a>
-                                            <a href="#" class="dropdown-item">Delete</a>
-                                            <a href="#" class="dropdown-item">Automate Retrieval</a>
-                                            <a href="#" class="dropdown-item">Reprocess</a>
-                                            <a href="#" class="dropdown-item">Run Schedule</a>
-                                            <a href="#" class="dropdown-item">Deactivate</a>
-                                            <a href="pivot-table.html" class="dropdown-item">Pivot Table</a>
+                                            <a href="#" class="dropdown-item dropdown-item-data-stream">
+                                                <span>Data Stream</span>
+                                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="width:12px;height:12px;fill:#0c6afe;margin-left:8px;"><path d="M14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7zM19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14c1.1 0 2-.9 2-2v-7h-2v7z"/></svg>
+                                            </a>
+                                            <a href="#" class="dropdown-item dropdown-item-with-icon">
+                                                <span>Delete</span>
+                                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="width:14px;height:14px;fill:#5c5c5c;margin-left:8px;"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+                                            </a>
                                         </div>
                                     </div>
                                 </td>
                             </tr>
                             <tr>
                                 <td>5</td>
-                                <td><a href="#" class="link-cell">GA_pages_csv 1147717417</a></td>
+                                <td><a href="#" class="link-cell">oded</a></td>
                                 <td>default</td>
-                                <td>Total Connect</td>
-                                <td>
-                                    <span class="status-badge status-active">
-                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                                        </svg>
-                                        Active
-                                    </span>
-                                </td>
-                                <td>
-                                    <span class="status-badge status-success">
-                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                                        </svg>
-                                        Success
-                                    </span>
-                                </td>
-                                <td>11/25/2025, 07:19 AM</td>
                                 <td></td>
-                                <td>4/5/2025</td>
+                                <td>Ready</td>
+                                <td>Success</td>
+                                <td>File Upload</td>
+                                <td>Site Name</td>
+                                <td>Site Object</td>
+                                <td>03/18/2026, 02:23 PM</td>
                                 <td class="action-cell">
                                     <div class="dropdown-container">
                                         <button class="action-btn" onclick="toggleDropdown(this)">
@@ -1737,42 +1643,33 @@
                                             </svg>
                                         </button>
                                         <div class="dropdown-menu">
-                                            <a href="#" class="dropdown-item dropdown-item-header">Pipeline Details</a>
-                                            <a href="#" class="dropdown-item">Process Log</a>
-                                            <a href="#" class="dropdown-item">Delete</a>
-                                            <a href="#" class="dropdown-item">Automate Retrieval</a>
-                                            <a href="#" class="dropdown-item">Reprocess</a>
-                                            <a href="#" class="dropdown-item">Run Schedule</a>
-                                            <a href="#" class="dropdown-item">Deactivate</a>
-                                            <a href="pivot-table.html" class="dropdown-item">Pivot Table</a>
+                                            <a href="#" class="dropdown-item dropdown-item-data-stream">
+                                                <span>Data Stream</span>
+                                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="width:12px;height:12px;fill:#0c6afe;margin-left:8px;"><path d="M14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7zM19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14c1.1 0 2-.9 2-2v-7h-2v7z"/></svg>
+                                            </a>
+                                            <a href="#" class="dropdown-item dropdown-item-with-icon">
+                                                <span>Delete</span>
+                                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="width:14px;height:14px;fill:#5c5c5c;margin-left:8px;"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+                                            </a>
+                                            <a href="#" class="dropdown-item dropdown-item-with-icon" onclick="event.preventDefault(); openRetrievalModal();">
+                                                <span>Automate Retrieval</span>
+                                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="width:14px;height:14px;fill:#5c5c5c;margin-left:8px;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                                            </a>
                                         </div>
                                     </div>
                                 </td>
                             </tr>
                             <tr>
                                 <td>6</td>
-                                <td><a href="#" class="link-cell">GA_events3_csv 11423138...</a></td>
+                                <td><a href="#" class="link-cell">test</a></td>
                                 <td>default</td>
-                                <td>Total Connect</td>
-                                <td>
-                                    <span class="status-badge status-active">
-                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                                        </svg>
-                                        Active
-                                    </span>
-                                </td>
-                                <td>
-                                    <span class="status-badge status-success">
-                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                                        </svg>
-                                        Success
-                                    </span>
-                                </td>
-                                <td>11/25/2025, 08:50 AM</td>
                                 <td></td>
-                                <td>4/5/2025</td>
+                                <td>Ready</td>
+                                <td>Success</td>
+                                <td>Einstein</td>
+                                <td>Ad Name</td>
+                                <td>Ad Object</td>
+                                <td>03/19/2026, 11:01 AM</td>
                                 <td class="action-cell">
                                     <div class="dropdown-container">
                                         <button class="action-btn" onclick="toggleDropdown(this)">
@@ -1781,42 +1678,29 @@
                                             </svg>
                                         </button>
                                         <div class="dropdown-menu">
-                                            <a href="#" class="dropdown-item dropdown-item-header">Pipeline Details</a>
-                                            <a href="#" class="dropdown-item">Process Log</a>
-                                            <a href="#" class="dropdown-item">Delete</a>
-                                            <a href="#" class="dropdown-item">Automate Retrieval</a>
-                                            <a href="#" class="dropdown-item">Reprocess</a>
-                                            <a href="#" class="dropdown-item">Run Schedule</a>
-                                            <a href="#" class="dropdown-item">Deactivate</a>
-                                            <a href="pivot-table.html" class="dropdown-item">Pivot Table</a>
+                                            <a href="#" class="dropdown-item dropdown-item-data-stream">
+                                                <span>Data Stream</span>
+                                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="width:12px;height:12px;fill:#0c6afe;margin-left:8px;"><path d="M14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7zM19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14c1.1 0 2-.9 2-2v-7h-2v7z"/></svg>
+                                            </a>
+                                            <a href="#" class="dropdown-item dropdown-item-with-icon">
+                                                <span>Delete</span>
+                                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="width:14px;height:14px;fill:#5c5c5c;margin-left:8px;"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+                                            </a>
                                         </div>
                                     </div>
                                 </td>
                             </tr>
                             <tr>
                                 <td>7</td>
-                                <td><a href="#" class="link-cell">GA_analytics_3_csv 11362...</a></td>
+                                <td><a href="#" class="link-cell">Oded LLM</a></td>
                                 <td>default</td>
-                                <td>Total Connect</td>
-                                <td>
-                                    <span class="status-badge status-active">
-                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                                        </svg>
-                                        Active
-                                    </span>
-                                </td>
-                                <td>
-                                    <span class="status-badge status-success">
-                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                                        </svg>
-                                        Success
-                                    </span>
-                                </td>
-                                <td>11/25/2025, 10:30 AM</td>
                                 <td></td>
-                                <td>11/26/2025</td>
+                                <td>Ready</td>
+                                <td>Success</td>
+                                <td>Einstein</td>
+                                <td>Ad Name</td>
+                                <td>Ad Object</td>
+                                <td>03/29/2026, 12:48 PM</td>
                                 <td class="action-cell">
                                     <div class="dropdown-container">
                                         <button class="action-btn" onclick="toggleDropdown(this)">
@@ -1825,102 +1709,14 @@
                                             </svg>
                                         </button>
                                         <div class="dropdown-menu">
-                                            <a href="#" class="dropdown-item dropdown-item-header">Pipeline Details</a>
-                                            <a href="#" class="dropdown-item">Process Log</a>
-                                            <a href="#" class="dropdown-item">Delete</a>
-                                            <a href="#" class="dropdown-item">Automate Retrieval</a>
-                                            <a href="#" class="dropdown-item">Reprocess</a>
-                                            <a href="#" class="dropdown-item">Run Schedule</a>
-                                            <a href="#" class="dropdown-item">Deactivate</a>
-                                            <a href="pivot-table.html" class="dropdown-item">Pivot Table</a>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>8</td>
-                                <td><a href="#" class="link-cell">GA_Pages_4_csv 1136050...</a></td>
-                                <td>default</td>
-                                <td>Total Connect</td>
-                                <td>
-                                    <span class="status-badge status-active">
-                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                                        </svg>
-                                        Active
-                                    </span>
-                                </td>
-                                <td>
-                                    <span class="status-badge status-success">
-                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                                        </svg>
-                                        Success
-                                    </span>
-                                </td>
-                                <td>11/25/2025, 10:34 AM</td>
-                                <td></td>
-                                <td>11/26/2025</td>
-                                <td class="action-cell">
-                                    <div class="dropdown-container">
-                                        <button class="action-btn" onclick="toggleDropdown(this)">
-                                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M7 10l5 5 5-5H7z"/>
-                                            </svg>
-                                        </button>
-                                        <div class="dropdown-menu">
-                                            <a href="#" class="dropdown-item dropdown-item-header">Pipeline Details</a>
-                                            <a href="#" class="dropdown-item">Process Log</a>
-                                            <a href="#" class="dropdown-item">Delete</a>
-                                            <a href="#" class="dropdown-item">Automate Retrieval</a>
-                                            <a href="#" class="dropdown-item">Reprocess</a>
-                                            <a href="#" class="dropdown-item">Run Schedule</a>
-                                            <a href="#" class="dropdown-item">Deactivate</a>
-                                            <a href="pivot-table.html" class="dropdown-item">Pivot Table</a>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>9</td>
-                                <td><a href="#" class="link-cell">GA_events_3_csv 113556...</a></td>
-                                <td>default</td>
-                                <td>Total Connect</td>
-                                <td>
-                                    <span class="status-badge status-active">
-                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                                        </svg>
-                                        Active
-                                    </span>
-                                </td>
-                                <td>
-                                    <span class="status-badge status-success">
-                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                                        </svg>
-                                        Success
-                                    </span>
-                                </td>
-                                <td>11/25/2025, 10:42 AM</td>
-                                <td></td>
-                                <td>11/26/2025</td>
-                                <td class="action-cell">
-                                    <div class="dropdown-container">
-                                        <button class="action-btn" onclick="toggleDropdown(this)">
-                                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M7 10l5 5 5-5H7z"/>
-                                            </svg>
-                                        </button>
-                                        <div class="dropdown-menu">
-                                            <a href="#" class="dropdown-item dropdown-item-header">Pipeline Details</a>
-                                            <a href="#" class="dropdown-item">Process Log</a>
-                                            <a href="#" class="dropdown-item">Delete</a>
-                                            <a href="#" class="dropdown-item">Automate Retrieval</a>
-                                            <a href="#" class="dropdown-item">Reprocess</a>
-                                            <a href="#" class="dropdown-item">Run Schedule</a>
-                                            <a href="#" class="dropdown-item">Deactivate</a>
-                                            <a href="pivot-table.html" class="dropdown-item">Pivot Table</a>
+                                            <a href="#" class="dropdown-item dropdown-item-data-stream">
+                                                <span>Data Stream</span>
+                                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="width:12px;height:12px;fill:#0c6afe;margin-left:8px;"><path d="M14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7zM19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14c1.1 0 2-.9 2-2v-7h-2v7z"/></svg>
+                                            </a>
+                                            <a href="#" class="dropdown-item dropdown-item-with-icon">
+                                                <span>Delete</span>
+                                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="width:14px;height:14px;fill:#5c5c5c;margin-left:8px;"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+                                            </a>
                                         </div>
                                     </div>
                                 </td>
