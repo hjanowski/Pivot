@@ -1290,7 +1290,7 @@
             display: none;
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
-            background-color: #f3f3f3;
+            background-color: #ffffff;
             z-index: 900;
             flex-direction: column;
         }
@@ -1299,362 +1299,600 @@
             display: flex;
         }
 
-        .mapping-editor-header {
+        /* Top dark header */
+        .me-topbar {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 14px 24px;
-            background-color: #ffffff;
-            border-bottom: 1px solid #e5e5e5;
+            padding: 12px 20px;
+            background-color: #032e61;
+            color: #ffffff;
             flex-shrink: 0;
         }
 
-        .mapping-editor-title {
+        .me-topbar-left {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 14px;
         }
 
-        .mapping-editor-title h2 {
-            font-size: 18px;
-            font-weight: 700;
-            color: #03234d;
-            margin: 0;
-        }
-
-        .mapping-editor-title-icon {
+        .me-back-btn {
             width: 28px;
             height: 28px;
             display: flex;
             align-items: center;
             justify-content: center;
-            background-color: #e3f2fd;
+            background: transparent;
+            border: none;
+            cursor: pointer;
             border-radius: 4px;
         }
 
-        .mapping-editor-title-icon svg {
+        .me-back-btn:hover { background-color: rgba(255,255,255,0.1); }
+
+        .me-back-btn svg {
             width: 18px;
             height: 18px;
-            fill: #2466de;
+            fill: #ffffff;
         }
 
-        .mapping-editor-close {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background-color: #ffffff;
-            border: 1px solid #c9c9c9;
-            cursor: pointer;
+        .me-pipeline-title {
+            font-size: 14px;
+            font-weight: 400;
+            color: #ffffff;
+        }
+
+        .me-topbar-right {
             display: flex;
             align-items: center;
-            justify-content: center;
+            gap: 8px;
+            font-size: 13px;
         }
 
-        .mapping-editor-close:hover {
+        .me-help-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: transparent;
+            border: none;
+            color: #ffffff;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .me-help-btn svg {
+            width: 16px;
+            height: 16px;
+            fill: #ffffff;
+        }
+
+        /* Toolbar */
+        .me-toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 20px;
+            background-color: #ffffff;
+            border-bottom: 1px solid #e5e5e5;
+            flex-shrink: 0;
+        }
+
+        .me-toolbar-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .me-toolbar-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .me-validate-btn,
+        .me-save-btn {
+            padding: 7px 22px;
+            font-size: 13px;
+            font-weight: 700;
+            border-radius: 20px;
+            cursor: pointer;
+            border: 1px solid transparent;
+        }
+
+        .me-validate-btn {
+            background-color: #ffffff;
+            color: #0c6afe;
+            border-color: #c9c9c9;
+        }
+
+        .me-validate-btn:hover { background-color: #f3f3f3; }
+
+        .me-save-btn {
+            background-color: #0c6afe;
+            color: #ffffff;
+        }
+
+        .me-save-btn:hover { background-color: #0a5ae0; }
+
+        /* Body 3-column grid */
+        .me-body {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 320px 1fr 320px;
+            min-height: 0;
             background-color: #f3f3f3;
         }
 
-        .mapping-editor-close svg {
+        .me-panel {
+            background-color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+            border-right: 1px solid #e5e5e5;
+        }
+
+        .me-panel.right { border-right: none; border-left: 1px solid #e5e5e5; }
+
+        .me-panel-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 16px 8px 16px;
+        }
+
+        .me-panel-title {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 16px;
+            font-weight: 700;
+            color: #03234d;
+            cursor: pointer;
+            background: transparent;
+            border: none;
+            padding: 0;
+        }
+
+        .me-panel-title svg {
+            width: 14px;
+            height: 14px;
+            fill: #0c6afe;
+            transition: transform 0.15s;
+        }
+
+        .me-panel-title.open svg { transform: rotate(180deg); }
+
+        .me-panel-tabs {
+            display: flex;
+            gap: 18px;
+            padding: 0 16px;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .me-tab {
+            padding: 8px 0 10px 0;
+            font-size: 13px;
+            color: #5c5c5c;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            background: transparent;
+            border-left: none;
+            border-right: none;
+            border-top: none;
+            font-weight: 400;
+        }
+
+        .me-tab.active {
+            color: #0c6afe;
+            border-bottom-color: #0c6afe;
+            font-weight: 700;
+        }
+
+        .me-search {
+            padding: 10px 16px 8px 16px;
+        }
+
+        .me-search-input {
+            width: 100%;
+            padding: 7px 10px 7px 30px;
+            border: 1px solid #c9c9c9;
+            border-radius: 4px;
+            font-size: 13px;
+            outline: none;
+            color: #181818;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24'%3E%3Cpath fill='%23706e6b' d='M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: 8px center;
+        }
+
+        .me-add-object {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: transparent;
+            border: none;
+            color: #0c6afe;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            padding: 8px 16px 4px 16px;
+        }
+
+        .me-add-object svg {
+            width: 14px;
+            height: 14px;
+            fill: #0c6afe;
+        }
+
+        .me-tree {
+            flex: 1;
+            overflow-y: auto;
+            padding: 4px 0 16px 0;
+        }
+
+        .me-tree-section {
+            padding: 0;
+        }
+
+        .me-tree-section-header {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 16px;
+            font-size: 13px;
+            font-weight: 700;
+            color: #03234d;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .me-tree-section-header.subgroup {
+            font-weight: 400;
+            color: #5c5c5c;
+            padding-left: 28px;
+        }
+
+        .me-tree-section-header .chev {
+            width: 12px;
+            height: 12px;
+            transition: transform 0.15s;
+            fill: #5c5c5c;
+            flex-shrink: 0;
+        }
+
+        .me-tree-section.collapsed > .me-tree-section-header > .chev { transform: rotate(-90deg); }
+
+        .me-tree-section.collapsed > .me-tree-children { display: none; }
+
+        .me-tree-section-header .add-plus {
+            margin-left: auto;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            border: 1px solid #c9c9c9;
+            background: #ffffff;
+            color: #0c6afe;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            line-height: 1;
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        .me-tree-section.highlight > .me-tree-section-header { background-color: #e9f3ff; }
+
+        .me-tree-children { padding: 2px 0; }
+
+        .me-field-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 5px 16px 5px 36px;
+            font-size: 13px;
+            color: #181818;
+            cursor: pointer;
+        }
+
+        .me-field-row:hover { background-color: #f3f3f3; }
+
+        .me-field-row.highlight { background-color: #e9f3ff; }
+
+        .me-field-circle {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 1px solid #c9c9c9;
+            background: #ffffff;
+            flex-shrink: 0;
+        }
+
+        .me-type-icon {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: 700;
+            color: #ffffff;
+            flex-shrink: 0;
+        }
+
+        .me-type-icon.text { background-color: #06403e; }
+        .me-type-icon.num  { background-color: #1f1f1f; }
+        .me-type-icon.fx   { background-color: #1f1f1f; font-style: italic; font-family: 'Times New Roman', serif; }
+        .me-type-icon.date { background-color: #1f1f1f; }
+
+        .me-field-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+        .me-key-icon {
+            width: 14px;
+            height: 14px;
+            fill: #b58900;
+            flex-shrink: 0;
+        }
+
+        /* Center canvas */
+        .me-canvas {
+            background-color: #ffffff;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+            overflow: hidden;
+        }
+
+        .me-canvas-prompt {
+            margin: 16px 24px 0 24px;
+            padding: 10px 14px;
+            border: 1px dashed #c9c9c9;
+            border-radius: 24px;
+            text-align: center;
+            font-size: 13px;
+            color: #5c5c5c;
+            background-color: #fafafa;
+        }
+
+        .me-canvas-scroll {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px 24px 24px 24px;
+            background-image: radial-gradient(#e0e0e0 1px, transparent 1px);
+            background-size: 16px 16px;
+        }
+
+        .me-mapping-pair {
+            display: grid;
+            grid-template-columns: 1fr 28px 1fr;
+            align-items: center;
+            margin-bottom: 10px;
+            gap: 0;
+            position: relative;
+        }
+
+        .me-pill {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #ffffff;
+            border: 1px solid #d6d6d6;
+            border-radius: 20px;
+            padding: 7px 12px;
+            font-size: 13px;
+            color: #181818;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+            min-width: 0;
+        }
+
+        .me-pill-left { justify-content: flex-start; }
+        .me-pill-right { justify-content: flex-start; }
+
+        .me-pill .me-field-circle { margin: 0; }
+
+        .me-pill-name {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            flex: 1;
+        }
+
+        .me-lock {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #5c5c5c;
+        }
+
+        .me-lock svg {
             width: 14px;
             height: 14px;
             fill: #5c5c5c;
         }
 
-        .mapping-editor-toolbar {
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            padding: 16px 24px;
-            background-color: #ffffff;
-            border-bottom: 1px solid #e5e5e5;
-            flex-shrink: 0;
-            gap: 24px;
-        }
-
-        .toolbar-left {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            min-width: 260px;
-        }
-
-        .toolbar-label {
-            font-size: 12px;
-            color: #706e6b;
-            font-weight: 400;
-        }
-
-        .model-select {
-            padding: 8px 32px 8px 12px;
-            border: 1px solid #c9c9c9;
-            border-radius: 4px;
-            background-color: #ffffff;
-            font-size: 14px;
-            color: #181818;
-            font-weight: 700;
-            min-width: 240px;
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%235c5c5c' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 12px center;
-            cursor: pointer;
-        }
-
-        .toolbar-right {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            gap: 12px;
-            min-width: 280px;
-        }
-
-        .btn-add-object {
-            padding: 8px 16px;
-            font-size: 13px;
-            font-weight: 700;
-            color: #ffffff;
-            background-color: #0c6afe;
-            border: 1px solid #0c6afe;
-            border-radius: 20px;
-            cursor: pointer;
-        }
-
-        .btn-add-object:hover {
-            background-color: #0a5ae0;
-        }
-
-        .object-chip-list {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            gap: 6px;
-        }
-
-        .object-chip {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 6px 10px 6px 12px;
-            background-color: #fff8d6;
-            border: 1px solid #f4c430;
-            border-radius: 4px;
-            font-size: 13px;
-            color: #03234d;
-            font-weight: 700;
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
-        }
-
-        .object-chip-icon {
-            width: 14px;
-            height: 14px;
-            fill: #b58900;
-        }
-
-        .object-chip-remove {
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            border: none;
-            background-color: transparent;
-            color: #5c5c5c;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            line-height: 1;
-            padding: 0;
-        }
-
-        .object-chip-remove:hover {
-            background-color: #f4c430;
-            color: #03234d;
-        }
-
-        .mapping-editor-body {
-            flex: 1;
-            overflow: auto;
-            padding: 24px;
-            display: flex;
-            justify-content: center;
-        }
-
-        .mapping-canvas {
-            width: 100%;
-            max-width: 1200px;
-            background-color: #ffffff;
-            border: 1px solid #e5e5e5;
-            border-radius: 8px;
-            display: grid;
-            grid-template-columns: 1fr 80px 1fr;
-            min-height: 480px;
-            overflow: hidden;
-        }
-
-        .mapping-column {
-            padding: 16px 20px;
-        }
-
-        .mapping-column-header {
-            font-size: 12px;
-            font-weight: 700;
-            color: #706e6b;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 12px;
-            padding-bottom: 8px;
-            border-bottom: 1px solid #e5e5e5;
-        }
-
-        .mapping-column.source {
-            background-color: #fafaf9;
-            border-right: 1px solid #e5e5e5;
-        }
-
-        .mapping-column.target {
-            background-color: #ffffff;
-            border-left: 1px solid #e5e5e5;
-        }
-
-        .mapping-arrows {
-            background-color: #fafaf9;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding-top: 60px;
-            gap: 14px;
-        }
-
-        .mapping-arrow svg {
-            width: 24px;
-            height: 14px;
-            fill: #c9c9c9;
-        }
-
-        .mapping-row {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 10px;
-            border-radius: 4px;
-            font-size: 13px;
-            color: #181818;
-            margin-bottom: 6px;
-            background-color: #ffffff;
-            border: 1px solid #e5e5e5;
-        }
-
-        .mapping-row .field-icon {
-            width: 14px;
-            height: 14px;
-            fill: #706e6b;
-            flex-shrink: 0;
-        }
-
-        .mapping-row.target {
-            background-color: #f7faff;
-            border-color: #cfe1ff;
-        }
-
-        .mapping-empty {
-            padding: 12px;
-            font-size: 13px;
-            color: #706e6b;
-            font-style: italic;
-        }
-
-        /* New Object Modal */
+        /* New Data Object Modal */
         .new-object-dialog {
             background-color: #ffffff;
             border-radius: 8px;
-            width: 90%;
-            max-width: 520px;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+            width: 92%;
+            max-width: 760px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
             display: flex;
             flex-direction: column;
-        }
-
-        .multi-select {
             position: relative;
         }
 
-        .multi-select-display {
-            min-height: 36px;
-            border: 1px solid #c9c9c9;
-            border-radius: 4px;
-            padding: 4px 32px 4px 6px;
+        .new-object-header {
+            border: 2px solid #0c6afe;
+            border-radius: 6px 6px 0 0;
+            padding: 14px 24px;
+            text-align: center;
             background-color: #ffffff;
+        }
+
+        .new-object-header h2 {
+            font-size: 18px;
+            font-weight: 400;
+            color: #03234d;
+            margin: 0;
+        }
+
+        .new-object-close-floating {
+            position: absolute;
+            top: -18px;
+            right: -18px;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: #ffffff;
+            border: 1px solid #c9c9c9;
             cursor: pointer;
             display: flex;
-            flex-wrap: wrap;
             align-items: center;
-            gap: 4px;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%235c5c5c' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 12px center;
+            justify-content: center;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
         }
 
-        .multi-select-tag {
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            padding: 3px 6px 3px 8px;
-            background-color: #cfe9fe;
-            color: #0d6990;
-            border-radius: 12px;
-            font-size: 12px;
-            font-weight: 700;
+        .new-object-close-floating svg {
+            width: 16px;
+            height: 16px;
+            fill: #5c5c5c;
         }
 
-        .multi-select-tag .remove {
-            cursor: pointer;
-            font-weight: 700;
-            font-size: 14px;
-            line-height: 1;
+        .new-object-body {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+            padding: 24px 28px;
         }
 
-        .multi-select-placeholder {
-            color: #706e6b;
+        .new-object-field-label {
             font-size: 13px;
-            padding: 4px 6px;
-        }
-
-        .multi-select-options {
-            display: none;
-            position: absolute;
-            top: calc(100% + 4px);
-            left: 0;
-            right: 0;
-            background-color: #ffffff;
-            border: 1px solid #c9c9c9;
-            border-radius: 4px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
-            max-height: 220px;
-            overflow-y: auto;
-            z-index: 1100;
-        }
-
-        .multi-select.open .multi-select-options {
+            color: #181818;
+            font-weight: 700;
+            margin-bottom: 8px;
             display: block;
         }
 
-        .multi-select-option {
+        .new-object-field-label .required {
+            color: #d0021b;
+            margin-right: 2px;
+        }
+
+        .new-object-input,
+        .new-object-textarea {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #c9c9c9;
+            border-radius: 4px;
+            font-size: 13px;
+            outline: none;
+            box-sizing: border-box;
+            color: #181818;
+            background-color: #ffffff;
+            font-family: inherit;
+        }
+
+        .new-object-input:focus,
+        .new-object-textarea:focus { border-color: #0176d3; }
+
+        .new-object-textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .new-object-models-list {
+            border: 1px solid #181818;
+            border-radius: 4px;
+            padding: 14px 18px;
+            background-color: #ffffff;
+        }
+
+        .new-object-model-row {
             display: flex;
             align-items: center;
-            gap: 8px;
-            padding: 8px 12px;
-            font-size: 13px;
+            gap: 10px;
+            padding: 6px 0;
+            font-size: 14px;
             color: #181818;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .no-radio {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 2px solid #c9c9c9;
+            background-color: #ffffff;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .new-object-model-row.selected .no-radio {
+            border-color: #0c6afe;
+        }
+
+        .new-object-model-row.selected .no-radio::after {
+            content: '';
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #0c6afe;
+        }
+
+        .new-object-model-row.selected .no-name {
+            font-weight: 700;
+        }
+
+        .no-name { color: #181818; }
+        .no-current {
+            color: #5c5c5c;
+            font-weight: 400;
+            margin-left: 4px;
+        }
+
+        .new-object-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            padding: 14px 24px;
+            border-top: 1px solid #e5e5e5;
+        }
+
+        .no-btn {
+            padding: 8px 28px;
+            font-size: 13px;
+            font-weight: 700;
+            border-radius: 20px;
+            cursor: pointer;
+            border: 1px solid transparent;
+        }
+
+        .no-btn-cancel {
+            background-color: #ffffff;
+            color: #0c6afe;
+            border-color: #c9c9c9;
+        }
+
+        .no-btn-cancel:hover { background-color: #f3f3f3; }
+
+        .no-btn-add {
+            background-color: #d8dde6;
+            color: #ffffff;
+            cursor: not-allowed;
+        }
+
+        .no-btn-add.enabled {
+            background-color: #0c6afe;
             cursor: pointer;
         }
 
-        .multi-select-option:hover {
-            background-color: #d6e6ff;
-        }
-
-        .multi-select-option input[type="checkbox"] {
-            margin: 0;
-        }
+        .no-btn-add.enabled:hover { background-color: #0a5ae0; }
     </style>
 </head>
 <body>
@@ -2693,89 +2931,111 @@
 
     <!-- Mapping Editor Overlay -->
     <div class="mapping-editor-overlay" id="mappingEditor">
-        <div class="mapping-editor-header">
-            <div class="mapping-editor-title">
-                <div class="mapping-editor-title-icon">
+        <div class="me-topbar">
+            <div class="me-topbar-left">
+                <button class="me-back-btn" onclick="closeMappingEditor()" title="Back">
                     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M3 5h8v2H3V5zm0 6h8v2H3v-2zm0 6h8v2H3v-2zm10-9l4 4 4-4-4-4-4 4zm0 8l4 4 4-4-4-4-4 4z"/>
+                        <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
                     </svg>
-                </div>
-                <h2>Edit Mapping &mdash; Google Ads</h2>
+                </button>
+                <span class="me-pipeline-title" id="mePipelineTitle">Gur_s_GAds_Connection 1925355064 - Edit Mapping</span>
             </div>
-            <button class="mapping-editor-close" onclick="closeMappingEditor()">
-                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
-                </svg>
-            </button>
-        </div>
-
-        <div class="mapping-editor-toolbar">
-            <div class="toolbar-left">
-                <span class="toolbar-label">Model</span>
-                <select class="model-select" id="modelSelect" onchange="onModelChange()"></select>
-            </div>
-            <div class="toolbar-right">
-                <button class="btn-add-object" onclick="openNewObjectModal()">+ Add Object</button>
-                <div class="object-chip-list" id="objectChipList"></div>
+            <div class="me-topbar-right">
+                <button class="me-help-btn">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"/>
+                    </svg>
+                    Help
+                </button>
             </div>
         </div>
 
-        <div class="mapping-editor-body">
-            <div class="mapping-canvas">
-                <div class="mapping-column source">
-                    <div class="mapping-column-header">Source &mdash; Google Ads</div>
-                    <div class="mapping-row"><svg class="field-icon" viewBox="0 0 24 24"><path d="M3 5h18v2H3zM3 11h18v2H3zM3 17h18v2H3z"/></svg> campaign_id</div>
-                    <div class="mapping-row"><svg class="field-icon" viewBox="0 0 24 24"><path d="M3 5h18v2H3zM3 11h18v2H3zM3 17h18v2H3z"/></svg> campaign_name</div>
-                    <div class="mapping-row"><svg class="field-icon" viewBox="0 0 24 24"><path d="M3 5h18v2H3zM3 11h18v2H3zM3 17h18v2H3z"/></svg> impressions</div>
-                    <div class="mapping-row"><svg class="field-icon" viewBox="0 0 24 24"><path d="M3 5h18v2H3zM3 11h18v2H3zM3 17h18v2H3z"/></svg> clicks</div>
-                    <div class="mapping-row"><svg class="field-icon" viewBox="0 0 24 24"><path d="M3 5h18v2H3zM3 11h18v2H3zM3 17h18v2H3z"/></svg> cost_micros</div>
-                    <div class="mapping-row"><svg class="field-icon" viewBox="0 0 24 24"><path d="M3 5h18v2H3zM3 11h18v2H3zM3 17h18v2H3z"/></svg> conversions</div>
+        <div class="me-toolbar">
+            <div class="me-toolbar-left">
+                <span class="data-space-label">Data Space</span>
+                <span class="data-space-tag">default</span>
+            </div>
+            <div class="me-toolbar-right">
+                <button class="me-validate-btn">Validate</button>
+                <button class="me-save-btn">Save</button>
+            </div>
+        </div>
+
+        <div class="me-body">
+            <!-- LEFT: Source panel -->
+            <div class="me-panel left">
+                <div class="me-panel-header">
+                    <button class="me-panel-title open" id="sourcePanelTitle" onclick="toggleSourceModelMenu(event)">
+                        <span id="sourcePanelName">Media Delivery</span>
+                        <svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5H7z"/></svg>
+                    </button>
                 </div>
-                <div class="mapping-arrows">
-                    <div class="mapping-arrow"><svg viewBox="0 0 24 14"><path d="M0 7h20l-4-4 1-1 6 5-6 5-1-1 4-4H0z"/></svg></div>
-                    <div class="mapping-arrow"><svg viewBox="0 0 24 14"><path d="M0 7h20l-4-4 1-1 6 5-6 5-1-1 4-4H0z"/></svg></div>
-                    <div class="mapping-arrow"><svg viewBox="0 0 24 14"><path d="M0 7h20l-4-4 1-1 6 5-6 5-1-1 4-4H0z"/></svg></div>
-                    <div class="mapping-arrow"><svg viewBox="0 0 24 14"><path d="M0 7h20l-4-4 1-1 6 5-6 5-1-1 4-4H0z"/></svg></div>
-                    <div class="mapping-arrow"><svg viewBox="0 0 24 14"><path d="M0 7h20l-4-4 1-1 6 5-6 5-1-1 4-4H0z"/></svg></div>
-                    <div class="mapping-arrow"><svg viewBox="0 0 24 14"><path d="M0 7h20l-4-4 1-1 6 5-6 5-1-1 4-4H0z"/></svg></div>
+                <div class="me-panel-tabs" id="sourceTabs">
+                    <button class="me-tab active" data-tab="all">All</button>
+                    <button class="me-tab" data-tab="mapped">Mapped</button>
+                    <button class="me-tab" data-tab="unmapped">Unmapped</button>
                 </div>
-                <div class="mapping-column target">
-                    <div class="mapping-column-header" id="targetModelHeader">Target &mdash; Model</div>
-                    <div id="targetFieldList">
-                        <div class="mapping-empty">No mapped fields yet.</div>
-                    </div>
+                <div class="me-search">
+                    <input type="text" class="me-search-input" placeholder="Search...">
                 </div>
+                <div class="me-tree" id="sourceTree"></div>
+            </div>
+
+            <!-- CENTER: Mapping canvas -->
+            <div class="me-canvas">
+                <div class="me-canvas-prompt">Select a field to add mapping</div>
+                <div class="me-canvas-scroll" id="canvasMappings"></div>
+            </div>
+
+            <!-- RIGHT: Target model panel -->
+            <div class="me-panel right">
+                <div class="me-panel-header">
+                    <span class="me-panel-title" id="targetPanelTitle"><span id="targetPanelName">Delivery Model</span></span>
+                </div>
+                <div class="me-panel-tabs" id="targetTabs">
+                    <button class="me-tab active" data-tab="all">All</button>
+                    <button class="me-tab" data-tab="mapped">Mapped</button>
+                    <button class="me-tab" data-tab="unmapped">Unmapped</button>
+                </div>
+                <div class="me-search">
+                    <input type="text" class="me-search-input" placeholder="Search...">
+                </div>
+                <button class="me-add-object" onclick="openNewObjectModal()">
+                    <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                    Add Object
+                </button>
+                <div class="me-tree" id="targetTree"></div>
             </div>
         </div>
     </div>
 
-    <!-- New Object Modal -->
+    <!-- New Data Object Modal -->
     <div class="modal-overlay" id="newObjectModal">
         <div class="new-object-dialog">
-            <div class="modal-header">
-                <h2 class="modal-title">New Data Object</h2>
-                <button class="modal-close-btn" onclick="closeNewObjectModal()">
-                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
-                    </svg>
-                </button>
+            <button class="new-object-close-floating" onclick="closeNewObjectModal()">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                </svg>
+            </button>
+            <div class="new-object-header">
+                <h2>New Data Object</h2>
             </div>
-            <div class="modal-body">
-                <div class="form-field">
-                    <label class="form-label">Object Name <span class="required">*</span></label>
-                    <input type="text" class="form-input" id="newObjectName" placeholder="e.g. campaign_performance">
+            <div class="new-object-body">
+                <div>
+                    <label class="new-object-field-label"><span class="required">*</span>Object Name</label>
+                    <input type="text" class="new-object-input" id="newObjectName" oninput="updateAddBtnState()">
+                    <div style="height: 16px;"></div>
+                    <label class="new-object-field-label">Description</label>
+                    <textarea class="new-object-textarea" id="newObjectDescription" placeholder="Describe the object's purpose..."></textarea>
                 </div>
-                <div class="form-field">
-                    <label class="form-label">Models <span class="required">*</span></label>
-                    <div class="multi-select" id="modelMultiSelect">
-                        <div class="multi-select-display" id="modelMultiSelectDisplay" onclick="toggleModelMultiSelect(event)"></div>
-                        <div class="multi-select-options" id="modelMultiSelectOptions"></div>
-                    </div>
+                <div>
+                    <label class="new-object-field-label">Add Object to Other Models:</label>
+                    <div class="new-object-models-list" id="newObjectModelsList"></div>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button class="modal-btn modal-btn-cancel" onclick="closeNewObjectModal()">Cancel</button>
-                <button class="modal-btn modal-btn-next" onclick="addNewObject()">Add</button>
+            <div class="new-object-footer">
+                <button class="no-btn no-btn-cancel" onclick="closeNewObjectModal()">Cancel</button>
+                <button class="no-btn no-btn-add" id="newObjectAddBtn" onclick="addNewObject()">Add</button>
             </div>
         </div>
     </div>
@@ -3059,21 +3319,176 @@
         });
 
         // ==================== Mapping Editor ====================
-        const MAPPING_MODELS = ['Campaigns', 'Conversions', 'Keywords', 'Ads', 'Audiences'];
-        let currentModel = 'Campaigns';
-        // Map of modelName -> [objectName, ...]
-        const modelObjects = {};
-        MAPPING_MODELS.forEach(m => { modelObjects[m] = []; });
+        const MAPPING_MODELS = ['Delivery', 'Conversions', 'Delivery Verification', 'Web Analytics Event', 'Web Analytics Page'];
+
+        // Per-model configuration: source name, target model display name,
+        // source fields list, target objects (each with mapped/unmapped fields), and mapping pairs.
+        const MODEL_DATA = {
+            'Delivery': {
+                sourceName: 'Media Delivery',
+                targetName: 'Delivery Model',
+                sourceFields: [
+                    {n: 'Ad Description (Second)', t: 'text'},
+                    {n: 'Ad Display URL', t: 'text'},
+                    {n: 'AD Final URL', t: 'text'},
+                    {n: 'Ad Headline Part 2', t: 'text'},
+                    {n: 'Ad Label', t: 'text'},
+                    {n: 'Campaign Advertiser', t: 'text'},
+                    {n: 'Campaign Advertiser ID', t: 'text'},
+                    {n: 'Campaign Billing Code', t: 'text'},
+                    {n: 'Campaign Budget', t: 'text'},
+                    {n: 'Campaign Category', t: 'text'},
+                    {n: 'Campaign Key', t: 'text'},
+                    {n: 'Campaign Name', t: 'text'},
+                    {n: 'Campaign Status', t: 'text'},
+                    {n: 'Clicks', t: 'num'},
+                    {n: 'Creative Format', t: 'text'},
+                    {n: 'Creative Key', t: 'text'},
+                    {n: 'Creative Name', t: 'text'}
+                ],
+                objects: [
+                    {
+                        name: 'Delivery',
+                        mapped: [
+                            {n: 'Clicks', t: 'num'},
+                            {n: 'Delivery Currency', t: 'text'},
+                            {n: 'Delivery Date Time', t: 'date'},
+                            {n: 'Delivery Id', t: 'text', key: true},
+                            {n: 'Impressions', t: 'num'},
+                            {n: 'Interactions', t: 'num'},
+                            {n: 'Paid Engagements', t: 'num'},
+                            {n: 'Search Budget Lost Impressi...', t: 'num'},
+                            {n: 'Search Impression Share', t: 'num'},
+                            {n: 'Search Keyword Rank', t: 'num'},
+                            {n: 'Search Rank Lost Impression...', t: 'num'},
+                            {n: 'Spend', t: 'num'}
+                        ],
+                        unmapped: [
+                            {n: 'Action Clicks In Mail', t: 'num'},
+                            {n: 'Ad Unit Clicks In Mail', t: 'num'},
+                            {n: 'Audio Companion Clicks', t: 'num'}
+                        ]
+                    }
+                ],
+                mappings: [
+                    {l: 'Channel Type Formula', lt: 'fx', r: 'Marketing Channel Ty...', rt: 'text'},
+                    {l: 'Channel Name Formu...', lt: 'fx', r: 'Marketing Channel N...', rt: 'text'},
+                    {l: 'Channel Id Formula', lt: 'fx', r: 'Marketing Channel Id', rt: 'text'},
+                    {l: 'HeadlineText Formula', lt: 'fx', r: 'Ad Headline', rt: 'text'},
+                    {l: 'Ad Label', lt: 'text', r: 'Ad Group', rt: 'text'},
+                    {l: 'Ad Creative Text For...', lt: 'fx', r: 'Ad Creative Text', rt: 'text'},
+                    {l: 'Creative Format', lt: 'text', r: 'Ad Format', rt: 'text'},
+                    {l: 'Creative Key', lt: 'text', r: 'Ad Id', rt: 'text'},
+                    {l: 'Creative Title Name', lt: 'text', r: 'Ad Creative Title Name', rt: 'text'},
+                    {l: 'Creative Name', lt: 'text', r: 'Ad Name', rt: 'text'},
+                    {l: 'AD Final URL', lt: 'text', r: 'Ad Creative Click Url', rt: 'text'},
+                    {l: 'Ad Display URL', lt: 'text', r: 'Ad Creative Url', rt: 'text'},
+                    {l: 'Site Id Formula', lt: 'fx', r: 'Site Id', rt: 'text'},
+                    {l: 'Site Name', lt: 'text', r: 'Site Name', rt: 'text'},
+                    {l: 'Currency', lt: 'text', r: 'Campaign Currency', rt: 'text'}
+                ]
+            },
+            'Conversions': {
+                sourceName: 'Media Conversion',
+                targetName: 'Conversion Model',
+                sourceFields: [
+                    {n: 'Ad Description (Second)', t: 'text'},
+                    {n: 'Ad Display URL', t: 'text'},
+                    {n: 'AD Final URL', t: 'text'},
+                    {n: 'Ad Headline Part 2', t: 'text'},
+                    {n: 'Ad Label', t: 'text'},
+                    {n: 'Campaign Advertiser', t: 'text'},
+                    {n: 'Campaign Advertiser ID', t: 'text'},
+                    {n: 'Campaign Billing Code', t: 'text'},
+                    {n: 'Campaign Budget', t: 'text'},
+                    {n: 'Campaign Category', t: 'text'},
+                    {n: 'Campaign Key', t: 'text'},
+                    {n: 'Campaign Name', t: 'text'},
+                    {n: 'Campaign Status', t: 'text'},
+                    {n: 'Conversion Tag Category', t: 'text'},
+                    {n: 'Conversion Tag Name', t: 'text'},
+                    {n: 'Creative Format', t: 'text'},
+                    {n: 'Creative Key', t: 'text'}
+                ],
+                objects: [
+                    {
+                        name: 'Conversion',
+                        mapped: [
+                            {n: 'Conversion Id', t: 'text', key: true},
+                            {n: 'Conversion Date Time', t: 'date'},
+                            {n: 'Conversion Currency', t: 'text'},
+                            {n: 'Conversions', t: 'num'},
+                            {n: 'Post Impression Conversions', t: 'num'},
+                            {n: 'Revenue', t: 'num'}
+                        ],
+                        unmapped: [
+                            {n: 'Assists Conversions', t: 'num'},
+                            {n: 'Post Click Conversions', t: 'num'},
+                            {n: 'Post Click Revenue', t: 'num'}
+                        ]
+                    }
+                ],
+                mappings: [
+                    {l: 'Conversion Tag Id For...', lt: 'fx', r: 'Conversion Tag Id', rt: 'text'},
+                    {l: 'Conversion Tag Category', lt: 'text', r: 'Conversion Tag Categ...', rt: 'text'},
+                    {l: 'Conversion Tag Name', lt: 'text', r: 'Conversion Tag Name', rt: 'text'},
+                    {l: 'HeadlineText Formula', lt: 'fx', r: 'Ad Headline', rt: 'text'},
+                    {l: 'Ad Label', lt: 'text', r: 'Ad Group', rt: 'text'},
+                    {l: 'Ad Creative Text For...', lt: 'fx', r: 'Ad Creative Text', rt: 'text'},
+                    {l: 'Creative Format', lt: 'text', r: 'Ad Format', rt: 'text'},
+                    {l: 'Creative Key', lt: 'text', r: 'Ad Id', rt: 'text'},
+                    {l: 'Creative Title Name', lt: 'text', r: 'Ad Creative Title Name', rt: 'text'},
+                    {l: 'Creative Name', lt: 'text', r: 'Ad Name', rt: 'text'},
+                    {l: 'AD Final URL', lt: 'text', r: 'Ad Creative Click Url', rt: 'text'},
+                    {l: 'Ad Display URL', lt: 'text', r: 'Ad Creative Url', rt: 'text'},
+                    {l: 'Site Id Formula', lt: 'fx', r: 'Site Id', rt: 'text'},
+                    {l: 'Site Name', lt: 'text', r: 'Site Name', rt: 'text'}
+                ]
+            },
+            'Delivery Verification': {
+                sourceName: 'Media Verification',
+                targetName: 'Verification Model',
+                sourceFields: [
+                    {n: 'Campaign Name', t: 'text'},
+                    {n: 'Verification Status', t: 'text'}
+                ],
+                objects: [{name: 'Verification', mapped: [], unmapped: []}],
+                mappings: []
+            },
+            'Web Analytics Event': {
+                sourceName: 'Web Event Source',
+                targetName: 'Web Event Model',
+                sourceFields: [
+                    {n: 'Event Category', t: 'text'},
+                    {n: 'Event Action', t: 'text'},
+                    {n: 'Event Count', t: 'num'}
+                ],
+                objects: [{name: 'Web Event', mapped: [], unmapped: []}],
+                mappings: []
+            },
+            'Web Analytics Page': {
+                sourceName: 'Web Page Source',
+                targetName: 'Web Page Model',
+                sourceFields: [
+                    {n: 'Page URL', t: 'text'},
+                    {n: 'Page Title', t: 'text'},
+                    {n: 'Page Views', t: 'num'}
+                ],
+                objects: [{name: 'Web Page', mapped: [], unmapped: []}],
+                mappings: []
+            }
+        };
+
+        let currentModel = 'Delivery';
+        // expanded state per [model][objectName] for target tree sections
+        const targetExpanded = {};
+        MAPPING_MODELS.forEach(m => { targetExpanded[m] = {}; });
+        // Source tree expanded state per [model][group]
+        const sourceExpanded = {};
+        MAPPING_MODELS.forEach(m => { sourceExpanded[m] = { root: true, mapped: true }; });
 
         function initMappingEditor() {
-            const modelSelect = document.getElementById('modelSelect');
-            if (modelSelect) {
-                modelSelect.innerHTML = MAPPING_MODELS.map(m =>
-                    '<option value="' + m + '"' + (m === currentModel ? ' selected' : '') + '>' + m + '</option>'
-                ).join('');
-            }
-            renderObjectChips();
-            renderTargetFields();
+            renderMappingEditor();
 
             const newObjectModal = document.getElementById('newObjectModal');
             if (newObjectModal) {
@@ -3082,9 +3497,12 @@
                 });
             }
 
+            // Source panel title acts as model dropdown trigger
             document.addEventListener('click', function(e) {
-                const ms = document.getElementById('modelMultiSelect');
-                if (ms && !ms.contains(e.target)) ms.classList.remove('open');
+                const menu = document.getElementById('sourceModelMenu');
+                if (menu && !e.target.closest('#sourcePanelTitle') && !menu.contains(e.target)) {
+                    menu.remove();
+                }
             });
         }
 
@@ -3093,6 +3511,7 @@
             document.querySelectorAll('.dropdown-menu.show').forEach(menu => menu.classList.remove('show'));
             document.getElementById('mappingEditor').classList.add('show');
             document.body.style.overflow = 'hidden';
+            renderMappingEditor();
         }
 
         function closeMappingEditor() {
@@ -3100,55 +3519,164 @@
             document.body.style.overflow = '';
         }
 
-        function onModelChange() {
-            currentModel = document.getElementById('modelSelect').value;
-            renderObjectChips();
-            renderTargetFields();
+        function toggleSourceModelMenu(e) {
+            e.stopPropagation();
+            const existing = document.getElementById('sourceModelMenu');
+            if (existing) { existing.remove(); return; }
+            const titleBtn = document.getElementById('sourcePanelTitle');
+            const rect = titleBtn.getBoundingClientRect();
+            const menu = document.createElement('div');
+            menu.id = 'sourceModelMenu';
+            menu.style.cssText = 'position:fixed;top:' + (rect.bottom + 4) + 'px;left:' + rect.left + 'px;background:#fff;border:1px solid #c9c9c9;border-radius:4px;box-shadow:0 2px 8px rgba(0,0,0,.15);min-width:220px;z-index:1500;';
+            menu.innerHTML = MAPPING_MODELS.map(m => {
+                const data = MODEL_DATA[m];
+                const sel = m === currentModel ? 'background:#e9f3ff;font-weight:700;' : '';
+                return '<div class="model-menu-item" data-model="' + m + '" style="padding:8px 14px;font-size:13px;color:#181818;cursor:pointer;' + sel + '">' + escapeHtml(data.sourceName) + '</div>';
+            }).join('');
+            document.body.appendChild(menu);
+            menu.querySelectorAll('.model-menu-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    currentModel = this.getAttribute('data-model');
+                    menu.remove();
+                    renderMappingEditor();
+                });
+                item.addEventListener('mouseenter', function() {
+                    if (this.getAttribute('data-model') !== currentModel) this.style.backgroundColor = '#f3f3f3';
+                });
+                item.addEventListener('mouseleave', function() {
+                    if (this.getAttribute('data-model') !== currentModel) this.style.backgroundColor = '';
+                });
+            });
         }
 
-        function renderObjectChips() {
-            const list = document.getElementById('objectChipList');
-            const objects = modelObjects[currentModel] || [];
-            if (objects.length === 0) {
-                list.innerHTML = '';
-                return;
-            }
-            list.innerHTML = objects.map((name, idx) =>
-                '<span class="object-chip">' +
-                    '<svg class="object-chip-icon" viewBox="0 0 24 24"><path d="M12 2l3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z"/></svg>' +
-                    escapeHtml(name) +
-                    '<button class="object-chip-remove" onclick="removeObject(' + idx + ')" title="Remove">&times;</button>' +
-                '</span>'
-            ).join('');
+        function renderMappingEditor() {
+            const data = MODEL_DATA[currentModel];
+            document.getElementById('sourcePanelName').textContent = data.sourceName;
+            document.getElementById('targetPanelName').textContent = data.targetName;
+            renderSourceTree();
+            renderTargetTree();
+            renderCanvas();
         }
 
-        function renderTargetFields() {
-            const header = document.getElementById('targetModelHeader');
-            const target = document.getElementById('targetFieldList');
-            header.innerHTML = 'Target &mdash; ' + escapeHtml(currentModel);
-            const objects = modelObjects[currentModel] || [];
-            if (objects.length === 0) {
-                target.innerHTML = '<div class="mapping-empty">No mapped fields yet. Click "+ Add Object" to define one.</div>';
-                return;
-            }
-            target.innerHTML = objects.map(name =>
-                '<div class="mapping-row target">' +
-                    '<svg class="field-icon" viewBox="0 0 24 24"><path d="M3 5h18v2H3zM3 11h18v2H3zM3 17h18v2H3z"/></svg>' +
-                    escapeHtml(name) +
+        function typeIcon(t) {
+            if (t === 'num')  return '<span class="me-type-icon num">#</span>';
+            if (t === 'fx')   return '<span class="me-type-icon fx">fx</span>';
+            if (t === 'date') return '<span class="me-type-icon date">' +
+                '<svg viewBox="0 0 24 24" width="11" height="11" fill="#fff"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zM5 8V6h14v2H5z"/></svg>' +
+                '</span>';
+            return '<span class="me-type-icon text">A<sub style="font-size:7px;">a</sub></span>';
+        }
+
+        function keyIcon() {
+            return '<svg class="me-key-icon" viewBox="0 0 24 24"><path d="M12.65 10A6 6 0 0017 6a6 6 0 10-12 0 6 6 0 004.35 4H4v3l3 3 3-3v-3h2.65zM6 6a2 2 0 114 0 2 2 0 01-4 0z"/></svg>';
+        }
+
+        function renderSourceTree() {
+            const data = MODEL_DATA[currentModel];
+            const tree = document.getElementById('sourceTree');
+            const rootOpen = sourceExpanded[currentModel].root !== false;
+            const mappedOpen = sourceExpanded[currentModel].mapped !== false;
+            const fields = data.sourceFields;
+
+            tree.innerHTML =
+                '<div class="me-tree-section ' + (rootOpen ? '' : 'collapsed') + '" data-key="root">' +
+                    '<div class="me-tree-section-header" onclick="toggleSourceSection(\'root\')">' +
+                        '<svg class="chev" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5H7z"/></svg>' +
+                        '<span>' + escapeHtml(data.sourceName) + '</span>' +
+                    '</div>' +
+                    '<div class="me-tree-children">' +
+                        '<div class="me-tree-section ' + (mappedOpen ? '' : 'collapsed') + '" data-key="mapped">' +
+                            '<div class="me-tree-section-header subgroup" onclick="toggleSourceSection(\'mapped\')">' +
+                                '<svg class="chev" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5H7z"/></svg>' +
+                                '<span>Mapped (' + fields.length + ')</span>' +
+                            '</div>' +
+                            '<div class="me-tree-children">' +
+                                fields.map(f =>
+                                    '<div class="me-field-row">' +
+                                        '<span class="me-field-circle"></span>' +
+                                        typeIcon(f.t) +
+                                        '<span class="me-field-name">' + escapeHtml(f.n) + '</span>' +
+                                    '</div>'
+                                ).join('') +
+                            '</div>' +
+                        '</div>' +
+                    '</div>' +
+                '</div>';
+        }
+
+        function toggleSourceSection(key) {
+            sourceExpanded[currentModel][key] = !sourceExpanded[currentModel][key];
+            renderSourceTree();
+        }
+
+        function renderTargetTree() {
+            const data = MODEL_DATA[currentModel];
+            const tree = document.getElementById('targetTree');
+            tree.innerHTML = data.objects.map((obj, idx) => renderTargetObject(obj, idx)).join('');
+        }
+
+        function renderTargetObject(obj, idx) {
+            const exp = targetExpanded[currentModel][obj.name] || (targetExpanded[currentModel][obj.name] = { root: true, mapped: true, unmapped: true });
+            const isHighlighted = obj.isNew ? 'highlight' : '';
+            return '<div class="me-tree-section ' + (exp.root ? '' : 'collapsed') + ' ' + isHighlighted + '" data-obj="' + escapeAttr(obj.name) + '">' +
+                '<div class="me-tree-section-header" onclick="toggleTargetSection(\'' + escapeJs(obj.name) + '\', \'root\')">' +
+                    '<svg class="chev" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5H7z"/></svg>' +
+                    '<span>' + escapeHtml(obj.name) + '</span>' +
+                    '<span class="add-plus" onclick="event.stopPropagation();">+</span>' +
+                '</div>' +
+                '<div class="me-tree-children">' +
+                    renderObjectGroup(obj, 'mapped', exp) +
+                    renderObjectGroup(obj, 'unmapped', exp) +
+                '</div>' +
+            '</div>';
+        }
+
+        function renderObjectGroup(obj, group, exp) {
+            const fields = obj[group] || [];
+            const open = exp[group] !== false;
+            const label = (group === 'mapped' ? 'Mapped' : 'Unmapped');
+            return '<div class="me-tree-section ' + (open ? '' : 'collapsed') + '">' +
+                '<div class="me-tree-section-header subgroup" onclick="toggleTargetSection(\'' + escapeJs(obj.name) + '\', \'' + group + '\')">' +
+                    '<svg class="chev" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5H7z"/></svg>' +
+                    '<span>' + label + ' (' + fields.length + ')</span>' +
+                '</div>' +
+                '<div class="me-tree-children">' +
+                    fields.map(f =>
+                        '<div class="me-field-row ' + (obj.isNew ? 'highlight' : '') + '">' +
+                            '<span class="me-field-circle"></span>' +
+                            typeIcon(f.t) +
+                            '<span class="me-field-name">' + escapeHtml(f.n) + '</span>' +
+                            (f.key ? keyIcon() : '') +
+                        '</div>'
+                    ).join('') +
+                '</div>' +
+            '</div>';
+        }
+
+        function toggleTargetSection(objName, key) {
+            const exp = targetExpanded[currentModel][objName] || (targetExpanded[currentModel][objName] = { root: true, mapped: true, unmapped: true });
+            exp[key] = !exp[key];
+            renderTargetTree();
+        }
+
+        function renderCanvas() {
+            const data = MODEL_DATA[currentModel];
+            const canvas = document.getElementById('canvasMappings');
+            canvas.innerHTML = data.mappings.map(m =>
+                '<div class="me-mapping-pair">' +
+                    '<div class="me-pill me-pill-left">' +
+                        '<span class="me-field-circle"></span>' +
+                        typeIcon(m.lt) +
+                        '<span class="me-pill-name">' + escapeHtml(m.l) + '</span>' +
+                    '</div>' +
+                    '<div class="me-lock"><svg viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zM9 6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9V6zm9 14H6V10h12v10zm-6-3c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z"/></svg></div>' +
+                    '<div class="me-pill me-pill-right">' +
+                        typeIcon(m.rt) +
+                        '<span class="me-pill-name">' + escapeHtml(m.r) + '</span>' +
+                        '<span class="me-field-circle" style="margin-left:auto;"></span>' +
+                    '</div>' +
                 '</div>'
             ).join('');
-        }
-
-        function removeObject(idx) {
-            const objects = modelObjects[currentModel];
-            if (!objects) return;
-            const removed = objects.splice(idx, 1)[0];
-            // Also remove from any other models that contain it
-            MAPPING_MODELS.forEach(m => {
-                modelObjects[m] = modelObjects[m].filter(n => n !== removed);
-            });
-            renderObjectChips();
-            renderTargetFields();
         }
 
         function escapeHtml(s) {
@@ -3156,6 +3684,8 @@
                 '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
             })[c]);
         }
+        function escapeAttr(s) { return escapeHtml(s); }
+        function escapeJs(s) { return String(s).replace(/'/g, "\\'"); }
 
         // ==================== New Object Modal ====================
         let selectedModels = [];
@@ -3163,40 +3693,26 @@
         function openNewObjectModal() {
             selectedModels = [currentModel];
             document.getElementById('newObjectName').value = '';
-            renderModelMultiSelect();
+            document.getElementById('newObjectDescription').value = '';
+            renderNewObjectModels();
+            updateAddBtnState();
             document.getElementById('newObjectModal').classList.add('show');
         }
 
         function closeNewObjectModal() {
             document.getElementById('newObjectModal').classList.remove('show');
-            const ms = document.getElementById('modelMultiSelect');
-            if (ms) ms.classList.remove('open');
         }
 
-        function toggleModelMultiSelect(e) {
-            if (e) e.stopPropagation();
-            document.getElementById('modelMultiSelect').classList.toggle('open');
-        }
-
-        function renderModelMultiSelect() {
-            const display = document.getElementById('modelMultiSelectDisplay');
-            const options = document.getElementById('modelMultiSelectOptions');
-
-            if (selectedModels.length === 0) {
-                display.innerHTML = '<span class="multi-select-placeholder">Select one or more models...</span>';
-            } else {
-                display.innerHTML = selectedModels.map(m =>
-                    '<span class="multi-select-tag">' + escapeHtml(m) +
-                    '<span class="remove" onclick="removeSelectedModel(event, \'' + m + '\')">&times;</span></span>'
-                ).join('');
-            }
-
-            options.innerHTML = MAPPING_MODELS.map(m => {
-                const checked = selectedModels.includes(m) ? 'checked' : '';
-                return '<label class="multi-select-option">' +
-                    '<input type="checkbox" ' + checked + ' onchange="toggleSelectedModel(\'' + m + '\')"> ' +
-                    escapeHtml(m) +
-                '</label>';
+        function renderNewObjectModels() {
+            const list = document.getElementById('newObjectModelsList');
+            list.innerHTML = MAPPING_MODELS.map(m => {
+                const isSelected = selectedModels.includes(m);
+                const isCurrent = m === currentModel;
+                return '<div class="new-object-model-row ' + (isSelected ? 'selected' : '') + '" onclick="toggleSelectedModel(\'' + escapeJs(m) + '\')">' +
+                    '<span class="no-radio"></span>' +
+                    '<span class="no-name">' + escapeHtml(m) + '</span>' +
+                    (isCurrent ? '<span class="no-current">(Current)</span>' : '') +
+                '</div>';
             }).join('');
         }
 
@@ -3206,29 +3722,43 @@
             } else {
                 selectedModels.push(model);
             }
-            renderModelMultiSelect();
+            renderNewObjectModels();
+            updateAddBtnState();
         }
 
-        function removeSelectedModel(e, model) {
-            e.stopPropagation();
-            selectedModels = selectedModels.filter(m => m !== model);
-            renderModelMultiSelect();
+        function updateAddBtnState() {
+            const name = document.getElementById('newObjectName').value.trim();
+            const btn = document.getElementById('newObjectAddBtn');
+            if (name && selectedModels.length > 0) {
+                btn.classList.add('enabled');
+            } else {
+                btn.classList.remove('enabled');
+            }
         }
 
         function addNewObject() {
+            const btn = document.getElementById('newObjectAddBtn');
+            if (!btn.classList.contains('enabled')) return;
             const name = document.getElementById('newObjectName').value.trim();
-            if (!name) { alert('Please enter an object name'); return; }
-            if (selectedModels.length === 0) { alert('Please select at least one model'); return; }
 
             selectedModels.forEach(m => {
-                if (!modelObjects[m].includes(name)) {
-                    modelObjects[m].push(name);
-                }
+                const data = MODEL_DATA[m];
+                if (data.objects.some(o => o.name === name)) return;
+                data.objects.unshift({
+                    name: name,
+                    isNew: true,
+                    mapped: [],
+                    unmapped: [
+                        {n: name + ' Currency', t: 'text'},
+                        {n: name + ' Id', t: 'text', key: true},
+                        {n: name + ' Name', t: 'text'}
+                    ]
+                });
+                targetExpanded[m][name] = { root: true, mapped: true, unmapped: true };
             });
 
             closeNewObjectModal();
-            renderObjectChips();
-            renderTargetFields();
+            renderMappingEditor();
         }
 
     </script>
