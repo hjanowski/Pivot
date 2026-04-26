@@ -1421,6 +1421,24 @@
             grid-template-columns: 320px 1fr 320px;
             min-height: 0;
             background-color: #f3f3f3;
+            position: relative;
+        }
+
+        .me-connections {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+            overflow: visible;
+        }
+
+        .me-connections path {
+            fill: none;
+            stroke: #b0b3b8;
+            stroke-width: 1;
         }
 
         .me-panel {
@@ -1593,6 +1611,19 @@
             font-size: 13px;
             color: #181818;
             cursor: pointer;
+            position: relative;
+        }
+
+        .me-field-row.source-row .me-field-name { flex: 1; }
+        .me-field-row.source-row .me-field-circle.src-handle {
+            margin-left: auto;
+            position: relative;
+            right: -12px;
+        }
+
+        .me-field-row.target-row .me-field-circle.tgt-handle {
+            position: relative;
+            left: -12px;
         }
 
         .me-field-row:hover { background-color: #f3f3f3; }
@@ -1803,11 +1834,62 @@
             min-height: 80px;
         }
 
-        .new-object-models-list {
-            border: 1px solid #181818;
+        .new-object-models-dropdown {
+            position: relative;
+        }
+
+        .new-object-models-trigger {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 1px solid #c9c9c9;
             border-radius: 4px;
-            padding: 14px 18px;
+            padding: 8px 12px;
             background-color: #ffffff;
+            cursor: pointer;
+            font-size: 14px;
+            color: #181818;
+            min-height: 38px;
+        }
+
+        .new-object-models-trigger .chev {
+            width: 12px;
+            height: 12px;
+            fill: #5c5c5c;
+            transition: transform 0.15s;
+            flex-shrink: 0;
+            margin-left: 8px;
+        }
+
+        .new-object-models-dropdown.open .new-object-models-trigger .chev {
+            transform: rotate(180deg);
+        }
+
+        .new-object-models-trigger-label {
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .new-object-models-list {
+            display: none;
+            position: absolute;
+            top: calc(100% + 4px);
+            left: 0;
+            right: 0;
+            border: 1px solid #c9c9c9;
+            border-radius: 4px;
+            padding: 8px 14px;
+            background-color: #ffffff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.12);
+            z-index: 1200;
+            max-height: 240px;
+            overflow-y: auto;
+        }
+
+        .new-object-models-dropdown.open .new-object-models-list {
+            display: block;
         }
 
         .new-object-model-row {
@@ -1819,6 +1901,11 @@
             color: #181818;
             cursor: pointer;
             user-select: none;
+        }
+
+        .new-object-model-row.disabled {
+            cursor: default;
+            opacity: 1;
         }
 
         .no-radio {
@@ -2962,6 +3049,7 @@
         </div>
 
         <div class="me-body">
+            <svg class="me-connections" id="meConnections"></svg>
             <!-- LEFT: Source panel -->
             <div class="me-panel left">
                 <div class="me-panel-header">
@@ -3030,7 +3118,13 @@
                 </div>
                 <div>
                     <label class="new-object-field-label">Add Object to Other Models:</label>
-                    <div class="new-object-models-list" id="newObjectModelsList"></div>
+                    <div class="new-object-models-dropdown" id="noModelsDropdown">
+                        <div class="new-object-models-trigger" onclick="toggleNoModelsDropdown(event)">
+                            <span class="new-object-models-trigger-label" id="noModelsTriggerLabel"></span>
+                            <svg class="chev" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5H7z"/></svg>
+                        </div>
+                        <div class="new-object-models-list" id="newObjectModelsList"></div>
+                    </div>
                 </div>
             </div>
             <div class="new-object-footer">
@@ -3503,7 +3597,20 @@
                 if (menu && !e.target.closest('#sourcePanelTitle') && !menu.contains(e.target)) {
                     menu.remove();
                 }
+                const modelsDd = document.getElementById('noModelsDropdown');
+                if (modelsDd && !modelsDd.contains(e.target)) {
+                    modelsDd.classList.remove('open');
+                }
             });
+
+            // Redraw connection lines on scroll/resize
+            ['sourceTree', 'targetTree'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.addEventListener('scroll', scheduleRedraw);
+            });
+            const canvasScroll = document.querySelector('.me-canvas-scroll');
+            if (canvasScroll) canvasScroll.addEventListener('scroll', scheduleRedraw);
+            window.addEventListener('resize', scheduleRedraw);
         }
 
         function openMappingEditor(e) {
@@ -3556,6 +3663,7 @@
             renderSourceTree();
             renderTargetTree();
             renderCanvas();
+            scheduleRedraw();
         }
 
         function typeIcon(t) {
@@ -3592,10 +3700,10 @@
                             '</div>' +
                             '<div class="me-tree-children">' +
                                 fields.map(f =>
-                                    '<div class="me-field-row">' +
-                                        '<span class="me-field-circle"></span>' +
+                                    '<div class="me-field-row source-row" data-name="' + escapeAttr(f.n) + '">' +
                                         typeIcon(f.t) +
                                         '<span class="me-field-name">' + escapeHtml(f.n) + '</span>' +
+                                        '<span class="me-field-circle src-handle"></span>' +
                                     '</div>'
                                 ).join('') +
                             '</div>' +
@@ -3642,8 +3750,8 @@
                 '</div>' +
                 '<div class="me-tree-children">' +
                     fields.map(f =>
-                        '<div class="me-field-row ' + (obj.isNew ? 'highlight' : '') + '">' +
-                            '<span class="me-field-circle"></span>' +
+                        '<div class="me-field-row target-row ' + (obj.isNew ? 'highlight' : '') + '" data-name="' + escapeAttr(f.n) + '">' +
+                            '<span class="me-field-circle tgt-handle"></span>' +
                             typeIcon(f.t) +
                             '<span class="me-field-name">' + escapeHtml(f.n) + '</span>' +
                             (f.key ? keyIcon() : '') +
@@ -3665,7 +3773,7 @@
             canvas.innerHTML = data.mappings.map(m =>
                 '<div class="me-mapping-pair">' +
                     '<div class="me-pill me-pill-left">' +
-                        '<span class="me-field-circle"></span>' +
+                        '<span class="me-field-circle pill-l-handle" data-name="' + escapeAttr(m.l) + '"></span>' +
                         typeIcon(m.lt) +
                         '<span class="me-pill-name">' + escapeHtml(m.l) + '</span>' +
                     '</div>' +
@@ -3673,10 +3781,80 @@
                     '<div class="me-pill me-pill-right">' +
                         typeIcon(m.rt) +
                         '<span class="me-pill-name">' + escapeHtml(m.r) + '</span>' +
-                        '<span class="me-field-circle" style="margin-left:auto;"></span>' +
+                        '<span class="me-field-circle pill-r-handle" data-name="' + escapeAttr(m.r) + '" style="margin-left:auto;"></span>' +
                     '</div>' +
                 '</div>'
             ).join('');
+        }
+
+        function drawConnections() {
+            const body = document.querySelector('.me-body');
+            const svg = document.getElementById('meConnections');
+            if (!body || !svg) return;
+            const bodyRect = body.getBoundingClientRect();
+            svg.setAttribute('width', bodyRect.width);
+            svg.setAttribute('height', bodyRect.height);
+            svg.setAttribute('viewBox', '0 0 ' + bodyRect.width + ' ' + bodyRect.height);
+
+            const srcCircles = {};
+            document.querySelectorAll('.src-handle').forEach(c => {
+                const row = c.closest('.me-field-row');
+                if (row) srcCircles[row.getAttribute('data-name')] = c;
+            });
+            const tgtCircles = {};
+            document.querySelectorAll('.tgt-handle').forEach(c => {
+                const row = c.closest('.me-field-row');
+                if (row) tgtCircles[row.getAttribute('data-name')] = c;
+            });
+
+            const sourceTreeRect = document.getElementById('sourceTree').getBoundingClientRect();
+            const targetTreeRect = document.getElementById('targetTree').getBoundingClientRect();
+            const canvasRect = document.querySelector('.me-canvas-scroll').getBoundingClientRect();
+
+            const visible = (rect, container) =>
+                rect.width > 0 && rect.height > 0 &&
+                rect.bottom > container.top && rect.top < container.bottom;
+
+            let paths = '';
+            document.querySelectorAll('.me-mapping-pair').forEach(pair => {
+                const lHandle = pair.querySelector('.pill-l-handle');
+                const rHandle = pair.querySelector('.pill-r-handle');
+                if (!lHandle || !rHandle) return;
+                const lRect = lHandle.getBoundingClientRect();
+                const rRect = rHandle.getBoundingClientRect();
+                if (!visible(lRect, canvasRect)) return;
+
+                const srcCircle = srcCircles[lHandle.getAttribute('data-name')];
+                const tgtCircle = tgtCircles[rHandle.getAttribute('data-name')];
+
+                if (srcCircle) {
+                    const sRect = srcCircle.getBoundingClientRect();
+                    if (visible(sRect, sourceTreeRect)) {
+                        paths += pathBetween(sRect, lRect, bodyRect);
+                    }
+                }
+                if (tgtCircle) {
+                    const tRect = tgtCircle.getBoundingClientRect();
+                    if (visible(tRect, targetTreeRect)) {
+                        paths += pathBetween(rRect, tRect, bodyRect);
+                    }
+                }
+            });
+            svg.innerHTML = paths;
+        }
+
+        function pathBetween(a, b, bodyRect) {
+            const x1 = a.left + a.width / 2 - bodyRect.left;
+            const y1 = a.top + a.height / 2 - bodyRect.top;
+            const x2 = b.left + b.width / 2 - bodyRect.left;
+            const y2 = b.top + b.height / 2 - bodyRect.top;
+            const dx = Math.max(30, Math.abs(x2 - x1) * 0.45);
+            return '<path d="M' + x1 + ',' + y1 + ' C' + (x1 + dx) + ',' + y1 + ' ' + (x2 - dx) + ',' + y2 + ' ' + x2 + ',' + y2 + '"/>';
+        }
+
+        function scheduleRedraw() {
+            if (window._meRedraw) cancelAnimationFrame(window._meRedraw);
+            window._meRedraw = requestAnimationFrame(drawConnections);
         }
 
         function escapeHtml(s) {
@@ -3694,6 +3872,7 @@
             selectedModels = [currentModel];
             document.getElementById('newObjectName').value = '';
             document.getElementById('newObjectDescription').value = '';
+            document.getElementById('noModelsDropdown').classList.remove('open');
             renderNewObjectModels();
             updateAddBtnState();
             document.getElementById('newObjectModal').classList.add('show');
@@ -3701,14 +3880,27 @@
 
         function closeNewObjectModal() {
             document.getElementById('newObjectModal').classList.remove('show');
+            document.getElementById('noModelsDropdown').classList.remove('open');
+        }
+
+        function toggleNoModelsDropdown(e) {
+            if (e) e.stopPropagation();
+            document.getElementById('noModelsDropdown').classList.toggle('open');
         }
 
         function renderNewObjectModels() {
+            const label = document.getElementById('noModelsTriggerLabel');
+            const others = selectedModels.filter(m => m !== currentModel);
+            const labelText = currentModel + ' (Current)' + (others.length ? ', ' + others.join(', ') : '');
+            label.textContent = labelText;
+
             const list = document.getElementById('newObjectModelsList');
             list.innerHTML = MAPPING_MODELS.map(m => {
-                const isSelected = selectedModels.includes(m);
                 const isCurrent = m === currentModel;
-                return '<div class="new-object-model-row ' + (isSelected ? 'selected' : '') + '" onclick="toggleSelectedModel(\'' + escapeJs(m) + '\')">' +
+                const isSelected = selectedModels.includes(m);
+                const cls = 'new-object-model-row' + (isSelected ? ' selected' : '') + (isCurrent ? ' disabled' : '');
+                const onclick = isCurrent ? '' : ' onclick="toggleSelectedModel(\'' + escapeJs(m) + '\')"';
+                return '<div class="' + cls + '"' + onclick + '>' +
                     '<span class="no-radio"></span>' +
                     '<span class="no-name">' + escapeHtml(m) + '</span>' +
                     (isCurrent ? '<span class="no-current">(Current)</span>' : '') +
@@ -3717,6 +3909,7 @@
         }
 
         function toggleSelectedModel(model) {
+            if (model === currentModel) return;
             if (selectedModels.includes(model)) {
                 selectedModels = selectedModels.filter(m => m !== model);
             } else {
