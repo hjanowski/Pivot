@@ -3134,6 +3134,42 @@
         </div>
     </div>
 
+    <!-- New Field Modal -->
+    <div class="modal-overlay" id="newFieldModal">
+        <div class="new-object-dialog" style="max-width: 480px;">
+            <button class="new-object-close-floating" onclick="closeNewFieldModal()">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                </svg>
+            </button>
+            <div class="new-object-header">
+                <h2>New Field</h2>
+            </div>
+            <div style="padding: 22px 28px 8px 28px;">
+                <div style="margin-bottom: 16px;">
+                    <span class="new-object-field-label" style="display:inline;">Object:</span>
+                    <span id="newFieldObjectName" style="margin-left:6px;font-weight:700;color:#03234d;"></span>
+                </div>
+                <div style="margin-bottom: 16px;">
+                    <label class="new-object-field-label"><span class="required">*</span>Field Name</label>
+                    <input type="text" class="new-object-input" id="newFieldName" oninput="updateAddFieldBtnState()">
+                </div>
+                <div>
+                    <label class="new-object-field-label">Field Type</label>
+                    <select class="new-object-input" id="newFieldType" style="appearance:auto;background-image:none;padding-right:12px;">
+                        <option value="text">Text</option>
+                        <option value="num">Number</option>
+                        <option value="date">Date</option>
+                    </select>
+                </div>
+            </div>
+            <div class="new-object-footer">
+                <button class="no-btn no-btn-cancel" onclick="closeNewFieldModal()">Cancel</button>
+                <button class="no-btn no-btn-add" id="newFieldAddBtn" onclick="addNewField()">Add</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         // ---------- Vendor configuration ----------
         const VENDOR_CONFIG = {
@@ -3633,6 +3669,13 @@
                 });
             }
 
+            const newFieldModal = document.getElementById('newFieldModal');
+            if (newFieldModal) {
+                newFieldModal.addEventListener('click', function(e) {
+                    if (e.target === this) closeNewFieldModal();
+                });
+            }
+
             // Source panel title acts as model dropdown trigger
             document.addEventListener('click', function(e) {
                 const menu = document.getElementById('sourceModelMenu');
@@ -3772,7 +3815,7 @@
                 '<div class="me-tree-section-header" onclick="toggleTargetSection(\'' + escapeJs(obj.name) + '\', \'root\')">' +
                     '<svg class="chev" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5H7z"/></svg>' +
                     '<span>' + escapeHtml(obj.name) + '</span>' +
-                    '<span class="add-plus" onclick="event.stopPropagation();">+</span>' +
+                    '<span class="add-plus" onclick="event.stopPropagation(); openNewFieldModal(\'' + escapeJs(obj.name) + '\')" title="Add field">+</span>' +
                 '</div>' +
                 '<div class="me-tree-children">' +
                     renderObjectGroup(obj, 'mapped', exp) +
@@ -3994,6 +4037,52 @@
             });
 
             closeNewObjectModal();
+            renderMappingEditor();
+        }
+
+        // ==================== New Field Modal ====================
+        let newFieldObject = null;
+
+        function openNewFieldModal(objectName) {
+            newFieldObject = objectName;
+            document.getElementById('newFieldObjectName').textContent = objectName;
+            document.getElementById('newFieldName').value = '';
+            const typeSel = document.getElementById('newFieldType');
+            if (typeSel) typeSel.value = 'text';
+            updateAddFieldBtnState();
+            document.getElementById('newFieldModal').classList.add('show');
+        }
+
+        function closeNewFieldModal() {
+            document.getElementById('newFieldModal').classList.remove('show');
+        }
+
+        function updateAddFieldBtnState() {
+            const name = document.getElementById('newFieldName').value.trim();
+            const btn = document.getElementById('newFieldAddBtn');
+            if (name) btn.classList.add('enabled');
+            else btn.classList.remove('enabled');
+        }
+
+        function addNewField() {
+            const btn = document.getElementById('newFieldAddBtn');
+            if (!btn.classList.contains('enabled')) return;
+            const name = document.getElementById('newFieldName').value.trim();
+            const type = document.getElementById('newFieldType').value;
+            if (!newFieldObject) return;
+
+            MAPPING_MODELS.forEach(m => {
+                const obj = MODEL_DATA[m].objects.find(o => o.name === newFieldObject);
+                if (!obj) return;
+                if (!obj.mapped) obj.mapped = [];
+                if (!obj.unmapped) obj.unmapped = [];
+                const exists = obj.mapped.some(f => f.n === name) || obj.unmapped.some(f => f.n === name);
+                if (!exists) {
+                    obj.unmapped.push({n: name, t: type});
+                }
+            });
+
+            closeNewFieldModal();
             renderMappingEditor();
         }
 
