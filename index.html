@@ -3941,7 +3941,7 @@
                 const isCurrent = m === currentModel;
                 const isSelected = selectedModels.includes(m);
                 const cls = 'new-object-model-row' + (isSelected ? ' selected' : '') + (isCurrent ? ' disabled' : '');
-                const onclick = isCurrent ? '' : ' onclick="toggleSelectedModel(\'' + escapeJs(m) + '\')"';
+                const onclick = isCurrent ? '' : ' onclick="toggleSelectedModel(\'' + escapeJs(m) + '\', event)"';
                 return '<div class="' + cls + '"' + onclick + '>' +
                     '<span class="no-radio"></span>' +
                     '<span class="no-name">' + escapeHtml(m) + '</span>' +
@@ -3950,7 +3950,8 @@
             }).join('');
         }
 
-        function toggleSelectedModel(model) {
+        function toggleSelectedModel(model, e) {
+            if (e) e.stopPropagation();
             if (model === currentModel) return;
             if (selectedModels.includes(model)) {
                 selectedModels = selectedModels.filter(m => m !== model);
