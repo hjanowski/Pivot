@@ -1284,6 +1284,377 @@
         .modal-btn-deploy:hover {
             background-color: #0a5ae0;
         }
+
+        /* ===== Mapping Editor ===== */
+        .mapping-editor-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #f3f3f3;
+            z-index: 900;
+            flex-direction: column;
+        }
+
+        .mapping-editor-overlay.show {
+            display: flex;
+        }
+
+        .mapping-editor-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 24px;
+            background-color: #ffffff;
+            border-bottom: 1px solid #e5e5e5;
+            flex-shrink: 0;
+        }
+
+        .mapping-editor-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .mapping-editor-title h2 {
+            font-size: 18px;
+            font-weight: 700;
+            color: #03234d;
+            margin: 0;
+        }
+
+        .mapping-editor-title-icon {
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #e3f2fd;
+            border-radius: 4px;
+        }
+
+        .mapping-editor-title-icon svg {
+            width: 18px;
+            height: 18px;
+            fill: #2466de;
+        }
+
+        .mapping-editor-close {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: #ffffff;
+            border: 1px solid #c9c9c9;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .mapping-editor-close:hover {
+            background-color: #f3f3f3;
+        }
+
+        .mapping-editor-close svg {
+            width: 14px;
+            height: 14px;
+            fill: #5c5c5c;
+        }
+
+        .mapping-editor-toolbar {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            padding: 16px 24px;
+            background-color: #ffffff;
+            border-bottom: 1px solid #e5e5e5;
+            flex-shrink: 0;
+            gap: 24px;
+        }
+
+        .toolbar-left {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            min-width: 260px;
+        }
+
+        .toolbar-label {
+            font-size: 12px;
+            color: #706e6b;
+            font-weight: 400;
+        }
+
+        .model-select {
+            padding: 8px 32px 8px 12px;
+            border: 1px solid #c9c9c9;
+            border-radius: 4px;
+            background-color: #ffffff;
+            font-size: 14px;
+            color: #181818;
+            font-weight: 700;
+            min-width: 240px;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%235c5c5c' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            cursor: pointer;
+        }
+
+        .toolbar-right {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 12px;
+            min-width: 280px;
+        }
+
+        .btn-add-object {
+            padding: 8px 16px;
+            font-size: 13px;
+            font-weight: 700;
+            color: #ffffff;
+            background-color: #0c6afe;
+            border: 1px solid #0c6afe;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        .btn-add-object:hover {
+            background-color: #0a5ae0;
+        }
+
+        .object-chip-list {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 6px;
+        }
+
+        .object-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 10px 6px 12px;
+            background-color: #fff8d6;
+            border: 1px solid #f4c430;
+            border-radius: 4px;
+            font-size: 13px;
+            color: #03234d;
+            font-weight: 700;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+        }
+
+        .object-chip-icon {
+            width: 14px;
+            height: 14px;
+            fill: #b58900;
+        }
+
+        .object-chip-remove {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: none;
+            background-color: transparent;
+            color: #5c5c5c;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            line-height: 1;
+            padding: 0;
+        }
+
+        .object-chip-remove:hover {
+            background-color: #f4c430;
+            color: #03234d;
+        }
+
+        .mapping-editor-body {
+            flex: 1;
+            overflow: auto;
+            padding: 24px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .mapping-canvas {
+            width: 100%;
+            max-width: 1200px;
+            background-color: #ffffff;
+            border: 1px solid #e5e5e5;
+            border-radius: 8px;
+            display: grid;
+            grid-template-columns: 1fr 80px 1fr;
+            min-height: 480px;
+            overflow: hidden;
+        }
+
+        .mapping-column {
+            padding: 16px 20px;
+        }
+
+        .mapping-column-header {
+            font-size: 12px;
+            font-weight: 700;
+            color: #706e6b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .mapping-column.source {
+            background-color: #fafaf9;
+            border-right: 1px solid #e5e5e5;
+        }
+
+        .mapping-column.target {
+            background-color: #ffffff;
+            border-left: 1px solid #e5e5e5;
+        }
+
+        .mapping-arrows {
+            background-color: #fafaf9;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 60px;
+            gap: 14px;
+        }
+
+        .mapping-arrow svg {
+            width: 24px;
+            height: 14px;
+            fill: #c9c9c9;
+        }
+
+        .mapping-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 10px;
+            border-radius: 4px;
+            font-size: 13px;
+            color: #181818;
+            margin-bottom: 6px;
+            background-color: #ffffff;
+            border: 1px solid #e5e5e5;
+        }
+
+        .mapping-row .field-icon {
+            width: 14px;
+            height: 14px;
+            fill: #706e6b;
+            flex-shrink: 0;
+        }
+
+        .mapping-row.target {
+            background-color: #f7faff;
+            border-color: #cfe1ff;
+        }
+
+        .mapping-empty {
+            padding: 12px;
+            font-size: 13px;
+            color: #706e6b;
+            font-style: italic;
+        }
+
+        /* New Object Modal */
+        .new-object-dialog {
+            background-color: #ffffff;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 520px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .multi-select {
+            position: relative;
+        }
+
+        .multi-select-display {
+            min-height: 36px;
+            border: 1px solid #c9c9c9;
+            border-radius: 4px;
+            padding: 4px 32px 4px 6px;
+            background-color: #ffffff;
+            cursor: pointer;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 4px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%235c5c5c' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+        }
+
+        .multi-select-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 3px 6px 3px 8px;
+            background-color: #cfe9fe;
+            color: #0d6990;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .multi-select-tag .remove {
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 14px;
+            line-height: 1;
+        }
+
+        .multi-select-placeholder {
+            color: #706e6b;
+            font-size: 13px;
+            padding: 4px 6px;
+        }
+
+        .multi-select-options {
+            display: none;
+            position: absolute;
+            top: calc(100% + 4px);
+            left: 0;
+            right: 0;
+            background-color: #ffffff;
+            border: 1px solid #c9c9c9;
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+            max-height: 220px;
+            overflow-y: auto;
+            z-index: 1100;
+        }
+
+        .multi-select.open .multi-select-options {
+            display: block;
+        }
+
+        .multi-select-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            font-size: 13px;
+            color: #181818;
+            cursor: pointer;
+        }
+
+        .multi-select-option:hover {
+            background-color: #d6e6ff;
+        }
+
+        .multi-select-option input[type="checkbox"] {
+            margin: 0;
+        }
     </style>
 </head>
 <body>
@@ -1437,7 +1808,7 @@
                             </div>
                             <h1>Data Pipelines</h1>
                         </div>
-                        <div class="item-count">9 items</div>
+                        <div class="item-count">10 items</div>
                     </div>
                     <div class="page-actions">
                         <button class="btn-new">New Pipeline</button>
@@ -1925,6 +2296,50 @@
                                     </div>
                                 </td>
                             </tr>
+                            <tr>
+                                <td>10</td>
+                                <td><a href="#" class="link-cell">Google Ads</a></td>
+                                <td>default</td>
+                                <td>Google Ads</td>
+                                <td>
+                                    <span class="status-badge status-active">
+                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                        </svg>
+                                        Active
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="status-badge status-success">
+                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                        </svg>
+                                        Success
+                                    </span>
+                                </td>
+                                <td>11/30/2025, 12:00 AM</td>
+                                <td>12/1/2025, 12:00 AM</td>
+                                <td>11/30/2025</td>
+                                <td class="action-cell">
+                                    <div class="dropdown-container">
+                                        <button class="action-btn" onclick="toggleDropdown(this)">
+                                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M7 10l5 5 5-5H7z"/>
+                                            </svg>
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <a href="#" class="dropdown-item dropdown-item-header">Pipeline Details</a>
+                                            <a href="#" class="dropdown-item">Process Log</a>
+                                            <a href="#" class="dropdown-item">Delete</a>
+                                            <a href="#" class="dropdown-item" onclick="openMappingEditor(event)">Edit Mapping</a>
+                                            <a href="#" class="dropdown-item">Reprocess</a>
+                                            <a href="#" class="dropdown-item">Run Schedule</a>
+                                            <a href="#" class="dropdown-item">Deactivate</a>
+                                            <a href="pivot-table.html" class="dropdown-item">Pivot Table</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -2276,6 +2691,95 @@
         </div>
     </div>
 
+    <!-- Mapping Editor Overlay -->
+    <div class="mapping-editor-overlay" id="mappingEditor">
+        <div class="mapping-editor-header">
+            <div class="mapping-editor-title">
+                <div class="mapping-editor-title-icon">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M3 5h8v2H3V5zm0 6h8v2H3v-2zm0 6h8v2H3v-2zm10-9l4 4 4-4-4-4-4 4zm0 8l4 4 4-4-4-4-4 4z"/>
+                    </svg>
+                </div>
+                <h2>Edit Mapping &mdash; Google Ads</h2>
+            </div>
+            <button class="mapping-editor-close" onclick="closeMappingEditor()">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                </svg>
+            </button>
+        </div>
+
+        <div class="mapping-editor-toolbar">
+            <div class="toolbar-left">
+                <span class="toolbar-label">Model</span>
+                <select class="model-select" id="modelSelect" onchange="onModelChange()"></select>
+            </div>
+            <div class="toolbar-right">
+                <button class="btn-add-object" onclick="openNewObjectModal()">+ Add Object</button>
+                <div class="object-chip-list" id="objectChipList"></div>
+            </div>
+        </div>
+
+        <div class="mapping-editor-body">
+            <div class="mapping-canvas">
+                <div class="mapping-column source">
+                    <div class="mapping-column-header">Source &mdash; Google Ads</div>
+                    <div class="mapping-row"><svg class="field-icon" viewBox="0 0 24 24"><path d="M3 5h18v2H3zM3 11h18v2H3zM3 17h18v2H3z"/></svg> campaign_id</div>
+                    <div class="mapping-row"><svg class="field-icon" viewBox="0 0 24 24"><path d="M3 5h18v2H3zM3 11h18v2H3zM3 17h18v2H3z"/></svg> campaign_name</div>
+                    <div class="mapping-row"><svg class="field-icon" viewBox="0 0 24 24"><path d="M3 5h18v2H3zM3 11h18v2H3zM3 17h18v2H3z"/></svg> impressions</div>
+                    <div class="mapping-row"><svg class="field-icon" viewBox="0 0 24 24"><path d="M3 5h18v2H3zM3 11h18v2H3zM3 17h18v2H3z"/></svg> clicks</div>
+                    <div class="mapping-row"><svg class="field-icon" viewBox="0 0 24 24"><path d="M3 5h18v2H3zM3 11h18v2H3zM3 17h18v2H3z"/></svg> cost_micros</div>
+                    <div class="mapping-row"><svg class="field-icon" viewBox="0 0 24 24"><path d="M3 5h18v2H3zM3 11h18v2H3zM3 17h18v2H3z"/></svg> conversions</div>
+                </div>
+                <div class="mapping-arrows">
+                    <div class="mapping-arrow"><svg viewBox="0 0 24 14"><path d="M0 7h20l-4-4 1-1 6 5-6 5-1-1 4-4H0z"/></svg></div>
+                    <div class="mapping-arrow"><svg viewBox="0 0 24 14"><path d="M0 7h20l-4-4 1-1 6 5-6 5-1-1 4-4H0z"/></svg></div>
+                    <div class="mapping-arrow"><svg viewBox="0 0 24 14"><path d="M0 7h20l-4-4 1-1 6 5-6 5-1-1 4-4H0z"/></svg></div>
+                    <div class="mapping-arrow"><svg viewBox="0 0 24 14"><path d="M0 7h20l-4-4 1-1 6 5-6 5-1-1 4-4H0z"/></svg></div>
+                    <div class="mapping-arrow"><svg viewBox="0 0 24 14"><path d="M0 7h20l-4-4 1-1 6 5-6 5-1-1 4-4H0z"/></svg></div>
+                    <div class="mapping-arrow"><svg viewBox="0 0 24 14"><path d="M0 7h20l-4-4 1-1 6 5-6 5-1-1 4-4H0z"/></svg></div>
+                </div>
+                <div class="mapping-column target">
+                    <div class="mapping-column-header" id="targetModelHeader">Target &mdash; Model</div>
+                    <div id="targetFieldList">
+                        <div class="mapping-empty">No mapped fields yet.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- New Object Modal -->
+    <div class="modal-overlay" id="newObjectModal">
+        <div class="new-object-dialog">
+            <div class="modal-header">
+                <h2 class="modal-title">New Data Object</h2>
+                <button class="modal-close-btn" onclick="closeNewObjectModal()">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-field">
+                    <label class="form-label">Object Name <span class="required">*</span></label>
+                    <input type="text" class="form-input" id="newObjectName" placeholder="e.g. campaign_performance">
+                </div>
+                <div class="form-field">
+                    <label class="form-label">Models <span class="required">*</span></label>
+                    <div class="multi-select" id="modelMultiSelect">
+                        <div class="multi-select-display" id="modelMultiSelectDisplay" onclick="toggleModelMultiSelect(event)"></div>
+                        <div class="multi-select-options" id="modelMultiSelectOptions"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn modal-btn-cancel" onclick="closeNewObjectModal()">Cancel</button>
+                <button class="modal-btn modal-btn-next" onclick="addNewObject()">Add</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         // ---------- Vendor configuration ----------
         const VENDOR_CONFIG = {
@@ -2550,7 +3054,182 @@
                     harmonizationSubnav.classList.toggle('collapsed');
                 });
             }
+
+            initMappingEditor();
         });
+
+        // ==================== Mapping Editor ====================
+        const MAPPING_MODELS = ['Campaigns', 'Conversions', 'Keywords', 'Ads', 'Audiences'];
+        let currentModel = 'Campaigns';
+        // Map of modelName -> [objectName, ...]
+        const modelObjects = {};
+        MAPPING_MODELS.forEach(m => { modelObjects[m] = []; });
+
+        function initMappingEditor() {
+            const modelSelect = document.getElementById('modelSelect');
+            if (modelSelect) {
+                modelSelect.innerHTML = MAPPING_MODELS.map(m =>
+                    '<option value="' + m + '"' + (m === currentModel ? ' selected' : '') + '>' + m + '</option>'
+                ).join('');
+            }
+            renderObjectChips();
+            renderTargetFields();
+
+            const newObjectModal = document.getElementById('newObjectModal');
+            if (newObjectModal) {
+                newObjectModal.addEventListener('click', function(e) {
+                    if (e.target === this) closeNewObjectModal();
+                });
+            }
+
+            document.addEventListener('click', function(e) {
+                const ms = document.getElementById('modelMultiSelect');
+                if (ms && !ms.contains(e.target)) ms.classList.remove('open');
+            });
+        }
+
+        function openMappingEditor(e) {
+            if (e) e.preventDefault();
+            document.querySelectorAll('.dropdown-menu.show').forEach(menu => menu.classList.remove('show'));
+            document.getElementById('mappingEditor').classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMappingEditor() {
+            document.getElementById('mappingEditor').classList.remove('show');
+            document.body.style.overflow = '';
+        }
+
+        function onModelChange() {
+            currentModel = document.getElementById('modelSelect').value;
+            renderObjectChips();
+            renderTargetFields();
+        }
+
+        function renderObjectChips() {
+            const list = document.getElementById('objectChipList');
+            const objects = modelObjects[currentModel] || [];
+            if (objects.length === 0) {
+                list.innerHTML = '';
+                return;
+            }
+            list.innerHTML = objects.map((name, idx) =>
+                '<span class="object-chip">' +
+                    '<svg class="object-chip-icon" viewBox="0 0 24 24"><path d="M12 2l3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z"/></svg>' +
+                    escapeHtml(name) +
+                    '<button class="object-chip-remove" onclick="removeObject(' + idx + ')" title="Remove">&times;</button>' +
+                '</span>'
+            ).join('');
+        }
+
+        function renderTargetFields() {
+            const header = document.getElementById('targetModelHeader');
+            const target = document.getElementById('targetFieldList');
+            header.innerHTML = 'Target &mdash; ' + escapeHtml(currentModel);
+            const objects = modelObjects[currentModel] || [];
+            if (objects.length === 0) {
+                target.innerHTML = '<div class="mapping-empty">No mapped fields yet. Click "+ Add Object" to define one.</div>';
+                return;
+            }
+            target.innerHTML = objects.map(name =>
+                '<div class="mapping-row target">' +
+                    '<svg class="field-icon" viewBox="0 0 24 24"><path d="M3 5h18v2H3zM3 11h18v2H3zM3 17h18v2H3z"/></svg>' +
+                    escapeHtml(name) +
+                '</div>'
+            ).join('');
+        }
+
+        function removeObject(idx) {
+            const objects = modelObjects[currentModel];
+            if (!objects) return;
+            const removed = objects.splice(idx, 1)[0];
+            // Also remove from any other models that contain it
+            MAPPING_MODELS.forEach(m => {
+                modelObjects[m] = modelObjects[m].filter(n => n !== removed);
+            });
+            renderObjectChips();
+            renderTargetFields();
+        }
+
+        function escapeHtml(s) {
+            return String(s).replace(/[&<>"']/g, c => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+            })[c]);
+        }
+
+        // ==================== New Object Modal ====================
+        let selectedModels = [];
+
+        function openNewObjectModal() {
+            selectedModels = [currentModel];
+            document.getElementById('newObjectName').value = '';
+            renderModelMultiSelect();
+            document.getElementById('newObjectModal').classList.add('show');
+        }
+
+        function closeNewObjectModal() {
+            document.getElementById('newObjectModal').classList.remove('show');
+            const ms = document.getElementById('modelMultiSelect');
+            if (ms) ms.classList.remove('open');
+        }
+
+        function toggleModelMultiSelect(e) {
+            if (e) e.stopPropagation();
+            document.getElementById('modelMultiSelect').classList.toggle('open');
+        }
+
+        function renderModelMultiSelect() {
+            const display = document.getElementById('modelMultiSelectDisplay');
+            const options = document.getElementById('modelMultiSelectOptions');
+
+            if (selectedModels.length === 0) {
+                display.innerHTML = '<span class="multi-select-placeholder">Select one or more models...</span>';
+            } else {
+                display.innerHTML = selectedModels.map(m =>
+                    '<span class="multi-select-tag">' + escapeHtml(m) +
+                    '<span class="remove" onclick="removeSelectedModel(event, \'' + m + '\')">&times;</span></span>'
+                ).join('');
+            }
+
+            options.innerHTML = MAPPING_MODELS.map(m => {
+                const checked = selectedModels.includes(m) ? 'checked' : '';
+                return '<label class="multi-select-option">' +
+                    '<input type="checkbox" ' + checked + ' onchange="toggleSelectedModel(\'' + m + '\')"> ' +
+                    escapeHtml(m) +
+                '</label>';
+            }).join('');
+        }
+
+        function toggleSelectedModel(model) {
+            if (selectedModels.includes(model)) {
+                selectedModels = selectedModels.filter(m => m !== model);
+            } else {
+                selectedModels.push(model);
+            }
+            renderModelMultiSelect();
+        }
+
+        function removeSelectedModel(e, model) {
+            e.stopPropagation();
+            selectedModels = selectedModels.filter(m => m !== model);
+            renderModelMultiSelect();
+        }
+
+        function addNewObject() {
+            const name = document.getElementById('newObjectName').value.trim();
+            if (!name) { alert('Please enter an object name'); return; }
+            if (selectedModels.length === 0) { alert('Please select at least one model'); return; }
+
+            selectedModels.forEach(m => {
+                if (!modelObjects[m].includes(name)) {
+                    modelObjects[m].push(name);
+                }
+            });
+
+            closeNewObjectModal();
+            renderObjectChips();
+            renderTargetFields();
+        }
 
     </script>
 </body>
