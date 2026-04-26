@@ -3438,39 +3438,57 @@
                     {n: 'Clicks', t: 'num'},
                     {n: 'Creative Format', t: 'text'},
                     {n: 'Creative Key', t: 'text'},
-                    {n: 'Creative Name', t: 'text'}
+                    {n: 'Creative Name', t: 'text'},
+                    {n: 'Creative Title Name', t: 'text'},
+                    {n: 'Currency', t: 'text'},
+                    {n: 'Site Name', t: 'text'}
                 ],
                 objects: [
                     {
                         name: 'Delivery',
                         mapped: [
+                            {n: 'Marketing Channel Type', t: 'text'},
+                            {n: 'Marketing Channel Name', t: 'text'},
+                            {n: 'Marketing Channel Id', t: 'text'},
+                            {n: 'Ad Headline', t: 'text'},
+                            {n: 'Ad Group', t: 'text'},
+                            {n: 'Ad Creative Text', t: 'text'},
+                            {n: 'Ad Format', t: 'text'},
+                            {n: 'Ad Id', t: 'text'},
+                            {n: 'Ad Creative Title Name', t: 'text'},
+                            {n: 'Ad Name', t: 'text'},
+                            {n: 'Ad Creative Click Url', t: 'text'},
+                            {n: 'Ad Creative Url', t: 'text'},
+                            {n: 'Site Id', t: 'text'},
+                            {n: 'Site Name', t: 'text'},
+                            {n: 'Campaign Currency', t: 'text'},
                             {n: 'Clicks', t: 'num'},
                             {n: 'Delivery Currency', t: 'text'},
                             {n: 'Delivery Date Time', t: 'date'},
                             {n: 'Delivery Id', t: 'text', key: true},
                             {n: 'Impressions', t: 'num'},
                             {n: 'Interactions', t: 'num'},
-                            {n: 'Paid Engagements', t: 'num'},
-                            {n: 'Search Budget Lost Impressi...', t: 'num'},
-                            {n: 'Search Impression Share', t: 'num'},
-                            {n: 'Search Keyword Rank', t: 'num'},
-                            {n: 'Search Rank Lost Impression...', t: 'num'},
                             {n: 'Spend', t: 'num'}
                         ],
                         unmapped: [
                             {n: 'Action Clicks In Mail', t: 'num'},
                             {n: 'Ad Unit Clicks In Mail', t: 'num'},
-                            {n: 'Audio Companion Clicks', t: 'num'}
+                            {n: 'Audio Companion Clicks', t: 'num'},
+                            {n: 'Paid Engagements', t: 'num'},
+                            {n: 'Search Budget Lost Impressions', t: 'num'},
+                            {n: 'Search Impression Share', t: 'num'},
+                            {n: 'Search Keyword Rank', t: 'num'},
+                            {n: 'Search Rank Lost Impressions', t: 'num'}
                         ]
                     }
                 ],
                 mappings: [
-                    {l: 'Channel Type Formula', lt: 'fx', r: 'Marketing Channel Ty...', rt: 'text'},
-                    {l: 'Channel Name Formu...', lt: 'fx', r: 'Marketing Channel N...', rt: 'text'},
+                    {l: 'Channel Type Formula', lt: 'fx', r: 'Marketing Channel Type', rt: 'text'},
+                    {l: 'Channel Name Formula', lt: 'fx', r: 'Marketing Channel Name', rt: 'text'},
                     {l: 'Channel Id Formula', lt: 'fx', r: 'Marketing Channel Id', rt: 'text'},
                     {l: 'HeadlineText Formula', lt: 'fx', r: 'Ad Headline', rt: 'text'},
                     {l: 'Ad Label', lt: 'text', r: 'Ad Group', rt: 'text'},
-                    {l: 'Ad Creative Text For...', lt: 'fx', r: 'Ad Creative Text', rt: 'text'},
+                    {l: 'Ad Creative Text Formula', lt: 'fx', r: 'Ad Creative Text', rt: 'text'},
                     {l: 'Creative Format', lt: 'text', r: 'Ad Format', rt: 'text'},
                     {l: 'Creative Key', lt: 'text', r: 'Ad Id', rt: 'text'},
                     {l: 'Creative Title Name', lt: 'text', r: 'Ad Creative Title Name', rt: 'text'},
@@ -3502,12 +3520,29 @@
                     {n: 'Conversion Tag Category', t: 'text'},
                     {n: 'Conversion Tag Name', t: 'text'},
                     {n: 'Creative Format', t: 'text'},
-                    {n: 'Creative Key', t: 'text'}
+                    {n: 'Creative Key', t: 'text'},
+                    {n: 'Creative Name', t: 'text'},
+                    {n: 'Creative Title Name', t: 'text'},
+                    {n: 'Site Name', t: 'text'}
                 ],
                 objects: [
                     {
                         name: 'Conversion',
                         mapped: [
+                            {n: 'Conversion Tag Id', t: 'text'},
+                            {n: 'Conversion Tag Category', t: 'text'},
+                            {n: 'Conversion Tag Name', t: 'text'},
+                            {n: 'Ad Headline', t: 'text'},
+                            {n: 'Ad Group', t: 'text'},
+                            {n: 'Ad Creative Text', t: 'text'},
+                            {n: 'Ad Format', t: 'text'},
+                            {n: 'Ad Id', t: 'text'},
+                            {n: 'Ad Creative Title Name', t: 'text'},
+                            {n: 'Ad Name', t: 'text'},
+                            {n: 'Ad Creative Click Url', t: 'text'},
+                            {n: 'Ad Creative Url', t: 'text'},
+                            {n: 'Site Id', t: 'text'},
+                            {n: 'Site Name', t: 'text'},
                             {n: 'Conversion Id', t: 'text', key: true},
                             {n: 'Conversion Date Time', t: 'date'},
                             {n: 'Conversion Currency', t: 'text'},
@@ -3518,17 +3553,23 @@
                         unmapped: [
                             {n: 'Assists Conversions', t: 'num'},
                             {n: 'Post Click Conversions', t: 'num'},
-                            {n: 'Post Click Revenue', t: 'num'}
+                            {n: 'Post Click Revenue', t: 'num'},
+                            {n: 'Post Click Transactions', t: 'num'},
+                            {n: 'Post Clicks 28 days', t: 'num'},
+                            {n: 'Post Clicks 7 days', t: 'num'},
+                            {n: 'Post Impression Revenue', t: 'num'},
+                            {n: 'Post Impression Transactions', t: 'num'},
+                            {n: 'Post Impressions 28 days', t: 'num'}
                         ]
                     }
                 ],
                 mappings: [
-                    {l: 'Conversion Tag Id For...', lt: 'fx', r: 'Conversion Tag Id', rt: 'text'},
-                    {l: 'Conversion Tag Category', lt: 'text', r: 'Conversion Tag Categ...', rt: 'text'},
+                    {l: 'Conversion Tag Id Formula', lt: 'fx', r: 'Conversion Tag Id', rt: 'text'},
+                    {l: 'Conversion Tag Category', lt: 'text', r: 'Conversion Tag Category', rt: 'text'},
                     {l: 'Conversion Tag Name', lt: 'text', r: 'Conversion Tag Name', rt: 'text'},
                     {l: 'HeadlineText Formula', lt: 'fx', r: 'Ad Headline', rt: 'text'},
                     {l: 'Ad Label', lt: 'text', r: 'Ad Group', rt: 'text'},
-                    {l: 'Ad Creative Text For...', lt: 'fx', r: 'Ad Creative Text', rt: 'text'},
+                    {l: 'Ad Creative Text Formula', lt: 'fx', r: 'Ad Creative Text', rt: 'text'},
                     {l: 'Creative Format', lt: 'text', r: 'Ad Format', rt: 'text'},
                     {l: 'Creative Key', lt: 'text', r: 'Ad Id', rt: 'text'},
                     {l: 'Creative Title Name', lt: 'text', r: 'Ad Creative Title Name', rt: 'text'},
@@ -3536,7 +3577,8 @@
                     {l: 'AD Final URL', lt: 'text', r: 'Ad Creative Click Url', rt: 'text'},
                     {l: 'Ad Display URL', lt: 'text', r: 'Ad Creative Url', rt: 'text'},
                     {l: 'Site Id Formula', lt: 'fx', r: 'Site Id', rt: 'text'},
-                    {l: 'Site Name', lt: 'text', r: 'Site Name', rt: 'text'}
+                    {l: 'Site Name', lt: 'text', r: 'Site Name', rt: 'text'},
+                    {l: 'Day Formula', lt: 'fx', r: 'Conversion Date Time', rt: 'date'}
                 ]
             },
             'Delivery Verification': {
