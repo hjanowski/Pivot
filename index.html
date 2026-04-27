@@ -1604,7 +1604,7 @@
         .me-obj-actions {
             margin-left: auto;
             display: inline-flex;
-            gap: 6px;
+            gap: 16px;
             align-items: center;
         }
 
@@ -3881,7 +3881,7 @@
             const escName = escapeJs(obj.name);
             const actions = obj.isNew
                 ? '<span class="me-obj-actions">' +
-                    '<button class="me-obj-btn" onclick="event.stopPropagation(); openNewFieldModal(\'' + escName + '\')">+Add new field</button>' +
+                    '<button class="me-obj-btn" onclick="event.stopPropagation(); openNewFieldModal(\'' + escName + '\')">+ Add Field</button>' +
                     '<button class="me-obj-btn" onclick="event.stopPropagation(); openAttachToModelsModal(\'' + escName + '\')">Attach to Models</button>' +
                   '</span>'
                 : '<span class="add-plus" onclick="event.stopPropagation(); openNewFieldModal(\'' + escName + '\')" title="Add field">+</span>';
