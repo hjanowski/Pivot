@@ -1750,6 +1750,32 @@
             background-color: #fafafa;
         }
 
+        .me-canvas-prompt.active {
+            border-style: solid;
+            background-color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            padding: 6px 14px;
+        }
+
+        .me-prompt-placeholder {
+            color: #5c5c5c;
+            font-size: 13px;
+            font-style: italic;
+        }
+
+        .me-swap-icon {
+            width: 18px;
+            height: 18px;
+            fill: #5c5c5c;
+            flex-shrink: 0;
+        }
+
+        .me-field-row.target-row.pickable { cursor: pointer; }
+        .me-field-row.target-row.pickable:hover { background-color: #e9f3ff; }
+
         .me-canvas-scroll {
             flex: 1;
             overflow-y: auto;
@@ -3188,7 +3214,7 @@
 
             <!-- CENTER: Mapping canvas -->
             <div class="me-canvas">
-                <div class="me-canvas-prompt">Select a field to add mapping</div>
+                <div class="me-canvas-prompt" id="canvasPrompt">Select a field to add mapping</div>
                 <div class="me-canvas-scroll" id="canvasMappings"></div>
             </div>
 
@@ -3994,6 +4020,8 @@
             });
         }
 
+        let selectedSourceField = null;
+
         function renderMappingEditor() {
             const data = MODEL_DATA[currentModel];
             document.getElementById('sourcePanelName').textContent = data.sourceName;
@@ -4001,7 +4029,57 @@
             renderSourceTree();
             renderTargetTree();
             renderCanvas();
+            renderCanvasPrompt();
             scheduleRedraw();
+        }
+
+        function renderCanvasPrompt() {
+            const prompt = document.getElementById('canvasPrompt');
+            if (!selectedSourceField) {
+                prompt.className = 'me-canvas-prompt';
+                prompt.textContent = 'Select a field to add mapping';
+                return;
+            }
+            prompt.className = 'me-canvas-prompt active';
+            prompt.innerHTML =
+                '<div class="me-pill me-pill-left">' +
+                    typeIcon(selectedSourceField.t) +
+                    '<span class="me-pill-name">' + escapeHtml(selectedSourceField.n) + '</span>' +
+                    '<span class="me-field-circle" style="margin-left:auto;"></span>' +
+                '</div>' +
+                '<svg class="me-swap-icon" viewBox="0 0 24 24"><path d="M6.99 11L3 15l3.99 4v-3H14v-2H6.99v-3zM21 9l-3.99-4v3H10v2h7.01v3L21 9z"/></svg>' +
+                '<span class="me-prompt-placeholder">Select target</span>';
+        }
+
+        function selectSourceField(name, type) {
+            if (selectedSourceField && selectedSourceField.n === name) {
+                selectedSourceField = null;
+            } else {
+                selectedSourceField = { n: name, t: type };
+            }
+            renderMappingEditor();
+        }
+
+        function selectTargetField(name, type, objName, group) {
+            if (!selectedSourceField) return;
+            const src = selectedSourceField;
+            selectedSourceField = null;
+
+            const data = MODEL_DATA[currentModel];
+            data.mappings.unshift({ l: src.n, lt: src.t, r: name, rt: type });
+
+            // Move target field from unmapped to mapped within its object
+            const obj = data.objects.find(o => o.name === objName);
+            if (obj && group === 'unmapped') {
+                const idx = obj.unmapped.findIndex(f => f.n === name);
+                if (idx >= 0) {
+                    const moved = obj.unmapped.splice(idx, 1)[0];
+                    obj.mapped = obj.mapped || [];
+                    obj.mapped.unshift(moved);
+                }
+            }
+
+            renderMappingEditor();
         }
 
         function typeIcon(t) {
@@ -4037,13 +4115,14 @@
                                 '<span>Mapped (' + fields.length + ')</span>' +
                             '</div>' +
                             '<div class="me-tree-children">' +
-                                fields.map(f =>
-                                    '<div class="me-field-row source-row" data-name="' + escapeAttr(f.n) + '">' +
+                                fields.map(f => {
+                                    const isSelected = selectedSourceField && selectedSourceField.n === f.n;
+                                    return '<div class="me-field-row source-row ' + (isSelected ? 'highlight' : '') + '" data-name="' + escapeAttr(f.n) + '" onclick="selectSourceField(\'' + escapeJs(f.n) + '\', \'' + f.t + '\')">' +
                                         typeIcon(f.t) +
                                         '<span class="me-field-name">' + escapeHtml(f.n) + '</span>' +
                                         '<span class="me-field-circle src-handle"></span>' +
-                                    '</div>'
-                                ).join('') +
+                                    '</div>';
+                                }).join('') +
                             '</div>' +
                         '</div>' +
                     '</div>' +
@@ -4094,14 +4173,21 @@
                     '<span>' + label + ' (' + fields.length + ')</span>' +
                 '</div>' +
                 '<div class="me-tree-children">' +
-                    fields.map(f =>
-                        '<div class="me-field-row target-row ' + (obj.isNew ? 'highlight' : '') + '" data-name="' + escapeAttr(f.n) + '">' +
+                    fields.map(f => {
+                        const pickable = !!selectedSourceField;
+                        const cls = 'me-field-row target-row '
+                            + (obj.isNew ? 'highlight ' : '')
+                            + (pickable ? 'pickable' : '');
+                        const onclick = pickable
+                            ? ' onclick="selectTargetField(\'' + escapeJs(f.n) + '\', \'' + f.t + '\', \'' + escapeJs(obj.name) + '\', \'' + group + '\')"'
+                            : '';
+                        return '<div class="' + cls + '" data-name="' + escapeAttr(f.n) + '"' + onclick + '>' +
                             '<span class="me-field-circle tgt-handle"></span>' +
                             typeIcon(f.t) +
                             '<span class="me-field-name">' + escapeHtml(f.n) + '</span>' +
                             (f.key ? keyIcon() : '') +
-                        '</div>'
-                    ).join('') +
+                        '</div>';
+                    }).join('') +
                 '</div>' +
             '</div>';
         }
