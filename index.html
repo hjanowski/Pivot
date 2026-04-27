@@ -1953,6 +1953,16 @@
             opacity: 1;
         }
 
+        .new-object-model-row.unavailable {
+            cursor: not-allowed;
+            opacity: 0.45;
+        }
+
+        .new-object-model-row.unavailable .no-radio {
+            border-color: #d6d6d6;
+            background-color: #f3f3f3;
+        }
+
         .no-radio {
             width: 16px;
             height: 16px;
@@ -3551,6 +3561,7 @@
 
         // ==================== Mapping Editor ====================
         const MAPPING_MODELS = ['Delivery', 'Conversions', 'Delivery Verification', 'Web Analytics Event', 'Web Analytics Page'];
+        const UNATTACHABLE_MODELS = ['Web Analytics Event', 'Web Analytics Page'];
 
         // Per-model configuration: source name, target model display name,
         // source fields list, target objects (each with mapped/unmapped fields), and mapping pairs.
@@ -4101,9 +4112,13 @@
             const list = document.getElementById('newObjectModelsList');
             list.innerHTML = MAPPING_MODELS.map(m => {
                 const isCurrent = m === currentModel;
+                const isUnavailable = UNATTACHABLE_MODELS.includes(m);
                 const isSelected = selectedModels.includes(m);
-                const cls = 'new-object-model-row' + (isSelected ? ' selected' : '') + (isCurrent ? ' disabled' : '');
-                const onclick = isCurrent ? '' : ' onclick="toggleSelectedModel(\'' + escapeJs(m) + '\', event)"';
+                const cls = 'new-object-model-row'
+                    + (isSelected ? ' selected' : '')
+                    + (isCurrent ? ' disabled' : '')
+                    + (isUnavailable ? ' unavailable' : '');
+                const onclick = (isCurrent || isUnavailable) ? '' : ' onclick="toggleSelectedModel(\'' + escapeJs(m) + '\', event)"';
                 return '<div class="' + cls + '"' + onclick + '>' +
                     '<span class="no-radio"></span>' +
                     '<span class="no-name">' + escapeHtml(m) + '</span>' +
@@ -4115,6 +4130,7 @@
         function toggleSelectedModel(model, e) {
             if (e) e.stopPropagation();
             if (model === currentModel) return;
+            if (UNATTACHABLE_MODELS.includes(model)) return;
             if (selectedModels.includes(model)) {
                 selectedModels = selectedModels.filter(m => m !== model);
             } else {
@@ -4257,9 +4273,13 @@
             const list = document.getElementById('attachModelsList');
             list.innerHTML = MAPPING_MODELS.map(m => {
                 const isAttached = attached.includes(m);
+                const isUnavailable = UNATTACHABLE_MODELS.includes(m);
                 const isSelected = selectedAttachModels.includes(m);
-                const cls = 'new-object-model-row' + (isSelected ? ' selected' : '') + (isAttached ? ' disabled' : '');
-                const onclick = isAttached ? '' : ' onclick="toggleAttachModel(\'' + escapeJs(m) + '\', event)"';
+                const cls = 'new-object-model-row'
+                    + (isSelected ? ' selected' : '')
+                    + (isAttached ? ' disabled' : '')
+                    + (isUnavailable ? ' unavailable' : '');
+                const onclick = (isAttached || isUnavailable) ? '' : ' onclick="toggleAttachModel(\'' + escapeJs(m) + '\', event)"';
                 return '<div class="' + cls + '"' + onclick + '>' +
                     '<span class="no-radio"></span>' +
                     '<span class="no-name">' + escapeHtml(m) + '</span>' +
@@ -4272,6 +4292,7 @@
             if (e) e.stopPropagation();
             const attached = attachedModelsFor(attachObjectName);
             if (attached.includes(model)) return;
+            if (UNATTACHABLE_MODELS.includes(model)) return;
             if (selectedAttachModels.includes(model)) {
                 selectedAttachModels = selectedAttachModels.filter(m => m !== model);
             } else {
