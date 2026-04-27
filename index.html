@@ -1623,6 +1623,13 @@
 
         .me-obj-btn:hover { background-color: #f3f3f3; }
 
+        .me-tree-section-header .add-plus.add-plus-lg {
+            width: 24px;
+            height: 24px;
+            font-size: 18px;
+            margin-left: 0;
+        }
+
         .info-circle {
             display: inline-flex;
             align-items: center;
@@ -3919,8 +3926,8 @@
             const escName = escapeJs(obj.name);
             const actions = obj.isNew
                 ? '<span class="me-obj-actions">' +
-                    '<span class="add-plus" onclick="event.stopPropagation(); openNewFieldModal(\'' + escName + '\')" title="Add field">+</span>' +
                     '<button class="me-obj-btn" onclick="event.stopPropagation(); openAttachToModelsModal(\'' + escName + '\')">Attach</button>' +
+                    '<span class="add-plus add-plus-lg" onclick="event.stopPropagation(); openNewFieldModal(\'' + escName + '\')" title="Add field">+</span>' +
                   '</span>'
                 : '<span class="add-plus" onclick="event.stopPropagation(); openNewFieldModal(\'' + escName + '\')" title="Add field">+</span>';
             return '<div class="me-tree-section ' + (exp.root ? '' : 'collapsed') + ' ' + isHighlighted + '" data-obj="' + escapeAttr(obj.name) + '">' +
