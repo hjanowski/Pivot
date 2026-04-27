@@ -3686,7 +3686,7 @@
                 availableModels: ['Delivery', 'Conversions', 'Delivery Verification']
             },
             'google-analytics': {
-                title: 'Google Analytics - Edit Mapping',
+                title: 'GA4 838063380 - Edit Mapping',
                 availableModels: ['Web Analytics Event', 'Web Analytics Page']
             }
         };
@@ -3881,15 +3881,122 @@
                 mappings: []
             },
             'Web Analytics Event': {
-                sourceName: 'Web Event Source',
-                targetName: 'Web Event Model',
+                sourceName: 'Web Analytics Events View',
+                targetName: 'Web Analytics Event Model',
                 sourceFields: [
-                    {n: 'Event Category', t: 'text'},
-                    {n: 'Event Action', t: 'text'},
-                    {n: 'Event Count', t: 'num'}
+                    {n: 'Campaign Name', t: 'text'},
+                    {n: 'Currency', t: 'text'},
+                    {n: 'Day', t: 'date'},
+                    {n: 'Events Value', t: 'num'},
+                    {n: 'Total Events', t: 'num'},
+                    {n: 'Web Analytics Event', t: 'text'},
+                    {n: 'Web Analytics Events View Id', t: 'text', key: true},
+                    {n: 'Web Analytics Site', t: 'text'},
+                    {n: 'Web Analytics Site Key', t: 'text'},
+                    {n: 'Web Analytics Site Medium', t: 'text'},
+                    {n: 'Web Analytics Site Source', t: 'text'}
                 ],
-                objects: [{name: 'Web Event', mapped: [], unmapped: []}],
-                mappings: []
+                sourceUnmapped: [
+                    {n: 'KQ_Web_Analytics_Events_View', t: 'text'}
+                ],
+                objects: [
+                    {
+                        name: 'Web Analytics Event',
+                        mapped: [
+                            {n: 'Web Analytics Event Currency', t: 'text'},
+                            {n: 'Web Analytics Event Date Time', t: 'date'},
+                            {n: 'Web Analytics Event Id', t: 'text', key: true},
+                            {n: 'Website Event Value', t: 'num'},
+                            {n: 'Website Total Events', t: 'num'}
+                        ],
+                        unmapped: [
+                            {n: 'Website Event Visits', t: 'num'},
+                            {n: 'Website Unique Events', t: 'num'}
+                        ]
+                    },
+                    {
+                        name: 'Ad',
+                        mapped: [],
+                        unmapped: [
+                            {n: 'Ad Headline', t: 'text'},
+                            {n: 'Ad Group', t: 'text'},
+                            {n: 'Ad Creative Url', t: 'text'}
+                        ]
+                    },
+                    {
+                        name: 'Campaign',
+                        mapped: [
+                            {n: 'Campaign Currency', t: 'text'},
+                            {n: 'Campaign Name', t: 'text'},
+                            {n: 'Campaign Id', t: 'text', key: true}
+                        ],
+                        unmapped: [
+                            {n: 'Campaign Status', t: 'text'},
+                            {n: 'Campaign Budget', t: 'num'}
+                        ]
+                    },
+                    {
+                        name: 'Device',
+                        mapped: [],
+                        unmapped: [
+                            {n: 'Device Type', t: 'text'},
+                            {n: 'Device Id', t: 'text', key: true}
+                        ]
+                    },
+                    {
+                        name: 'Marketing Channel',
+                        mapped: [],
+                        unmapped: [
+                            {n: 'Marketing Channel Id', t: 'text', key: true},
+                            {n: 'Marketing Channel Name', t: 'text'},
+                            {n: 'Marketing Channel Type', t: 'text'}
+                        ]
+                    },
+                    {
+                        name: 'Media Buy',
+                        mapped: [
+                            {n: 'Media Buy Currency', t: 'text'},
+                            {n: 'Media Buy Name', t: 'text'},
+                            {n: 'Media Buy Id', t: 'text', key: true}
+                        ],
+                        unmapped: [
+                            {n: 'Media Buy Date Time', t: 'date'},
+                            {n: 'Media Buy Type', t: 'text'}
+                        ]
+                    },
+                    {
+                        name: 'Site',
+                        mapped: [
+                            {n: 'Website Source Id', t: 'text'},
+                            {n: 'Website Source Name', t: 'text'},
+                            {n: 'Website Source Medium', t: 'text'},
+                            {n: 'Website Name', t: 'text'},
+                            {n: 'Website Id', t: 'text'},
+                            {n: 'Website Event Id', t: 'text'},
+                            {n: 'Website Event Name', t: 'text'}
+                        ],
+                        unmapped: []
+                    }
+                ],
+                mappings: [
+                    {l: 'Currency', lt: 'text', r: 'Web Analytics Event Currency', rt: 'text'},
+                    {l: 'Total Events', lt: 'num', r: 'Website Total Events', rt: 'num'},
+                    {l: 'Day', lt: 'date', r: 'Web Analytics Event Date Time', rt: 'date'},
+                    {l: 'Events Value', lt: 'num', r: 'Website Event Value', rt: 'num'},
+                    {l: 'Web Analytics Events View Id', lt: 'text', r: 'Web Analytics Event Id', rt: 'text'},
+                    {l: 'Web Analytics Site Source Formula', lt: 'fx', r: 'Website Source Id', rt: 'text'},
+                    {l: 'Web Analytics Site Source', lt: 'text', r: 'Website Source Name', rt: 'text'},
+                    {l: 'Web Analytics Site Medium', lt: 'text', r: 'Website Source Medium', rt: 'text'},
+                    {l: 'Web Analytics Site', lt: 'text', r: 'Website Name', rt: 'text'},
+                    {l: 'Web Analytics Site Key', lt: 'text', r: 'Website Id', rt: 'text'},
+                    {l: 'Currency', lt: 'text', r: 'Campaign Currency', rt: 'text'},
+                    {l: 'Campaign Name Formula', lt: 'fx', r: 'Campaign Name', rt: 'text'},
+                    {l: 'Campaign Name', lt: 'text', r: 'Campaign Id', rt: 'text'},
+                    {l: 'Web Analytics Event Formula', lt: 'fx', r: 'Website Event Name', rt: 'text'},
+                    {l: 'Web Analytics Event', lt: 'text', r: 'Website Event Id', rt: 'text'},
+                    {l: 'Currency', lt: 'text', r: 'Media Buy Currency', rt: 'text'},
+                    {l: 'Media Buy Name Formula', lt: 'fx', r: 'Media Buy Name', rt: 'text'}
+                ]
             },
             'Web Analytics Page': {
                 sourceName: 'Web Page Source',
@@ -3910,7 +4017,7 @@
         MAPPING_MODELS.forEach(m => { targetExpanded[m] = {}; });
         // Source tree expanded state per [model][group]
         const sourceExpanded = {};
-        MAPPING_MODELS.forEach(m => { sourceExpanded[m] = { root: true, mapped: true }; });
+        MAPPING_MODELS.forEach(m => { sourceExpanded[m] = { root: true, mapped: true, unmapped: true }; });
 
         function initMappingEditor() {
             renderMappingEditor();
@@ -4098,9 +4205,45 @@
         function renderSourceTree() {
             const data = MODEL_DATA[currentModel];
             const tree = document.getElementById('sourceTree');
-            const rootOpen = sourceExpanded[currentModel].root !== false;
-            const mappedOpen = sourceExpanded[currentModel].mapped !== false;
-            const fields = data.sourceFields;
+            const exp = sourceExpanded[currentModel];
+            const rootOpen = exp.root !== false;
+            const mappedOpen = exp.mapped !== false;
+            const unmappedOpen = exp.unmapped !== false;
+            const mappedFields = data.sourceFields || [];
+            const unmappedFields = data.sourceUnmapped || [];
+
+            const renderField = (f, isUnmappedSection) => {
+                const isSelected = selectedSourceField && selectedSourceField.n === f.n;
+                return '<div class="me-field-row source-row ' + (isSelected ? 'highlight' : '') + '" data-name="' + escapeAttr(f.n) + '" onclick="selectSourceField(\'' + escapeJs(f.n) + '\', \'' + f.t + '\')">' +
+                    typeIcon(f.t) +
+                    '<span class="me-field-name">' + escapeHtml(f.n) + '</span>' +
+                    (f.key ? keyIcon() : '') +
+                    '<span class="me-field-circle src-handle"></span>' +
+                '</div>';
+            };
+
+            const mappedSection =
+                '<div class="me-tree-section ' + (mappedOpen ? '' : 'collapsed') + '" data-key="mapped">' +
+                    '<div class="me-tree-section-header subgroup" onclick="toggleSourceSection(\'mapped\')">' +
+                        '<svg class="chev" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5H7z"/></svg>' +
+                        '<span>Mapped (' + mappedFields.length + ')</span>' +
+                    '</div>' +
+                    '<div class="me-tree-children">' +
+                        mappedFields.map(f => renderField(f, false)).join('') +
+                    '</div>' +
+                '</div>';
+
+            const unmappedSection = unmappedFields.length > 0
+                ? '<div class="me-tree-section ' + (unmappedOpen ? '' : 'collapsed') + '" data-key="unmapped">' +
+                      '<div class="me-tree-section-header subgroup" onclick="toggleSourceSection(\'unmapped\')">' +
+                          '<svg class="chev" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5H7z"/></svg>' +
+                          '<span>Unmapped (' + unmappedFields.length + ')</span>' +
+                      '</div>' +
+                      '<div class="me-tree-children">' +
+                          unmappedFields.map(f => renderField(f, true)).join('') +
+                      '</div>' +
+                  '</div>'
+                : '';
 
             tree.innerHTML =
                 '<div class="me-tree-section ' + (rootOpen ? '' : 'collapsed') + '" data-key="root">' +
@@ -4108,24 +4251,7 @@
                         '<svg class="chev" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5H7z"/></svg>' +
                         '<span>' + escapeHtml(data.sourceName) + '</span>' +
                     '</div>' +
-                    '<div class="me-tree-children">' +
-                        '<div class="me-tree-section ' + (mappedOpen ? '' : 'collapsed') + '" data-key="mapped">' +
-                            '<div class="me-tree-section-header subgroup" onclick="toggleSourceSection(\'mapped\')">' +
-                                '<svg class="chev" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5H7z"/></svg>' +
-                                '<span>Mapped (' + fields.length + ')</span>' +
-                            '</div>' +
-                            '<div class="me-tree-children">' +
-                                fields.map(f => {
-                                    const isSelected = selectedSourceField && selectedSourceField.n === f.n;
-                                    return '<div class="me-field-row source-row ' + (isSelected ? 'highlight' : '') + '" data-name="' + escapeAttr(f.n) + '" onclick="selectSourceField(\'' + escapeJs(f.n) + '\', \'' + f.t + '\')">' +
-                                        typeIcon(f.t) +
-                                        '<span class="me-field-name">' + escapeHtml(f.n) + '</span>' +
-                                        '<span class="me-field-circle src-handle"></span>' +
-                                    '</div>';
-                                }).join('') +
-                            '</div>' +
-                        '</div>' +
-                    '</div>' +
+                    '<div class="me-tree-children">' + mappedSection + unmappedSection + '</div>' +
                 '</div>';
         }
 
