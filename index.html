@@ -3919,8 +3919,8 @@
             const escName = escapeJs(obj.name);
             const actions = obj.isNew
                 ? '<span class="me-obj-actions">' +
-                    '<button class="me-obj-btn" onclick="event.stopPropagation(); openNewFieldModal(\'' + escName + '\')">+ Add Field</button>' +
-                    '<button class="me-obj-btn" onclick="event.stopPropagation(); openAttachToModelsModal(\'' + escName + '\')">Attach to Models</button>' +
+                    '<span class="add-plus" onclick="event.stopPropagation(); openNewFieldModal(\'' + escName + '\')" title="Add field">+</span>' +
+                    '<button class="me-obj-btn" onclick="event.stopPropagation(); openAttachToModelsModal(\'' + escName + '\')">Attach</button>' +
                   '</span>'
                 : '<span class="add-plus" onclick="event.stopPropagation(); openNewFieldModal(\'' + escName + '\')" title="Add field">+</span>';
             return '<div class="me-tree-section ' + (exp.root ? '' : 'collapsed') + ' ' + isHighlighted + '" data-obj="' + escapeAttr(obj.name) + '">' +
