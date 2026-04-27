@@ -2188,7 +2188,7 @@
                             </div>
                             <h1>Data Pipelines</h1>
                         </div>
-                        <div class="item-count">10 items</div>
+                        <div class="item-count">11 items</div>
                     </div>
                     <div class="page-actions">
                         <button class="btn-new">New Pipeline</button>
@@ -2317,7 +2317,7 @@
                                             <a href="#" class="dropdown-item dropdown-item-header">Pipeline Details</a>
                                             <a href="#" class="dropdown-item">Process Log</a>
                                             <a href="#" class="dropdown-item">Delete</a>
-                                            <a href="#" class="dropdown-item" onclick="openMappingEditor(event)">Edit Mapping</a>
+                                            <a href="#" class="dropdown-item" onclick="openMappingEditor(event, 'google-ads')">Edit Mapping</a>
                                             <a href="#" class="dropdown-item">Reprocess</a>
                                             <a href="#" class="dropdown-item">Run Schedule</a>
                                             <a href="#" class="dropdown-item">Deactivate</a>
@@ -2328,6 +2328,50 @@
                             </tr>
                             <tr>
                                 <td>2</td>
+                                <td><a href="#" class="link-cell">Google Analytics</a></td>
+                                <td>default</td>
+                                <td>Google Analytics</td>
+                                <td>
+                                    <span class="status-badge status-active">
+                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                        </svg>
+                                        Active
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="status-badge status-success">
+                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                        </svg>
+                                        Success
+                                    </span>
+                                </td>
+                                <td>11/30/2025, 12:00 AM</td>
+                                <td>12/1/2025, 12:00 AM</td>
+                                <td>11/30/2025</td>
+                                <td class="action-cell">
+                                    <div class="dropdown-container">
+                                        <button class="action-btn" onclick="toggleDropdown(this)">
+                                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M7 10l5 5 5-5H7z"/>
+                                            </svg>
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <a href="#" class="dropdown-item dropdown-item-header">Pipeline Details</a>
+                                            <a href="#" class="dropdown-item">Process Log</a>
+                                            <a href="#" class="dropdown-item">Delete</a>
+                                            <a href="#" class="dropdown-item" onclick="openMappingEditor(event, 'google-analytics')">Edit Mapping</a>
+                                            <a href="#" class="dropdown-item">Reprocess</a>
+                                            <a href="#" class="dropdown-item">Run Schedule</a>
+                                            <a href="#" class="dropdown-item">Deactivate</a>
+                                            <a href="pivot-table.html" class="dropdown-item">Pivot Table</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
                                 <td><a href="#" class="link-cell">Meta_Ads_Connection 53...</a></td>
                                 <td>default</td>
                                 <td>EMI Mock</td>
@@ -2370,7 +2414,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td>3</td>
+                                <td>4</td>
                                 <td><a href="#" class="link-cell">Google_Ads_Connection 5...</a></td>
                                 <td>default</td>
                                 <td>EMI Mock</td>
@@ -2413,7 +2457,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td>4</td>
+                                <td>5</td>
                                 <td><a href="#" class="link-cell">SEG_INT_DELMLT_csv 131...</a></td>
                                 <td>default</td>
                                 <td>Total Connect</td>
@@ -2457,7 +2501,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td>5</td>
+                                <td>6</td>
                                 <td><a href="#" class="link-cell">SEG_INT_CONVMLT_csv 1...</a></td>
                                 <td>default</td>
                                 <td>Total Connect</td>
@@ -2501,7 +2545,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td>6</td>
+                                <td>7</td>
                                 <td><a href="#" class="link-cell">GA_pages_csv 1147717417</a></td>
                                 <td>default</td>
                                 <td>Total Connect</td>
@@ -2545,7 +2589,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td>7</td>
+                                <td>8</td>
                                 <td><a href="#" class="link-cell">GA_events3_csv 11423138...</a></td>
                                 <td>default</td>
                                 <td>Total Connect</td>
@@ -2589,7 +2633,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td>8</td>
+                                <td>9</td>
                                 <td><a href="#" class="link-cell">GA_analytics_3_csv 11362...</a></td>
                                 <td>default</td>
                                 <td>Total Connect</td>
@@ -2633,7 +2677,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td>9</td>
+                                <td>10</td>
                                 <td><a href="#" class="link-cell">GA_Pages_4_csv 1136050...</a></td>
                                 <td>default</td>
                                 <td>Total Connect</td>
@@ -2677,7 +2721,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td>10</td>
+                                <td>11</td>
                                 <td><a href="#" class="link-cell">GA_events_3_csv 113556...</a></td>
                                 <td>default</td>
                                 <td>Total Connect</td>
@@ -3561,7 +3605,30 @@
 
         // ==================== Mapping Editor ====================
         const MAPPING_MODELS = ['Delivery', 'Conversions', 'Delivery Verification', 'Web Analytics Event', 'Web Analytics Page'];
-        const UNATTACHABLE_MODELS = ['Web Analytics Event', 'Web Analytics Page'];
+
+        const PIPELINE_CONFIG = {
+            'google-ads': {
+                title: 'Gur_s_GAds_Connection 1925355064 - Edit Mapping',
+                availableModels: ['Delivery', 'Conversions', 'Delivery Verification']
+            },
+            'google-analytics': {
+                title: 'Google Analytics - Edit Mapping',
+                availableModels: ['Web Analytics Event', 'Web Analytics Page']
+            }
+        };
+
+        let currentPipeline = 'google-ads';
+
+        function getUnattachableForCreation() {
+            const cfg = PIPELINE_CONFIG[currentPipeline];
+            if (!cfg) return [];
+            return MAPPING_MODELS.filter(m => !cfg.availableModels.includes(m));
+        }
+
+        function getAvailableModels() {
+            const cfg = PIPELINE_CONFIG[currentPipeline];
+            return cfg ? cfg.availableModels : MAPPING_MODELS.slice();
+        }
 
         // Per-model configuration: source name, target model display name,
         // source fields list, target objects (each with mapped/unmapped fields), and mapping pairs.
@@ -3821,9 +3888,17 @@
             window.addEventListener('resize', scheduleRedraw);
         }
 
-        function openMappingEditor(e) {
+        function openMappingEditor(e, pipelineId) {
             if (e) e.preventDefault();
             document.querySelectorAll('.dropdown-menu.show').forEach(menu => menu.classList.remove('show'));
+            if (pipelineId && PIPELINE_CONFIG[pipelineId]) {
+                currentPipeline = pipelineId;
+                const cfg = PIPELINE_CONFIG[pipelineId];
+                document.getElementById('mePipelineTitle').textContent = cfg.title;
+                if (!cfg.availableModels.includes(currentModel)) {
+                    currentModel = cfg.availableModels[0];
+                }
+            }
             document.getElementById('mappingEditor').classList.add('show');
             document.body.style.overflow = 'hidden';
             renderMappingEditor();
@@ -3843,7 +3918,7 @@
             const menu = document.createElement('div');
             menu.id = 'sourceModelMenu';
             menu.style.cssText = 'position:fixed;top:' + (rect.bottom + 4) + 'px;left:' + rect.left + 'px;background:#fff;border:1px solid #c9c9c9;border-radius:4px;box-shadow:0 2px 8px rgba(0,0,0,.15);min-width:220px;z-index:1500;';
-            menu.innerHTML = MAPPING_MODELS.map(m => {
+            menu.innerHTML = getAvailableModels().map(m => {
                 const data = MODEL_DATA[m];
                 const sel = m === currentModel ? 'background:#e9f3ff;font-weight:700;' : '';
                 return '<div class="model-menu-item" data-model="' + m + '" style="padding:8px 14px;font-size:13px;color:#181818;cursor:pointer;' + sel + '">' + escapeHtml(data.sourceName) + '</div>';
@@ -4110,9 +4185,10 @@
             label.textContent = labelText;
 
             const list = document.getElementById('newObjectModelsList');
+            const unattachable = getUnattachableForCreation();
             list.innerHTML = MAPPING_MODELS.map(m => {
                 const isCurrent = m === currentModel;
-                const isUnavailable = UNATTACHABLE_MODELS.includes(m);
+                const isUnavailable = unattachable.includes(m);
                 const isSelected = selectedModels.includes(m);
                 const cls = 'new-object-model-row'
                     + (isSelected ? ' selected' : '')
@@ -4130,7 +4206,7 @@
         function toggleSelectedModel(model, e) {
             if (e) e.stopPropagation();
             if (model === currentModel) return;
-            if (UNATTACHABLE_MODELS.includes(model)) return;
+            if (getUnattachableForCreation().includes(model)) return;
             if (selectedModels.includes(model)) {
                 selectedModels = selectedModels.filter(m => m !== model);
             } else {
@@ -4273,13 +4349,11 @@
             const list = document.getElementById('attachModelsList');
             list.innerHTML = MAPPING_MODELS.map(m => {
                 const isAttached = attached.includes(m);
-                const isUnavailable = UNATTACHABLE_MODELS.includes(m);
                 const isSelected = selectedAttachModels.includes(m);
                 const cls = 'new-object-model-row'
                     + (isSelected ? ' selected' : '')
-                    + (isAttached ? ' disabled' : '')
-                    + (isUnavailable ? ' unavailable' : '');
-                const onclick = (isAttached || isUnavailable) ? '' : ' onclick="toggleAttachModel(\'' + escapeJs(m) + '\', event)"';
+                    + (isAttached ? ' disabled' : '');
+                const onclick = isAttached ? '' : ' onclick="toggleAttachModel(\'' + escapeJs(m) + '\', event)"';
                 return '<div class="' + cls + '"' + onclick + '>' +
                     '<span class="no-radio"></span>' +
                     '<span class="no-name">' + escapeHtml(m) + '</span>' +
@@ -4292,7 +4366,6 @@
             if (e) e.stopPropagation();
             const attached = attachedModelsFor(attachObjectName);
             if (attached.includes(model)) return;
-            if (UNATTACHABLE_MODELS.includes(model)) return;
             if (selectedAttachModels.includes(model)) {
                 selectedAttachModels = selectedAttachModels.filter(m => m !== model);
             } else {
