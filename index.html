@@ -1623,6 +1623,22 @@
 
         .me-obj-btn:hover { background-color: #f3f3f3; }
 
+        .info-circle {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background-color: #0c6afe;
+            color: #ffffff;
+            font-size: 10px;
+            font-style: italic;
+            font-family: 'Times New Roman', serif;
+            font-weight: 700;
+            cursor: help;
+        }
+
         .me-tree-children { padding: 2px 0; }
 
         .me-field-row {
@@ -3158,31 +3174,53 @@
 
     <!-- New Field Modal -->
     <div class="modal-overlay" id="newFieldModal">
-        <div class="new-object-dialog" style="max-width: 480px;">
+        <div class="new-object-dialog" style="max-width: 760px;">
             <button class="new-object-close-floating" onclick="closeNewFieldModal()">
                 <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
                 </svg>
             </button>
             <div class="new-object-header">
-                <h2>New Field</h2>
+                <h2>Add Field to Data Object</h2>
             </div>
-            <div style="padding: 22px 28px 8px 28px;">
-                <div style="margin-bottom: 16px;">
-                    <span class="new-object-field-label" style="display:inline;">Object:</span>
-                    <span id="newFieldObjectName" style="margin-left:6px;font-weight:700;color:#03234d;"></span>
+            <div style="padding: 24px 32px;">
+                <div style="margin-bottom: 18px;">
+                    <label class="new-object-field-label" style="display:flex; align-items:center; gap:6px;">
+                        Field Name
+                        <span class="info-circle" title="The field name will be prefixed with the object name.">i</span>
+                    </label>
+                    <div style="display:flex; align-items:center; gap:14px; margin-top:8px;">
+                        <span style="color:#181818;font-size:14px;white-space:nowrap;">(Prefix: <span id="newFieldPrefix"></span>)</span>
+                        <input type="text" class="new-object-input" id="newFieldName" placeholder="Name the field..." oninput="onNewFieldNameInput()" style="flex:1;">
+                    </div>
                 </div>
-                <div style="margin-bottom: 16px;">
-                    <label class="new-object-field-label"><span class="required">*</span>Field Name</label>
-                    <input type="text" class="new-object-input" id="newFieldName" oninput="updateAddFieldBtnState()">
+
+                <div style="margin-bottom: 22px; font-size: 14px;">
+                    <span style="font-weight:700;color:#181818;">Final Display Name</span>
+                    <span id="newFieldFinalName" style="margin-left:14px;color:#181818;"></span>
                 </div>
-                <div>
-                    <label class="new-object-field-label">Field Type</label>
-                    <select class="new-object-input" id="newFieldType" style="appearance:auto;background-image:none;padding-right:12px;">
-                        <option value="text">Text</option>
-                        <option value="num">Number</option>
-                        <option value="date">Date</option>
-                    </select>
+
+                <div style="margin-bottom: 22px;">
+                    <label class="new-object-field-label">Description</label>
+                    <textarea class="new-object-textarea" id="newFieldDescription" placeholder="Briefly describe the field's purpose..." style="min-height:48px;"></textarea>
+                </div>
+
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px;">
+                    <div>
+                        <label class="new-object-field-label"><span class="required">*</span>Field Type</label>
+                        <select class="new-object-input" id="newFieldFieldType" disabled style="background-color:#f3f3f3;color:#5c5c5c;cursor:not-allowed;">
+                            <option value="Dimension">Dimension</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="new-object-field-label"><span class="required">*</span>Data Type</label>
+                        <select class="new-object-input" id="newFieldType" onchange="updateAddFieldBtnState()">
+                            <option value="">Select an Option</option>
+                            <option value="text">Text</option>
+                            <option value="num">Number</option>
+                            <option value="date">Date</option>
+                        </select>
+                    </div>
                 </div>
             </div>
             <div class="new-object-footer">
@@ -4119,10 +4157,11 @@
 
         function openNewFieldModal(objectName) {
             newFieldObject = objectName;
-            document.getElementById('newFieldObjectName').textContent = objectName;
+            document.getElementById('newFieldPrefix').textContent = objectName;
             document.getElementById('newFieldName').value = '';
-            const typeSel = document.getElementById('newFieldType');
-            if (typeSel) typeSel.value = 'text';
+            document.getElementById('newFieldDescription').value = '';
+            document.getElementById('newFieldType').value = '';
+            updateFinalDisplayName();
             updateAddFieldBtnState();
             document.getElementById('newFieldModal').classList.add('show');
         }
@@ -4131,28 +4170,41 @@
             document.getElementById('newFieldModal').classList.remove('show');
         }
 
+        function onNewFieldNameInput() {
+            updateFinalDisplayName();
+            updateAddFieldBtnState();
+        }
+
+        function updateFinalDisplayName() {
+            const name = document.getElementById('newFieldName').value.trim();
+            const final = name ? newFieldObject + ' ' + name : newFieldObject;
+            document.getElementById('newFieldFinalName').textContent = final;
+        }
+
         function updateAddFieldBtnState() {
             const name = document.getElementById('newFieldName').value.trim();
+            const dataType = document.getElementById('newFieldType').value;
             const btn = document.getElementById('newFieldAddBtn');
-            if (name) btn.classList.add('enabled');
+            if (name && dataType) btn.classList.add('enabled');
             else btn.classList.remove('enabled');
         }
 
         function addNewField() {
             const btn = document.getElementById('newFieldAddBtn');
             if (!btn.classList.contains('enabled')) return;
-            const name = document.getElementById('newFieldName').value.trim();
+            const rawName = document.getElementById('newFieldName').value.trim();
             const type = document.getElementById('newFieldType').value;
-            if (!newFieldObject) return;
+            if (!newFieldObject || !rawName || !type) return;
+            const fullName = newFieldObject + ' ' + rawName;
 
             MAPPING_MODELS.forEach(m => {
                 const obj = MODEL_DATA[m].objects.find(o => o.name === newFieldObject);
                 if (!obj) return;
                 if (!obj.mapped) obj.mapped = [];
                 if (!obj.unmapped) obj.unmapped = [];
-                const exists = obj.mapped.some(f => f.n === name) || obj.unmapped.some(f => f.n === name);
+                const exists = obj.mapped.some(f => f.n === fullName) || obj.unmapped.some(f => f.n === fullName);
                 if (!exists) {
-                    obj.unmapped.push({n: name, t: type});
+                    obj.unmapped.push({n: fullName, t: type});
                 }
             });
 
