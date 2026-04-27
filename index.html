@@ -1601,6 +1601,28 @@
 
         .me-tree-section.highlight > .me-tree-section-header { background-color: #e9f3ff; }
 
+        .me-obj-actions {
+            margin-left: auto;
+            display: inline-flex;
+            gap: 6px;
+            align-items: center;
+        }
+
+        .me-obj-btn {
+            background: #ffffff;
+            border: 1px solid #c9c9c9;
+            border-radius: 4px;
+            padding: 3px 8px;
+            font-size: 11px;
+            font-weight: 400;
+            color: #181818;
+            cursor: pointer;
+            white-space: nowrap;
+            line-height: 1.4;
+        }
+
+        .me-obj-btn:hover { background-color: #f3f3f3; }
+
         .me-tree-children { padding: 2px 0; }
 
         .me-field-row {
@@ -3117,7 +3139,7 @@
                     <textarea class="new-object-textarea" id="newObjectDescription" placeholder="Describe the object's purpose..."></textarea>
                 </div>
                 <div>
-                    <label class="new-object-field-label">Add Object to Other Models:</label>
+                    <label class="new-object-field-label">Attach new Object to Models:</label>
                     <div class="new-object-models-dropdown" id="noModelsDropdown">
                         <div class="new-object-models-trigger" onclick="toggleNoModelsDropdown(event)">
                             <span class="new-object-models-trigger-label" id="noModelsTriggerLabel"></span>
@@ -3166,6 +3188,40 @@
             <div class="new-object-footer">
                 <button class="no-btn no-btn-cancel" onclick="closeNewFieldModal()">Cancel</button>
                 <button class="no-btn no-btn-add" id="newFieldAddBtn" onclick="addNewField()">Add</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Attach to Models Modal -->
+    <div class="modal-overlay" id="attachToModelsModal">
+        <div class="new-object-dialog" style="max-width: 520px;">
+            <button class="new-object-close-floating" onclick="closeAttachToModelsModal()">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                </svg>
+            </button>
+            <div class="new-object-header">
+                <h2>Attach to Models</h2>
+            </div>
+            <div style="padding: 22px 28px 8px 28px;">
+                <div style="margin-bottom: 16px;">
+                    <span class="new-object-field-label" style="display:inline;">Object:</span>
+                    <span id="attachObjectName" style="margin-left:6px;font-weight:700;color:#03234d;"></span>
+                </div>
+                <div>
+                    <label class="new-object-field-label">Attach to Models:</label>
+                    <div class="new-object-models-dropdown" id="attachModelsDropdown">
+                        <div class="new-object-models-trigger" onclick="toggleAttachModelsDropdown(event)">
+                            <span class="new-object-models-trigger-label" id="attachModelsTriggerLabel"></span>
+                            <svg class="chev" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5H7z"/></svg>
+                        </div>
+                        <div class="new-object-models-list" id="attachModelsList"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="new-object-footer">
+                <button class="no-btn no-btn-cancel" onclick="closeAttachToModelsModal()">Cancel</button>
+                <button class="no-btn no-btn-add" id="attachModelsBtn" onclick="attachObjectToModels()">Attach</button>
             </div>
         </div>
     </div>
@@ -3676,6 +3732,13 @@
                 });
             }
 
+            const attachModal = document.getElementById('attachToModelsModal');
+            if (attachModal) {
+                attachModal.addEventListener('click', function(e) {
+                    if (e.target === this) closeAttachToModelsModal();
+                });
+            }
+
             // Source panel title acts as model dropdown trigger
             document.addEventListener('click', function(e) {
                 const menu = document.getElementById('sourceModelMenu');
@@ -3685,6 +3748,10 @@
                 const modelsDd = document.getElementById('noModelsDropdown');
                 if (modelsDd && !modelsDd.contains(e.target)) {
                     modelsDd.classList.remove('open');
+                }
+                const attachDd = document.getElementById('attachModelsDropdown');
+                if (attachDd && !attachDd.contains(e.target)) {
+                    attachDd.classList.remove('open');
                 }
             });
 
@@ -3811,11 +3878,18 @@
         function renderTargetObject(obj, idx) {
             const exp = targetExpanded[currentModel][obj.name] || (targetExpanded[currentModel][obj.name] = { root: true, mapped: true, unmapped: true });
             const isHighlighted = obj.isNew ? 'highlight' : '';
+            const escName = escapeJs(obj.name);
+            const actions = obj.isNew
+                ? '<span class="me-obj-actions">' +
+                    '<button class="me-obj-btn" onclick="event.stopPropagation(); openNewFieldModal(\'' + escName + '\')">+Add new field</button>' +
+                    '<button class="me-obj-btn" onclick="event.stopPropagation(); openAttachToModelsModal(\'' + escName + '\')">Attach to Models</button>' +
+                  '</span>'
+                : '<span class="add-plus" onclick="event.stopPropagation(); openNewFieldModal(\'' + escName + '\')" title="Add field">+</span>';
             return '<div class="me-tree-section ' + (exp.root ? '' : 'collapsed') + ' ' + isHighlighted + '" data-obj="' + escapeAttr(obj.name) + '">' +
-                '<div class="me-tree-section-header" onclick="toggleTargetSection(\'' + escapeJs(obj.name) + '\', \'root\')">' +
+                '<div class="me-tree-section-header" onclick="toggleTargetSection(\'' + escName + '\', \'root\')">' +
                     '<svg class="chev" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5H7z"/></svg>' +
                     '<span>' + escapeHtml(obj.name) + '</span>' +
-                    '<span class="add-plus" onclick="event.stopPropagation(); openNewFieldModal(\'' + escapeJs(obj.name) + '\')" title="Add field">+</span>' +
+                    actions +
                 '</div>' +
                 '<div class="me-tree-children">' +
                     renderObjectGroup(obj, 'mapped', exp) +
@@ -4083,6 +4157,104 @@
             });
 
             closeNewFieldModal();
+            renderMappingEditor();
+        }
+
+        // ==================== Attach to Models Modal ====================
+        let attachObjectName = null;
+        let selectedAttachModels = [];
+
+        function attachedModelsFor(objName) {
+            return MAPPING_MODELS.filter(m => MODEL_DATA[m].objects.some(o => o.name === objName));
+        }
+
+        function openAttachToModelsModal(objectName) {
+            attachObjectName = objectName;
+            selectedAttachModels = attachedModelsFor(objectName).slice();
+            document.getElementById('attachObjectName').textContent = objectName;
+            document.getElementById('attachModelsDropdown').classList.remove('open');
+            renderAttachModels();
+            updateAttachBtnState();
+            document.getElementById('attachToModelsModal').classList.add('show');
+        }
+
+        function closeAttachToModelsModal() {
+            document.getElementById('attachToModelsModal').classList.remove('show');
+            document.getElementById('attachModelsDropdown').classList.remove('open');
+        }
+
+        function toggleAttachModelsDropdown(e) {
+            if (e) e.stopPropagation();
+            document.getElementById('attachModelsDropdown').classList.toggle('open');
+        }
+
+        function renderAttachModels() {
+            const attached = attachedModelsFor(attachObjectName);
+            const triggerLabel = document.getElementById('attachModelsTriggerLabel');
+            triggerLabel.textContent = selectedAttachModels.map(m =>
+                attached.includes(m) ? m + ' (Attached)' : m
+            ).join(', ');
+
+            const list = document.getElementById('attachModelsList');
+            list.innerHTML = MAPPING_MODELS.map(m => {
+                const isAttached = attached.includes(m);
+                const isSelected = selectedAttachModels.includes(m);
+                const cls = 'new-object-model-row' + (isSelected ? ' selected' : '') + (isAttached ? ' disabled' : '');
+                const onclick = isAttached ? '' : ' onclick="toggleAttachModel(\'' + escapeJs(m) + '\', event)"';
+                return '<div class="' + cls + '"' + onclick + '>' +
+                    '<span class="no-radio"></span>' +
+                    '<span class="no-name">' + escapeHtml(m) + '</span>' +
+                    (isAttached ? '<span class="no-current">(Attached)</span>' : '') +
+                '</div>';
+            }).join('');
+        }
+
+        function toggleAttachModel(model, e) {
+            if (e) e.stopPropagation();
+            const attached = attachedModelsFor(attachObjectName);
+            if (attached.includes(model)) return;
+            if (selectedAttachModels.includes(model)) {
+                selectedAttachModels = selectedAttachModels.filter(m => m !== model);
+            } else {
+                selectedAttachModels.push(model);
+            }
+            renderAttachModels();
+            updateAttachBtnState();
+        }
+
+        function updateAttachBtnState() {
+            const attached = attachedModelsFor(attachObjectName);
+            const newOnes = selectedAttachModels.filter(m => !attached.includes(m));
+            const btn = document.getElementById('attachModelsBtn');
+            if (newOnes.length > 0) btn.classList.add('enabled');
+            else btn.classList.remove('enabled');
+        }
+
+        function attachObjectToModels() {
+            const btn = document.getElementById('attachModelsBtn');
+            if (!btn.classList.contains('enabled')) return;
+
+            let sourceObj = null;
+            for (const m of MAPPING_MODELS) {
+                const obj = MODEL_DATA[m].objects.find(o => o.name === attachObjectName);
+                if (obj) { sourceObj = obj; break; }
+            }
+            if (!sourceObj) return;
+
+            const attached = attachedModelsFor(attachObjectName);
+            selectedAttachModels.forEach(m => {
+                if (attached.includes(m)) return;
+                const data = MODEL_DATA[m];
+                data.objects.unshift({
+                    name: sourceObj.name,
+                    isNew: sourceObj.isNew,
+                    mapped: (sourceObj.mapped || []).map(f => Object.assign({}, f)),
+                    unmapped: (sourceObj.unmapped || []).map(f => Object.assign({}, f))
+                });
+                targetExpanded[m][sourceObj.name] = { root: true, mapped: true, unmapped: true };
+            });
+
+            closeAttachToModelsModal();
             renderMappingEditor();
         }
 
