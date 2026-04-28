@@ -4492,10 +4492,8 @@
             if (!btn.classList.contains('enabled')) return;
             const name = document.getElementById('newObjectName').value.trim();
 
-            const targets = [currentModel].concat(selectedModels.filter(m => m !== currentModel));
-            targets.forEach(m => {
-                const data = MODEL_DATA[m];
-                if (data.objects.some(o => o.name === name)) return;
+            const data = MODEL_DATA[currentModel];
+            if (!data.objects.some(o => o.name === name)) {
                 data.objects.unshift({
                     name: name,
                     isNew: true,
@@ -4506,8 +4504,8 @@
                         {n: name + ' Name', t: 'text'}
                     ]
                 });
-                targetExpanded[m][name] = { root: true, mapped: true, unmapped: true };
-            });
+                targetExpanded[currentModel][name] = { root: true, mapped: true, unmapped: true };
+            }
 
             closeNewObjectModal();
             renderMappingEditor();
