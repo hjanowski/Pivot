@@ -3266,7 +3266,10 @@
                     <textarea class="new-object-textarea" id="newObjectDescription" placeholder="Describe the object's purpose..."></textarea>
                 </div>
                 <div>
-                    <label class="new-object-field-label">Attach new Object to Models:</label>
+                    <label class="new-object-field-label">Added to Model:</label>
+                    <div id="newObjectAddedToModel" style="padding:6px 0 14px 0;color:#181818;font-size:14px;"></div>
+
+                    <label class="new-object-field-label">Attach to Other Models:</label>
                     <div class="new-object-models-dropdown" id="noModelsDropdown">
                         <div class="new-object-models-trigger" onclick="toggleNoModelsDropdown(event)">
                             <span class="new-object-models-trigger-label" id="noModelsTriggerLabel"></span>
@@ -4426,10 +4429,11 @@
         let selectedModels = [];
 
         function openNewObjectModal() {
-            selectedModels = [currentModel];
+            selectedModels = [];
             document.getElementById('newObjectName').value = '';
             document.getElementById('newObjectDescription').value = '';
             document.getElementById('noModelsDropdown').classList.remove('open');
+            document.getElementById('newObjectAddedToModel').textContent = currentModel + ' (Current)';
             renderNewObjectModels();
             updateAddBtnState();
             document.getElementById('newObjectModal').classList.add('show');
@@ -4447,25 +4451,16 @@
 
         function renderNewObjectModels() {
             const label = document.getElementById('noModelsTriggerLabel');
-            const others = selectedModels.filter(m => m !== currentModel);
-            const labelText = currentModel + ' (Current)' + (others.length ? ', ' + others.join(', ') : '');
-            label.textContent = labelText;
+            label.textContent = selectedModels.join(', ');
 
             const list = document.getElementById('newObjectModelsList');
-            const unattachable = getUnattachableForCreation();
-            list.innerHTML = MAPPING_MODELS.map(m => {
-                const isCurrent = m === currentModel;
-                const isUnavailable = unattachable.includes(m);
+            const others = MAPPING_MODELS.filter(m => m !== currentModel);
+            list.innerHTML = others.map(m => {
                 const isSelected = selectedModels.includes(m);
-                const cls = 'new-object-model-row'
-                    + (isSelected ? ' selected' : '')
-                    + (isCurrent ? ' disabled' : '')
-                    + (isUnavailable ? ' unavailable' : '');
-                const onclick = (isCurrent || isUnavailable) ? '' : ' onclick="toggleSelectedModel(\'' + escapeJs(m) + '\', event)"';
-                return '<div class="' + cls + '"' + onclick + '>' +
+                const cls = 'new-object-model-row' + (isSelected ? ' selected' : '');
+                return '<div class="' + cls + '" onclick="toggleSelectedModel(\'' + escapeJs(m) + '\', event)">' +
                     '<span class="no-radio"></span>' +
                     '<span class="no-name">' + escapeHtml(m) + '</span>' +
-                    (isCurrent ? '<span class="no-current">(Current)</span>' : '') +
                 '</div>';
             }).join('');
         }
@@ -4473,7 +4468,6 @@
         function toggleSelectedModel(model, e) {
             if (e) e.stopPropagation();
             if (model === currentModel) return;
-            if (getUnattachableForCreation().includes(model)) return;
             if (selectedModels.includes(model)) {
                 selectedModels = selectedModels.filter(m => m !== model);
             } else {
@@ -4486,7 +4480,7 @@
         function updateAddBtnState() {
             const name = document.getElementById('newObjectName').value.trim();
             const btn = document.getElementById('newObjectAddBtn');
-            if (name && selectedModels.length > 0) {
+            if (name) {
                 btn.classList.add('enabled');
             } else {
                 btn.classList.remove('enabled');
@@ -4498,7 +4492,8 @@
             if (!btn.classList.contains('enabled')) return;
             const name = document.getElementById('newObjectName').value.trim();
 
-            selectedModels.forEach(m => {
+            const targets = [currentModel].concat(selectedModels.filter(m => m !== currentModel));
+            targets.forEach(m => {
                 const data = MODEL_DATA[m];
                 if (data.objects.some(o => o.name === name)) return;
                 data.objects.unshift({
