@@ -1529,17 +1529,70 @@
             gap: 0;
         }
 
-        .attach-existing-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 12px 14px;
-            border-bottom: 1px solid #e5e5e5;
-            cursor: pointer;
+        .object-search-wrapper {
+            position: relative;
         }
 
-        .attach-existing-row:last-child { border-bottom: none; }
-        .attach-existing-row:hover { background-color: #f3f3f3; }
+        .object-search-icon {
+            position: absolute;
+            top: 50%;
+            left: 12px;
+            transform: translateY(-50%);
+            width: 16px;
+            height: 16px;
+            fill: #706e6b;
+        }
+
+        .object-search-input {
+            width: 100%;
+            padding: 9px 36px 9px 36px;
+            border: 1px solid #c9c9c9;
+            border-radius: 4px;
+            font-size: 14px;
+            outline: none;
+            box-sizing: border-box;
+            color: #181818;
+            background: #ffffff;
+        }
+
+        .object-search-input:focus { border-color: #0c6afe; box-shadow: 0 0 0 1px #0c6afe; }
+
+        .object-suggestions {
+            margin-top: 8px;
+            border-radius: 4px;
+            background: #ffffff;
+            max-height: 320px;
+            overflow-y: auto;
+        }
+
+        .object-suggestions:empty { display: none; }
+
+        .object-suggestion {
+            padding: 10px 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border: 1px solid #e5e5e5;
+            border-bottom: none;
+            background: #ffffff;
+        }
+
+        .object-suggestion:first-child { border-radius: 4px 4px 0 0; }
+        .object-suggestion:last-child { border-radius: 0 0 4px 4px; border-bottom: 1px solid #e5e5e5; }
+        .object-suggestion:only-child { border-radius: 4px; border-bottom: 1px solid #e5e5e5; }
+        .object-suggestion:hover { background-color: #f3f3f3; }
+
+        .object-suggestion .os-icon {
+            width: 16px;
+            height: 16px;
+            fill: #0c6afe;
+            flex-shrink: 0;
+        }
+
+        .object-suggestion.add-new { color: #0c6afe; font-weight: 700; }
+        .object-suggestion-meta { font-size: 12px; color: #5c5c5c; }
+        .object-suggestion-name { font-weight: 700; color: #03234d; }
 
         .me-add-object {
             display: inline-flex;
@@ -3238,57 +3291,32 @@
                 <div class="me-search">
                     <input type="text" class="me-search-input" placeholder="Search...">
                 </div>
-                <div class="me-panel-actions-row">
-                    <button class="me-add-object" onclick="openNewObjectModal()">
-                        <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
-                        Add Object
-                    </button>
-                    <button class="me-add-object" onclick="openAttachExistingModal()">
-                        <svg viewBox="0 0 24 24"><path d="M10.59 13.41a1 1 0 001.41 0l4-4a1 1 0 10-1.41-1.41L11 11.59l-1.59-1.59a1 1 0 10-1.41 1.41l3.59 3.41z"/></svg>
-                        Attach existing
-                    </button>
-                </div>
+                <button class="me-add-object" onclick="openNewObjectModal()">
+                    <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                    Add Object
+                </button>
                 <div class="me-tree" id="targetTree"></div>
             </div>
         </div>
     </div>
 
-    <!-- New Data Object Modal -->
+    <!-- Add Object (search) Modal -->
     <div class="modal-overlay" id="newObjectModal">
-        <div class="new-object-dialog">
+        <div class="new-object-dialog" style="max-width: 480px;">
             <button class="new-object-close-floating" onclick="closeNewObjectModal()">
                 <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
                 </svg>
             </button>
             <div class="new-object-header">
-                <h2>New Data Object</h2>
+                <h2>Add Object</h2>
             </div>
-            <div class="new-object-body">
-                <div>
-                    <label class="new-object-field-label"><span class="required">*</span>Object Name</label>
-                    <input type="text" class="new-object-input" id="newObjectName" oninput="updateAddBtnState()">
-                    <div style="height: 16px;"></div>
-                    <label class="new-object-field-label">Description</label>
-                    <textarea class="new-object-textarea" id="newObjectDescription" placeholder="Describe the object's purpose..."></textarea>
+            <div style="padding: 18px 20px 22px 20px;">
+                <div class="object-search-wrapper">
+                    <svg class="object-search-icon" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+                    <input type="text" id="newObjectSearch" class="object-search-input" placeholder="Type object name..." oninput="onNewObjectSearch()" autocomplete="off">
                 </div>
-                <div>
-                    <label class="new-object-field-label">Added to Model:</label>
-                    <div id="newObjectAddedToModel" style="padding:6px 0 14px 0;color:#181818;font-size:14px;"></div>
-
-                    <label class="new-object-field-label">Attach to Other Models:</label>
-                    <div class="new-object-models-dropdown" id="noModelsDropdown">
-                        <div class="new-object-models-trigger" onclick="toggleNoModelsDropdown(event)">
-                            <span class="new-object-models-trigger-label" id="noModelsTriggerLabel"></span>
-                            <svg class="chev" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5H7z"/></svg>
-                        </div>
-                        <div class="new-object-models-list" id="newObjectModelsList"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="new-object-footer">
-                <button class="no-btn no-btn-cancel" onclick="closeNewObjectModal()">Cancel</button>
-                <button class="no-btn no-btn-add" id="newObjectAddBtn" onclick="addNewObject()">Add</button>
+                <div id="newObjectSuggestions" class="object-suggestions"></div>
             </div>
         </div>
     </div>
@@ -3381,27 +3409,6 @@
             <div class="new-object-footer">
                 <button class="no-btn no-btn-cancel" onclick="closeAttachToModelsModal()">Cancel</button>
                 <button class="no-btn no-btn-add" id="attachModelsBtn" onclick="attachObjectToModels()">Attach</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Attach Existing Object Modal -->
-    <div class="modal-overlay" id="attachExistingModal">
-        <div class="new-object-dialog" style="max-width: 540px;">
-            <button class="new-object-close-floating" onclick="closeAttachExistingModal()">
-                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
-                </svg>
-            </button>
-            <div class="new-object-header">
-                <h2>Attach Existing Object</h2>
-            </div>
-            <div style="padding: 22px 28px 8px 28px;">
-                <p style="font-size:13px;color:#5c5c5c;margin:0 0 12px 0;">Pick an existing user-created object to attach to a model in this pipeline.</p>
-                <div id="attachExistingList" style="border:1px solid #c9c9c9;border-radius:4px;max-height:320px;overflow-y:auto;"></div>
-            </div>
-            <div class="new-object-footer">
-                <button class="no-btn no-btn-cancel" onclick="closeAttachExistingModal()">Cancel</button>
             </div>
         </div>
     </div>
@@ -4053,13 +4060,6 @@
                 });
             }
 
-            const attachExistingModal = document.getElementById('attachExistingModal');
-            if (attachExistingModal) {
-                attachExistingModal.addEventListener('click', function(e) {
-                    if (e.target === this) closeAttachExistingModal();
-                });
-            }
-
             // Source panel title acts as model dropdown trigger
             document.addEventListener('click', function(e) {
                 const menu = document.getElementById('sourceModelMenu');
@@ -4433,87 +4433,116 @@
         function escapeJs(s) { return String(s).replace(/'/g, "\\'"); }
 
         // ==================== New Object Modal ====================
-        let selectedModels = [];
-
         function openNewObjectModal() {
-            selectedModels = [];
-            document.getElementById('newObjectName').value = '';
-            document.getElementById('newObjectDescription').value = '';
-            document.getElementById('noModelsDropdown').classList.remove('open');
-            document.getElementById('newObjectAddedToModel').textContent = currentModel + ' (Current)';
-            renderNewObjectModels();
-            updateAddBtnState();
+            document.getElementById('newObjectSearch').value = '';
+            renderObjectSuggestions('');
             document.getElementById('newObjectModal').classList.add('show');
+            setTimeout(() => {
+                const inp = document.getElementById('newObjectSearch');
+                if (inp) inp.focus();
+            }, 50);
         }
 
         function closeNewObjectModal() {
             document.getElementById('newObjectModal').classList.remove('show');
-            document.getElementById('noModelsDropdown').classList.remove('open');
         }
 
-        function toggleNoModelsDropdown(e) {
-            if (e) e.stopPropagation();
-            document.getElementById('noModelsDropdown').classList.toggle('open');
+        function onNewObjectSearch() {
+            renderObjectSuggestions(document.getElementById('newObjectSearch').value);
         }
 
-        function renderNewObjectModels() {
-            const label = document.getElementById('noModelsTriggerLabel');
-            label.textContent = selectedModels.join(', ');
-
-            const list = document.getElementById('newObjectModelsList');
-            const others = MAPPING_MODELS.filter(m => m !== currentModel);
-            list.innerHTML = others.map(m => {
-                const isSelected = selectedModels.includes(m);
-                const cls = 'new-object-model-row' + (isSelected ? ' selected' : '');
-                return '<div class="' + cls + '" onclick="toggleSelectedModel(\'' + escapeJs(m) + '\', event)">' +
-                    '<span class="no-radio"></span>' +
-                    '<span class="no-name">' + escapeHtml(m) + '</span>' +
-                '</div>';
-            }).join('');
-        }
-
-        function toggleSelectedModel(model, e) {
-            if (e) e.stopPropagation();
-            if (model === currentModel) return;
-            if (selectedModels.includes(model)) {
-                selectedModels = selectedModels.filter(m => m !== model);
-            } else {
-                selectedModels.push(model);
+        function renderObjectSuggestions(query) {
+            const list = document.getElementById('newObjectSuggestions');
+            const trimmed = query.trim();
+            if (!trimmed) {
+                list.innerHTML = '';
+                return;
             }
-            renderNewObjectModels();
-            updateAddBtnState();
-        }
+            const lc = trimmed.toLowerCase();
 
-        function updateAddBtnState() {
-            const name = document.getElementById('newObjectName').value.trim();
-            const btn = document.getElementById('newObjectAddBtn');
-            if (name) {
-                btn.classList.add('enabled');
-            } else {
-                btn.classList.remove('enabled');
-            }
-        }
-
-        function addNewObject() {
-            const btn = document.getElementById('newObjectAddBtn');
-            if (!btn.classList.contains('enabled')) return;
-            const name = document.getElementById('newObjectName').value.trim();
-
-            const data = MODEL_DATA[currentModel];
-            if (!data.objects.some(o => o.name === name)) {
-                data.objects.unshift({
-                    name: name,
-                    isNew: true,
-                    mapped: [],
-                    unmapped: [
-                        {n: name + ' Currency', t: 'text'},
-                        {n: name + ' Id', t: 'text', key: true},
-                        {n: name + ' Name', t: 'text'}
-                    ]
+            // Find unique user-created objects across all models that match
+            const seen = new Set();
+            const matches = [];
+            MAPPING_MODELS.forEach(m => {
+                MODEL_DATA[m].objects.forEach(o => {
+                    if (!o.isNew) return;
+                    if (seen.has(o.name)) return;
+                    if (o.name.toLowerCase().indexOf(lc) === -1) return;
+                    seen.add(o.name);
+                    const inModels = MAPPING_MODELS.filter(mm => MODEL_DATA[mm].objects.some(x => x.name === o.name));
+                    matches.push({ name: o.name, models: inModels });
                 });
-                targetExpanded[currentModel][name] = { root: true, mapped: true, unmapped: true };
+            });
+
+            const exact = matches.find(m => m.name.toLowerCase() === lc);
+
+            let html = '';
+            matches.forEach(m => {
+                const inCurrent = m.models.includes(currentModel);
+                const meta = inCurrent
+                    ? 'Already in ' + escapeHtml(currentModel)
+                    : 'Attach from: ' + m.models.map(escapeHtml).join(', ');
+                const onclick = inCurrent ? '' : ' onclick="attachExistingToCurrent(\'' + escapeJs(m.name) + '\')"';
+                const style = inCurrent ? ' style="opacity:0.55;cursor:default;"' : '';
+                html += '<div class="object-suggestion"' + onclick + style + '>' +
+                    '<svg class="os-icon" viewBox="0 0 24 24"><path d="M12 2l3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z"/></svg>' +
+                    '<div>' +
+                        '<div class="object-suggestion-name">' + escapeHtml(m.name) + '</div>' +
+                        '<div class="object-suggestion-meta">' + meta + '</div>' +
+                    '</div>' +
+                '</div>';
+            });
+
+            if (!exact) {
+                html += '<div class="object-suggestion add-new" onclick="addObjectAsNew(\'' + escapeJs(trimmed) + '\')">' +
+                    '<svg class="os-icon" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>' +
+                    '<span>Add &quot;' + escapeHtml(trimmed) + '&quot; as new</span>' +
+                '</div>';
             }
 
+            list.innerHTML = html;
+        }
+
+        function attachExistingToCurrent(name) {
+            const data = MODEL_DATA[currentModel];
+            if (data.objects.some(o => o.name === name)) {
+                closeNewObjectModal();
+                return;
+            }
+            let sourceObj = null;
+            for (const m of MAPPING_MODELS) {
+                const obj = MODEL_DATA[m].objects.find(o => o.name === name);
+                if (obj) { sourceObj = obj; break; }
+            }
+            if (!sourceObj) return;
+            data.objects.unshift({
+                name: sourceObj.name,
+                isNew: sourceObj.isNew,
+                mapped: (sourceObj.mapped || []).map(f => Object.assign({}, f)),
+                unmapped: (sourceObj.unmapped || []).map(f => Object.assign({}, f))
+            });
+            targetExpanded[currentModel][sourceObj.name] = { root: true, mapped: true, unmapped: true };
+            closeNewObjectModal();
+            renderMappingEditor();
+        }
+
+        function addObjectAsNew(name) {
+            const data = MODEL_DATA[currentModel];
+            if (data.objects.some(o => o.name === name)) {
+                closeNewObjectModal();
+                return;
+            }
+            data.objects.unshift({
+                name: name,
+                isNew: true,
+                mapped: [],
+                unmapped: [
+                    {n: name + ' Currency', t: 'text'},
+                    {n: name + ' Id', t: 'text', key: true},
+                    {n: name + ' Name', t: 'text'}
+                ]
+            });
+            targetExpanded[currentModel][name] = { root: true, mapped: true, unmapped: true };
             closeNewObjectModal();
             renderMappingEditor();
         }
@@ -4685,49 +4714,6 @@
             toast.style.display = 'block';
             clearTimeout(window._meSaveTimer);
             window._meSaveTimer = setTimeout(() => { toast.style.display = 'none'; }, 2000);
-        }
-
-        function getAllUserObjects() {
-            const seen = new Set();
-            const list = [];
-            MAPPING_MODELS.forEach(m => {
-                MODEL_DATA[m].objects.forEach(o => {
-                    if (o.isNew && !seen.has(o.name)) {
-                        seen.add(o.name);
-                        list.push(o);
-                    }
-                });
-            });
-            return list;
-        }
-
-        function openAttachExistingModal() {
-            const list = document.getElementById('attachExistingList');
-            const objs = getAllUserObjects();
-            if (objs.length === 0) {
-                list.innerHTML = '<div style="padding:14px;color:#706e6b;font-size:13px;">No user-created objects exist yet.</div>';
-            } else {
-                list.innerHTML = objs.map(o => {
-                    const attachedTo = MAPPING_MODELS.filter(m => MODEL_DATA[m].objects.some(x => x.name === o.name));
-                    return '<div class="attach-existing-row" onclick="pickAndAttach(\'' + escapeJs(o.name) + '\')">' +
-                        '<div>' +
-                            '<div style="font-weight:700;color:#03234d;font-size:14px;">' + escapeHtml(o.name) + '</div>' +
-                            '<div style="font-size:12px;color:#5c5c5c;margin-top:2px;">Attached to: ' + attachedTo.map(escapeHtml).join(', ') + '</div>' +
-                        '</div>' +
-                        '<svg width="18" height="18" viewBox="0 0 24 24"><path fill="#0c6afe" d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>' +
-                    '</div>';
-                }).join('');
-            }
-            document.getElementById('attachExistingModal').classList.add('show');
-        }
-
-        function closeAttachExistingModal() {
-            document.getElementById('attachExistingModal').classList.remove('show');
-        }
-
-        function pickAndAttach(objectName) {
-            closeAttachExistingModal();
-            openAttachToModelsModal(objectName);
         }
 
     </script>
