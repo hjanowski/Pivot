@@ -4030,30 +4030,6 @@
         const sourceExpanded = {};
         MAPPING_MODELS.forEach(m => { sourceExpanded[m] = { root: true, mapped: true, unmapped: true }; });
 
-        // Ensure every user-created (isNew) object exists in every model so it
-        // shows up in the right-panel tree regardless of where it was created.
-        function syncUserObjectsAcrossModels() {
-            const seen = new Map();
-            MAPPING_MODELS.forEach(m => {
-                MODEL_DATA[m].objects.forEach(o => {
-                    if (o.isNew && !seen.has(o.name)) seen.set(o.name, o);
-                });
-            });
-            seen.forEach((src, name) => {
-                MAPPING_MODELS.forEach(m => {
-                    if (MODEL_DATA[m].objects.some(o => o.name === name)) return;
-                    MODEL_DATA[m].objects.push({
-                        name: src.name,
-                        isNew: true,
-                        mapped: (src.mapped || []).map(f => Object.assign({}, f)),
-                        unmapped: (src.unmapped || []).map(f => Object.assign({}, f))
-                    });
-                    targetExpanded[m][name] = { root: true, mapped: true, unmapped: true };
-                });
-            });
-        }
-        syncUserObjectsAcrossModels();
-
         function initMappingEditor() {
             renderMappingEditor();
 
@@ -4476,11 +4452,17 @@
 
             let html = '';
             matches.forEach(m => {
-                html += '<div class="object-suggestion" style="opacity:0.6;cursor:default;">' +
+                const inCurrent = m.models.includes(currentModel);
+                const meta = inCurrent
+                    ? 'Already in ' + escapeHtml(currentModel)
+                    : 'Available from: ' + m.models.map(escapeHtml).join(', ');
+                const onclick = inCurrent ? '' : ' onclick="addExistingObjectToCurrent(\'' + escapeJs(m.name) + '\')"';
+                const style = inCurrent ? ' style="opacity:0.55;cursor:default;"' : '';
+                html += '<div class="object-suggestion"' + onclick + style + '>' +
                     '<svg class="os-icon" viewBox="0 0 24 24"><path d="M12 2l3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z"/></svg>' +
                     '<div>' +
                         '<div class="object-suggestion-name">' + escapeHtml(m.name) + '</div>' +
-                        '<div class="object-suggestion-meta">Already exists in all models</div>' +
+                        '<div class="object-suggestion-meta">' + meta + '</div>' +
                     '</div>' +
                 '</div>';
             });
@@ -4495,26 +4477,46 @@
             list.innerHTML = html;
         }
 
-        function addObjectAsNew(name) {
-            // Bail if it already exists somewhere
-            if (MAPPING_MODELS.some(m => MODEL_DATA[m].objects.some(o => o.name === name))) {
+        function addExistingObjectToCurrent(name) {
+            const data = MODEL_DATA[currentModel];
+            if (data.objects.some(o => o.name === name)) {
                 closeNewObjectModal();
                 return;
             }
-            const unmappedDefaults = [
-                {n: name + ' Currency', t: 'text'},
-                {n: name + ' Id', t: 'text', key: true},
-                {n: name + ' Name', t: 'text'}
-            ];
-            MAPPING_MODELS.forEach(m => {
-                MODEL_DATA[m].objects.unshift({
-                    name: name,
-                    isNew: true,
-                    mapped: [],
-                    unmapped: unmappedDefaults.map(f => Object.assign({}, f))
-                });
-                targetExpanded[m][name] = { root: true, mapped: true, unmapped: true };
+            let sourceObj = null;
+            for (const m of MAPPING_MODELS) {
+                const obj = MODEL_DATA[m].objects.find(o => o.name === name);
+                if (obj) { sourceObj = obj; break; }
+            }
+            if (!sourceObj) return;
+            data.objects.unshift({
+                name: sourceObj.name,
+                isNew: true,
+                mapped: (sourceObj.mapped || []).map(f => Object.assign({}, f)),
+                unmapped: (sourceObj.unmapped || []).map(f => Object.assign({}, f))
             });
+            targetExpanded[currentModel][sourceObj.name] = { root: true, mapped: true, unmapped: true };
+            closeNewObjectModal();
+            renderMappingEditor();
+        }
+
+        function addObjectAsNew(name) {
+            const data = MODEL_DATA[currentModel];
+            if (data.objects.some(o => o.name === name)) {
+                closeNewObjectModal();
+                return;
+            }
+            data.objects.unshift({
+                name: name,
+                isNew: true,
+                mapped: [],
+                unmapped: [
+                    {n: name + ' Currency', t: 'text'},
+                    {n: name + ' Id', t: 'text', key: true},
+                    {n: name + ' Name', t: 'text'}
+                ]
+            });
+            targetExpanded[currentModel][name] = { root: true, mapped: true, unmapped: true };
             closeNewObjectModal();
             renderMappingEditor();
         }
