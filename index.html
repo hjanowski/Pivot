@@ -4428,27 +4428,24 @@
         function renderObjectSuggestions(query) {
             const list = document.getElementById('newObjectSuggestions');
             const trimmed = query.trim();
-            if (!trimmed) {
-                list.innerHTML = '';
-                return;
-            }
             const lc = trimmed.toLowerCase();
 
-            // Find unique user-created objects across all models that match
+            // Find unique user-created objects across all models that match (or all when empty)
             const seen = new Set();
             const matches = [];
             MAPPING_MODELS.forEach(m => {
                 MODEL_DATA[m].objects.forEach(o => {
                     if (!o.isNew) return;
                     if (seen.has(o.name)) return;
-                    if (o.name.toLowerCase().indexOf(lc) === -1) return;
+                    if (trimmed && o.name.toLowerCase().indexOf(lc) === -1) return;
                     seen.add(o.name);
                     const inModels = MAPPING_MODELS.filter(mm => MODEL_DATA[mm].objects.some(x => x.name === o.name));
                     matches.push({ name: o.name, models: inModels });
                 });
             });
+            matches.sort((a, b) => a.name.localeCompare(b.name));
 
-            const exact = matches.find(m => m.name.toLowerCase() === lc);
+            const exact = trimmed && matches.find(m => m.name.toLowerCase() === lc);
 
             let html = '';
             matches.forEach(m => {
@@ -4467,7 +4464,7 @@
                 '</div>';
             });
 
-            if (!exact) {
+            if (trimmed && !exact) {
                 html += '<div class="object-suggestion add-new" onclick="addObjectAsNew(\'' + escapeJs(trimmed) + '\')">' +
                     '<svg class="os-icon" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>' +
                     '<span>Add &quot;' + escapeHtml(trimmed) + '&quot; as new</span>' +
