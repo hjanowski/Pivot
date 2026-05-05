@@ -1570,11 +1570,19 @@
         .object-suggestion:hover { background-color: #e9f3ff; }
 
         .object-suggestion.disabled {
-            opacity: 0.5;
+            opacity: 0.6;
             cursor: default;
         }
 
         .object-suggestion.disabled:hover { background-color: #ffffff; }
+
+        .object-suggestion .already-added {
+            margin-left: 8px;
+            color: #5c5c5c;
+            font-style: italic;
+            font-weight: 400;
+            font-size: 12px;
+        }
 
         .object-suggestion.add-new {
             background-color: #e9f3ff;
@@ -4478,7 +4486,10 @@
             matches.forEach(m => {
                 const inCurrent = MODEL_DATA[currentModel].objects.some(o => o.name === m.name);
                 if (inCurrent) {
-                    html += '<div class="object-suggestion disabled" title="Already in this model">' + escapeHtml(m.name) + '</div>';
+                    html += '<div class="object-suggestion disabled">' +
+                        escapeHtml(m.name) +
+                        '<span class="already-added">(Already Added in this Model)</span>' +
+                    '</div>';
                 } else {
                     html += '<div class="object-suggestion" onclick="pickExistingObject(\'' + escapeJs(m.name) + '\')">' + escapeHtml(m.name) + '</div>';
                 }
