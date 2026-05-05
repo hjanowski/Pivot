@@ -4488,7 +4488,7 @@
                 if (inCurrent) {
                     html += '<div class="object-suggestion disabled">' +
                         escapeHtml(m.name) +
-                        '<span class="already-added">(Already Added in this Model)</span>' +
+                        '<span class="already-added">(Mapped in ' + escapeHtml(currentModel) + ' Model)</span>' +
                     '</div>';
                 } else {
                     html += '<div class="object-suggestion" onclick="pickExistingObject(\'' + escapeJs(m.name) + '\')">' + escapeHtml(m.name) + '</div>';
